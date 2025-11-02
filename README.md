@@ -145,7 +145,7 @@ java -jar junit-platform-console-standalone.jar --class-path . --scan-class-path
 - **[entities/Coin.java](src/entities/Coin.java)**: Entity with float positions
 - **[utils/GridRenderer.java](src/utils/GridRenderer.java)**: Rendering utilities
 - **[test/GameLogicTest.java](test/GameLogicTest.java)**: Unit tests (100% pass!)
-- **[SOLUTION.md](SOLUTION.md)**: Detailed explanation of all solutions
+- **[docs/09-01-solution.md](docs/09-01-solution.md)**: Detailed explanation of all solutions
 
 ## Code Highlights
 
@@ -221,7 +221,7 @@ This pattern is used in:
 
 **Branch 09-02** will introduce global state management problems, leading to the Singleton pattern in 09-03.
 
-See [SOLUTION.md](SOLUTION.md) for detailed explanations of all improvements!
+See [docs/09-01-solution.md](docs/09-01-solution.md) for detailed explanations of all improvements!
 
 ---
 

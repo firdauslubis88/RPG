@@ -12,15 +12,13 @@ public class GridRenderer {
     /**
      * Clears the terminal screen using ANSI escape codes.
      * This moves cursor to home and clears the entire screen.
-     * Falls back to newlines if ANSI not supported.
      */
     public static void clearScreen() {
-        // Try ANSI escape codes first
+        // ANSI escape codes for clearing screen
+        // \033[H - Move cursor to home (0,0)
+        // \033[2J - Clear entire screen
         System.out.print("\033[H\033[2J");
         System.out.flush();
-
-        // Add separator for terminals that don't support ANSI
-        System.out.println("\n" + "=".repeat(40) + "\n");
     }
 
     /**

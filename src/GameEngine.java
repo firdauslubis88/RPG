@@ -1,5 +1,6 @@
 import entities.Coin;
 import entities.GameManager;
+import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
@@ -24,6 +25,7 @@ public class GameEngine {
     private int prevNPCY = -1;
     private int[] prevCoinX = null;
     private int[] prevCoinY = null;
+    private int prevObstacleCount = 0;
     private boolean firstFrame = true;
 
     /**
@@ -101,6 +103,7 @@ public class GameEngine {
     private void update(float delta) {
         logic.updateNPC(delta);
         logic.updateCoins(delta);
+        logic.updateWorldController(delta);  // Week 10: Update obstacles
         logic.checkCollisions();
         logic.incrementFrame();
     }
@@ -116,6 +119,11 @@ public class GameEngine {
 
             for (Coin coin : logic.getCoins()) {
                 GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+            }
+
+            // Week 10: Draw obstacles
+            for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                GridRenderer.drawEntity(grid, obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
             }
 
             GridRenderer.drawGrid(grid);
@@ -154,6 +162,22 @@ public class GameEngine {
                     prevCoinY[i] = currentY;
                 }
             }
+
+            // Week 10: Render obstacles (simple approach - redraw all each frame)
+            // Note: Obstacles change frequently (spawn/move/despawn), so full redraw is simpler
+            int currentObstacleCount = logic.getWorldController().getObstacleCount();
+            if (currentObstacleCount != prevObstacleCount) {
+                // Clear and redraw all obstacles when count changes
+                for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                    GridRenderer.drawCell(obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
+                }
+                prevObstacleCount = currentObstacleCount;
+            } else {
+                // Update individual obstacle positions
+                for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                    GridRenderer.drawCell(obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
+                }
+            }
         }
 
         // ✅ Draw HUD (will show CORRECT score now!)
@@ -161,8 +185,8 @@ public class GameEngine {
         hud.draw();
 
         // ✅ Show score from THE instance
-        System.out.println("[GameEngine] Score from Singleton: " + GameManager.getInstance().getScore());
-        System.out.println("[GameEngine] Frame: " + logic.getFrameCount());
+        System.out.println("[GameEngine] Score: " + GameManager.getInstance().getScore() + " | HP: " + GameManager.getInstance().getHp());
+        System.out.println("[GameEngine] Frame: " + logic.getFrameCount() + " | Obstacles: " + logic.getWorldController().getObstacleCount());
         System.out.println();
     }
 

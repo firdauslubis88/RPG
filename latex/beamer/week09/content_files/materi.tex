@@ -1,0 +1,1038 @@
+\SetSlideHeaderLevel{section}
+
+% =============================================
+\section{Paradigma Baru: Game Development}
+% =============================================
+
+\begin{frame}[t, fragile]
+    \frametitle{Paradigma 1: Request-Response (Dunia Web Backend)}
+    \footnotesize
+    \begin{spacing}{0.85}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            Aplikasi backend yang telah kita bangun (Spring Boot) bekerja dengan model Request-Response.
+            \vspace{0.5cm}
+            \textbf{Karakteristik Utama:}
+            \begin{itemize}
+                \item \textbf{Pasif:} Aplikasi menunggu permintaan dari luar untuk bekerja.
+                \item \textbf{Linear:} Alur kerja memiliki awal (request) dan akhir (response) yang jelas.
+                \item \textbf{Stateless (Umumnya):} Server tidak perlu mengingat keadaan klien setelah respons dikirim.
+            \end{itemize}
+            \vspace{0.5cm}
+            Model ini efisien untuk mengambil atau memodifikasi data yang tersimpan secara persisten.
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \centering
+            \resizebox{\textwidth}{!}{
+            \begin{tikzpicture}[node distance=1.5cm and 1.8cm, auto,
+                client/.style={circle, draw, fill=blue!20, text centered},
+                server/.style={rectangle, draw, thick, fill=green!10, rounded corners, minimum height=4cm, text width=4.5cm},
+                db/.style={cylinder, shape border rotate=90, draw, fill=gray!20, text centered, minimum height=1.5cm},
+                line/.style={draw, -{Stealth[length=2mm]}, thick}
+            ]
+                \node[client] (client) {Client};
+                \node[server, right=2.2cm of client] (server) {};
+                \node at (server.north) [above] {\textbf{Application Server}};
+                \node[db, right=of server] (db) {Database};
+
+                \draw[line] ($(client.east)+(0,1mm)$) -- node[above, font=\scriptsize] {1. HTTP Request} ($(server.west)+(0,1mm)$);
+                \draw[line] ($(server.east)+(0,1mm)$) -- node[above, font=\scriptsize] {2. Query} ($(db.west)+(0,1mm)$);
+                \draw[line, dashed] (db) -- node[below, font=\scriptsize] {3. Data} (server.east);
+                \draw[line, dashed] (server.west) -- node[below, font=\scriptsize] {4. HTTP Response} (client);
+                
+                \node[below=0.2cm of server, font=\scriptsize\itshape, text width=5cm, text centered]
+                {Setelah siklus selesai, server kembali menunggu permintaan berikutnya.};
+            \end{tikzpicture}
+            }
+        \end{column}
+    \end{columns}
+    \end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+    \frametitle{Paradigma 2: Continuous Loop (Dunia Game Development)}
+    \footnotesize
+    \begin{spacing}{0.85}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            Game (LibGDX) berjalan dalam model yang sama sekali berbeda, yaitu \textbf{Game Loop}.
+            \vspace{0.5cm}
+            \textbf{Karakteristik Utama:}
+            \begin{itemize}
+                \item \textbf{Aktif:} Aplikasi berjalan terus-menerus tanpa menunggu pemicu dari luar.
+                \item \textbf{Siklus:} Alur kerjanya berputar dalam siklus yang tak pernah berhenti (selama game berjalan).
+                \item \textbf{Stateful:} Tugas utamanya adalah mengelola perubahan \textit{state} (posisi, skor, nyawa) di dalam memori dari satu frame ke frame berikutnya.
+            \end{itemize}
+            \vspace{0.5cm}
+            Model ini esensial untuk simulasi dan interaksi real-time.
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \centering
+            \resizebox{0.8\textwidth}{!}{
+            \begin{tikzpicture}[
+                font=\footnotesize,
+                node distance=2.5cm, auto,
+                block/.style={rectangle, draw, thick, fill=orange!20, text width=5em, text centered, rounded corners},
+                line/.style={draw, -{Stealth[length=2.5mm]}, thick}
+            ]
+                \node [block] (input) {1. Proses Input \\ \footnotesize(Keyboard, Mouse)};
+                \node [block, right of=input] (update) {2. Update Logika \\ \footnotesize(Fisika, Skor, AI)};
+                \node [block, below of=update] (render) {3. Render Grafis \\ \footnotesize(Gambar ke Layar)};
+                
+                \path [line] (input) -- (update);
+                \path [line] (update) -- (render);
+                \path [line] (render.west) to[out=180,in=-90, looseness=0.8] (input.south);
+
+                \node[font=\footnotesize\bfseries, text=red!80!black] at (1.4, -0.9) {LOOP};
+                \node[font=\footnotesize\bfseries, text=red!80!black] at (1.4, -1.2) {(~60x per detik)};
+            \end{tikzpicture}
+            }
+        \end{column}
+    \end{columns}
+    \end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+    \frametitle{Paradigma: Web vs. Game}
+    \footnotesize
+    \begin{spacing}{0.85}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{Request-Response (Linear)}
+            \vspace{0.3cm}
+            \resizebox{0.9\textwidth}{!}{
+            \begin{tikzpicture}[node distance=1.5cm and 1.2cm, auto,
+                client/.style={circle, draw, fill=blue!20, text centered},
+                server/.style={rectangle, draw, thick, fill=green!10, rounded corners},
+                line/.style={draw, -{Stealth[length=2mm]}, thick}
+            ]
+                \node[client] (client) {Client};
+                \node[server, right=of client, text width=2cm, minimum height=1cm, text centered] (server) {Server};
+                \draw[line] ($(client.east)+(0,1mm)$) -- node[above, font=\tiny] {Request} ($(server.west)+(0,1mm)$);
+                \draw[line, dashed] (server) -- node[below, font=\tiny] {Response} (client);
+            \end{tikzpicture}
+            }
+            \\
+            \medskip
+            
+            \textit{Dipicu oleh event eksternal, memiliki awal dan akhir yang jelas.}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{Game Loop (Siklus)}
+            \vspace{0.3cm}
+            \resizebox{0.9\textwidth}{!}{
+            \begin{tikzpicture}[node distance=1.2cm, auto,
+                block/.style={rectangle, draw, thick, fill=orange!20, text centered, rounded corners, font=\tiny},
+                line/.style={draw, -{Stealth[length=1.5mm]}}
+            ]
+                \node [block] (input) {Input};
+                \node [block, right of=input] (update) {Update};
+                \node [block, below of=update] (render) {Render};
+                
+                \path [line] (input) -- (update);
+                \path [line] (update) -- (render);
+                \path [line] (render.west) to[out=180,in=-90, looseness=0.8] (input.south);
+            \end{tikzpicture}
+            }
+            \\
+            \medskip
+            \textit{Berjalan secara internal dan kontinu untuk mengelola state.}
+        \end{column}
+    \end{columns}
+    
+    \vspace{1cm}
+    
+    \begin{alertblock}{Pergeseran Paradigma Fundamental}
+    Fokus kita beralih dari \textbf{menanggapi permintaan data} (responding to data requests) menjadi \textbf{mengelola keadaan secara real-time} (managing real-time state).
+    \end{alertblock}
+    \end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Anatomi Game Loop di LibGDX}
+\vspace{-2mm}
+\footnotesize
+\begin{spacing}{0.8}
+\begin{columns}[T]
+    \begin{column}{0.6\textwidth}
+        LibGDX menyembunyikan kompleksitas pembuatan loop. Kita hanya perlu mengimplementasikan antarmuka \texttt{ApplicationListener} yang menyediakan ``kait'' ke siklus hidup game.
+
+        \begin{minted}[fontsize=\scriptsize]{java}
+public class MyGame implements ApplicationListener {
+    // Dipanggil SATU KALI saat game dimulai
+    @Override
+    public void create() {
+        // Inisialisasi objek, load aset, dll.
+    }
+    // Dipanggil TERUS-MENERUS oleh LibGDX
+    @Override
+    public void render() {
+        // Inilah jantung dari game loop!
+        // 1. Proses input pengguna
+        // 2. Update state game (logika)
+        // 3. Render grafis ke layar
+    }
+    // Dipanggil SATU KALI saat game ditutup
+    @Override
+    public void dispose() {
+        // Membersihkan memori dari aset
+    }    
+    // Metode lain: resize(), pause(), resume()
+}
+        \end{minted}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+        \centering
+        \textbf{Siklus Hidup Aplikasi LibGDX}
+        \\
+        \medskip
+        
+        \resizebox{!}{0.7\textheight}{
+        \begin{tikzpicture}[
+            node distance=2cm,
+            block/.style={rectangle, draw, fill=blue!10, text centered, rounded corners, minimum height=1.5cm},
+            arrow/.style={draw, ->, >=Stealth, thick}
+        ]
+            \node[block] (start) {Mulai Aplikasi};
+            \node[block, below of=start] (create) {\texttt{create()}};
+            \node[block, below of=create] (render) {\texttt{render()}};
+            \node[block, below of=render] (dispose) {\texttt{dispose()}};
+            \node[block, below of=dispose] (end) {Aplikasi Berakhir};
+
+            \draw[arrow] (start) -- (create) node[midway, right, font=\tiny]{Dipanggil 1x};
+            \draw[arrow] (create) -- (render);
+            \draw[arrow] (render) edge [loop right, min distance=10mm] node[right, font=\tiny, xshift=1mm] {Loop ~60x/detik} (render);
+            \draw[arrow] (render) -- (dispose) node[midway, right, font=\tiny]{Dipanggil 1x saat keluar};
+            \draw[arrow] (dispose) -- (end);
+        \end{tikzpicture}
+        }
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Di Dalam Loop (1/2): Fase Update}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        Praktik terbaik di dalam \texttt{render()} adalah memisahkan antara logika yang \textbf{mengubah state} (update) dan yang menggambarnya.
+        \\
+        \medskip
+        \textbf{1. Fase Update (Logika)}
+        \begin{itemize}
+            \item Mengubah semua nilai variabel: posisi, nyawa, skor, dll.
+            \item Menangani fisika, tabrakan, dan logika AI.
+            \item Menggunakan \textbf{delta time} untuk gerak yang konsisten.
+            \begin{minted}[fontsize=\scriptsize, bgcolor=gray!10]{java}
+float delta = Gdx.graphics.getDeltaTime();
+player.posisi.x += player.kecepatan * delta;
+            \end{minted}
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \textbf{Alur Data dalam Satu Frame}
+        \vspace{0.5cm}
+        \begin{tikzpicture}[
+            node distance=2cm,
+            block/.style={rectangle, draw, fill=orange!10, text width=5.cm, rounded corners, align=left, inner sep=3mm},
+            arrow/.style={draw, ->, >=Stealth, thick}
+        ]
+            \node[block, fill=green!10] (render_call) {\textbf{\texttt{render(delta)}} \\ \small Dipanggil oleh LibGDX};
+            \node[block, below=0.4cm of render_call] (update) {
+                \textbf{update(delta)} \\
+                \footnotesize\textit{Ubah state berdasarkan input \& waktu} \\
+                \texttt{skor++;} \quad \texttt{posisi.x += vel * delta;}
+            };
+            \node[block, below=0.4cm of update] (draw) {
+                \textbf{draw()} \\
+                \footnotesize\textit{Baca state \& gambar ke layar} \\
+                \texttt{batch.draw(sprite, posisi.x, ...);}
+            };
+            
+            \draw[arrow] (render_call) -- (update);
+            \draw[arrow] (update) -- (draw);
+            
+            \coordinate (state_anchor) at ($(update.east) + (1.5cm, 0)$);
+            \node[draw, fill=yellow!20, circle] (state) at (state_anchor |- update.south) {State};
+            
+            \draw[arrow, blue, dashed] (update.east) -- (state) node[midway, above, font=\tiny]{Menulis};
+            \draw[arrow, blue, dashed] (state) -- (draw.east) node[midway, below, font=\tiny]{Membaca};
+        \end{tikzpicture}
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Di Dalam Loop (2/2): Fase Render}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        Setelah semua state diubah pada fase update, fase selanjutnya adalah menggambarkannya ke layar.
+        \\
+        \medskip
+        \textbf{2. Fase Render (Grafis)}
+        \begin{itemize}
+            \item Mengambil state saat ini (yang baru saja di-update) dan menampilkannya.
+            \item \textbf{Penting:} Tidak boleh ada lagi perubahan state di fase ini. Fase ini hanya "membaca" data.
+            \begin{minted}[fontsize=\scriptsize, bgcolor=gray!10]{java}
+// Hanya membaca state, tidak mengubahnya
+batch.draw(sprite, player.posisi.x, ...);
+font.draw("Skor: " + gameManager.getScore());
+            \end{minted}
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \textbf{Alur Data dalam Satu Frame}
+        \vspace{0.5cm}
+        % KODE TIKZ IDENTIK DENGAN SLIDE SEBELUMNYA
+        \begin{tikzpicture}[
+            node distance=2cm,
+            block/.style={rectangle, draw, fill=orange!10, text width=5.cm, rounded corners, align=left, inner sep=3mm},
+            arrow/.style={draw, ->, >=Stealth, thick}
+        ]
+            \node[block, fill=green!10] (render_call) {\textbf{\texttt{render(delta)}} \\ \small Dipanggil oleh LibGDX};
+            \node[block, below=0.4cm of render_call] (update) {
+                \textbf{update(delta)} \\
+                \footnotesize\textit{Ubah state berdasarkan input \& waktu} \\
+                \texttt{skor++;} \quad \texttt{posisi.x += vel * delta;}
+            };
+            \node[block, below=0.4cm of update] (draw) {
+                \textbf{draw()} \\
+                \footnotesize\textit{Baca state \& gambar ke layar} \\
+                \texttt{batch.draw(sprite, posisi.x, ...);}
+            };
+            
+            \draw[arrow] (render_call) -- (update);
+            \draw[arrow] (update) -- (draw);
+            
+            \coordinate (state_anchor) at ($(update.east) + (1.5cm, 0)$);
+            \node[draw, fill=yellow!20, circle] (state) at (state_anchor |- update.south) {State};
+            
+            \draw[arrow, blue, dashed] (update.east) -- (state) node[midway, above, font=\tiny]{Menulis};
+            \draw[arrow, blue, dashed] (state) -- (draw.east) node[midway, below, font=\tiny]{Membaca};
+        \end{tikzpicture}
+    \end{column}
+\end{columns}
+
+\begin{alertblock}{Mengapa Dipisah?}
+Pemisahan ini membuat kode lebih terorganisir dan memastikan logika game (misal: kecepatan gerak) tidak terpengaruh oleh kecepatan komputer menggambar grafis (FPS).
+\end{alertblock}
+\end{spacing}
+\end{frame}
+
+% =============================================
+\section{Latar Belakang Masalah}
+% =============================================
+\begin{frame}[t, fragile]
+\frametitle{Tantangan Utama Game Loop: Mengelola State}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+        Kita telah melihat bahwa \textit{game loop} secara kontinu menjalankan berbagai logika: input, fisika, AI, render, dll.\\
+        \medskip
+        
+        Agar bisa bekerja sama, semua sistem independen ini harus bisa membaca dan memodifikasi sebuah "sumber kebenaran" yang sama, yaitu \textbf{Game State}.\\
+        \medskip
+
+        \textbf{Contoh Kebutuhan Akses:}
+        \begin{itemize}
+            \item \textbf{Sistem Input} perlu \textit{mengubah} state pemain.
+            \item \textbf{Sistem Fisika} perlu \textit{membaca \& mengubah} posisi pemain.
+            \item \textbf{Sistem Render} perlu \textit{membaca} posisi pemain untuk menggambarnya.
+            \item \textbf{UI/HUD} perlu \textit{membaca} skor dan nyawa pemain.
+        \end{itemize}
+    \end{column}
+    \hspace{-5mm}
+    \begin{column}{0.55\textwidth}
+        \centering
+        \textbf{Ilustrasi Ketergantungan State}
+        \\
+        \medskip
+        \resizebox{!}{0.5\textheight}{
+        \begin{tikzpicture}[
+            state/.style={rectangle, draw, thick, fill=yellow!20, text width=4cm,
+                          minimum height=2.5cm, text centered, rounded corners},
+            system/.style={rectangle, draw, fill=cyan!10, text centered, rounded corners},
+            arrow/.style={draw, <->, >=Stealth, thick}
+        ]
+            \node[state] (gamestate) {
+                \textbf{Game State (Pusat Data)}
+                \hrule
+                \begin{itemize}
+                    \item \texttt{skorPemain: int}
+                    \item \texttt{posisiPlayer: Vector2}
+                    \item \texttt{isGameOver: bool}
+                \end{itemize}
+            };
+
+            \node[system, above=0.9cm of gamestate] (input) {Sistem Input};
+            \node[system, left=0.9cm of gamestate] (physics) {Sistem Fisika};
+            \node[system, right=0.9cm of gamestate] (render) {Sistem Render};
+            \node[system, below=0.9cm of gamestate] (ui) {UI / HUD};
+            
+            \path[arrow] (input.south) -- (gamestate.north);
+            \path[arrow] (physics.east) -- (gamestate.west);
+            \path[arrow] (render.west) -- (gamestate.east);
+            \path[arrow] (ui.north) -- (gamestate.south);
+        \end{tikzpicture}
+        }
+    \end{column}
+\end{columns}
+\vspace{-2mm}
+\begin{alertblock}{Pertanyaan Arsitektural}
+Bagaimana cara kita merancang agar ``Game State'' pusat ini bisa diakses oleh semua sistem?
+\end{alertblock}
+
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Skenario Kasus: Pemain Mengambil Koin}
+\footnotesize
+\begin{spacing}{0.85}
+    Mari kita mulai dengan sebuah \textit{use case} yang sangat umum di hampir semua game: seorang pemain mengambil sebuah item.
+    \vspace{0.5cm}
+\begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+        \textbf{Deskripsi Skenario:}
+        \begin{enumerate}
+            \item Karakter pemain bersentuhan dengan objek Koin.
+            \item Skor pemain bertambah.
+            \item Efek suara ``koin'' dimainkan.
+            \item Tampilan skor di HUD diperbarui.
+        \end{enumerate}
+        
+        \vspace{1cm}
+        \begin{alertblock}{Tantangan}
+            Bagaimana berbagai komponen sistem (Pemain, Audio, HUD) bisa berkoordinasi untuk menyelesaikan satu aksi ini?
+        \end{alertblock}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+        \centering
+        \textbf{Use Case Diagram}\\
+        \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}
+            \begin{umlsystem}{Sistem Game}
+                \umlusecase[name=ucCollect, x=0, y=0]{Mengambil Koin}
+                \umlusecase[name=ucScore, x=5, y=1.5]{Menaikkan Skor}
+                \umlusecase[name=ucSound, x=5, y=0]{Memainkan Suara}
+                \umlusecase[name=ucHud, x=5, y=-1.5]{Memperbarui HUD}
+            \end{umlsystem}
+            
+            \umlactor[x=-4, y=0]{Pemain}
+            
+            \umlassoc{Pemain}{ucCollect}
+            
+            \umlinclude{ucCollect}{ucScore}
+            \umlinclude{ucCollect}{ucSound}
+            \umlinclude{ucCollect}{ucHud}
+        \end{tikzpicture}
+        }
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Alur Interaksi Tanpa Pola Desain (Cara Buruk)}
+\footnotesize
+\vspace{-2mm}
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.6\textwidth}
+        \centering
+        \resizebox{0.9\textwidth}{!}{
+        \begin{tikzpicture}[
+            y=-1.5cm, x=3.0cm,
+            lifeline/.style={draw, thick},
+            object/.style={rectangle, draw, rounded corners, fill=blue!10, minimum width=2.5cm, minimum height=0.8cm, text centered},
+            msg/.style={draw, -{Stealth[length=3mm]}},
+            ret_msg/.style={draw, dashed, -{Stealth[length=3mm]}}
+        ]
+            % Objects and Lifelines
+            \node[object] (loop) at (0,0) {\footnotesize :GameLoop};
+            \node[object] (player) at (1,0) {\footnotesize p:Player};
+            \node[object] (manager) at (2,0) {\footnotesize gm:GameManager};
+            \node[object] (hud) at (3,0) {\footnotesize h:HUD};
+
+            \foreach \obj in {loop, player, manager, hud}
+            { \draw[lifeline] (\obj.south) -- (\obj.south |- 0,6); }
+
+            % Messages
+            \draw[msg] (0,1) -- (0.9,1) node[midway, above, font=\small] {1: \texttt{update(p)}};
+            \draw[msg] (1.1,2) -- (1.9,2) node[pos=0.55, above, font=\small] {2: \texttt{addScore(10)}};
+            \draw[msg] (0,3.5) -- (2.9,3.5) node[midway, above, font=\small] {3: \texttt{draw(h)}};
+            \draw[msg] (3.0,4.5) -- (2.1,4.5) node[pos=0.55, above, font=\small] {4: \texttt{getScore()}};
+            \draw[ret_msg] (2,5) -- (2.9,5) node[midway, above, font=\small] {\texttt{10}};
+            
+            % Activation bars
+            \filldraw[fill=gray!20] (1-0.1, 1) rectangle (1+0.1, 2.5);
+            \filldraw[fill=gray!20] (2-0.1, 2) rectangle (2+0.1, 2.3);
+            \filldraw[fill=gray!20] (3-0.1, 3.5) rectangle (3+0.1, 5.5);
+            \filldraw[fill=gray!20] (2-0.1, 4.5) rectangle (2+0.1, 5);
+        \end{tikzpicture}
+        }
+    \end{column}
+    \hspace{-5mm}
+    \begin{column}{0.45\textwidth}
+        \only<1>{
+        \textbf{Penjelasan Alur Pesan:}
+        \begin{enumerate}
+            \item \textbf{Update Pemain:}\\
+            \texttt{GameLoop} memulai fase \textit{update} dengan memanggil metode \texttt{update()} pada objek \texttt{Player}.
+            
+            \item \textbf{Tambah Skor:}\\
+            Di dalam logikanya, \texttt{Player} (misalnya setelah mendeteksi tabrakan dengan koin) langsung memanggil metode \texttt{addScore()} pada referensi \texttt{GameManager} yang ia miliki.
+            
+            \item \textbf{Gambar HUD:}\\
+            Setelah fase \textit{update}, \texttt{GameLoop} memulai fase \textit{draw} dengan memanggil metode \texttt{draw()} pada objek \texttt{HUD}.
+            
+            \item \textbf{Ambil Skor:}\\
+            Untuk menampilkan skor terbaru, objek \texttt{HUD} juga harus memanggil metode \texttt{getScore()} pada referensi \texttt{GameManager} miliknya.
+        \end{enumerate}
+        }
+        \only<2>{
+        \begin{alertblock}{Inti Masalah}
+        Diagram ini menunjukkan \textbf{ketergantungan yang erat}. Baik \texttt{Player} maupun \texttt{HUD} harus memiliki referensi ke \texttt{GameManager}, yang memaksa kita untuk mengoper variabel ke mana-mana saat inisialisasi.
+        \end{alertblock}
+        }
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+%\begin{frame}[t, fragile]
+%\frametitle{Ketergantungan yang Rumit (Cara Buruk)}
+%\footnotesize
+%\begin{spacing}{0.85}
+%    Kelas utama (\texttt{MyGame}) harus membuat \texttt{GameManager} lalu mengopernya ke semua objek lain. Ini menciptakan ketergantungan yang erat dan berantakan.
+%    \centering
+%    \resizebox{0.78\textwidth}{!}{
+%    \begin{tikzpicture}[
+%        class/.style={rectangle split, rectangle split parts=3, draw, fill=yellow!20, text width=4.5cm, align=center, font=\small},
+%        dep/.style={draw, dashed, -{Stealth[length=2mm]}}
+%    ]
+%        % Classes
+%        \node[class] (manager) at (0,0) {
+%            \textit{\guillemotleft class\guillemotright} \\ \textbf{GameManager}
+%            \nodepart{second} \raggedright - score: int
+%            \nodepart{third} \raggedright + addScore(v: int) \\ + getScore(): int
+%        };
+%        \node[class] (game) at (0,4) {
+%            \textit{\guillemotleft class\guillemotright} \\ \textbf{MyGame}
+%            \nodepart{second} \raggedright - manager: GameManager \\ - player: Player \\ - hud: HUD
+%            \nodepart{third} \raggedright + create()
+%        };
+%        \node[class] (player) at (-5,0) {
+%            \textit{\guillemotleft class\guillemotright} \\ \textbf{Player}
+%            \nodepart{second} \raggedright - manager: GameManager
+%            \nodepart{third} \raggedright + collectCoin()
+%        };
+%        \node[class] (hud) at (5,0) {
+%            \textit{\guillemotleft class\guillemotright} \\ \textbf{HUD}
+%            \nodepart{second} \raggedright - manager: GameManager
+%            \nodepart{third} \raggedright + draw()
+%        };
+%        
+%        % Dependencies
+%        \draw[dep] (game) -- (manager) node[midway, right, font=\tiny] {\guillemotleft creates\guillemotright};
+%        \draw[dep, thick, red] (player) -- (manager) node[midway, above, font=\tiny] {\guillemotleft uses\guillemotright};
+%        \draw[dep, thick, red] (hud) -- (manager) node[midway, above, font=\tiny] {\guillemotleft uses\guillemotright};
+%        \draw[dep, thick, blue] (game) -- (player) node[midway, above, sloped, font=\tiny] {passes ref};
+%        \draw[dep, thick, blue] (game) -- (hud) node[midway, above, sloped, font=\tiny] {passes ref};
+%    \end{tikzpicture}
+%    }
+%    
+%    \begin{alertblock}{Justifikasi Kebutuhan Pola Desain}
+%    Bagaimana jika ada cara agar \texttt{Player} dan \texttt{HUD} bisa langsung berbicara dengan \texttt{GameManager} \textbf{tanpa} harus menerimanya dari kelas \texttt{MyGame}? Inilah masalah yang akan kita selesaikan.
+%    \end{alertblock}
+%\end{spacing}
+%\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Struktur \& Implementasi yang Buruk}
+\footnotesize
+\vspace{-3mm}
+\begin{spacing}{0.8}
+\begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        Diagram kelas menunjukkan bagaimana \texttt{Player} dan \texttt{HUD} menjadi sangat bergantung pada \texttt{GameManager}.
+        
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[
+            class/.style={rectangle split, rectangle split parts=3, draw, fill=yellow!20, text width=4.5cm, align=center, font=\small},
+            dep/.style={draw, dashed, ->, >=Stealth}
+        ]
+            % Classes
+            \node[class] (manager) at (0,0) {
+                \textit{\guillemotleft class\guillemotright} \\ \textbf{GameManager}
+                \nodepart{second} \raggedright - score: int
+            };
+            \node[class] (player) at (-2.5,3) {
+                \textit{\guillemotleft class\guillemotright} \\ \textbf{Player}
+                \nodepart{second} \raggedright - manager: GameManager
+            };
+            \node[class] (hud) at (2.5,3) {
+                \textit{\guillemotleft class\guillemotright} \\ \textbf{HUD}
+                \nodepart{second} \raggedright - manager: GameManager
+            };
+            
+            % Dependencies
+            \draw[dep, thick, red] (player) -- (manager);
+            \draw[dep, thick, red] (hud) -- (manager);
+        \end{tikzpicture}
+        }
+\begin{alertblock}{Justifikasi Kebutuhan Pola Desain}
+Bagaimana jika ada cara agar \texttt{Player} dan \texttt{HUD} bisa langsung berbicara dengan \texttt{GameManager} \textbf{tanpa} harus menerimanya dari kelas lain? Inilah masalah yang akan kita selesaikan.
+\end{alertblock}
+    \end{column}
+    \hspace{5mm}
+    \begin{column}{0.55\textwidth}
+        Struktur ini memaksa kita untuk mengoper referensi \texttt{GameManager} di setiap constructor (``\textit{Object Drilling}'').
+        
+        \begin{minted}[fontsize=\scriptsize]{java}
+// Setiap objek butuh referensi ke GameManager
+public class Player {
+    private GameManager manager;
+    public Player(GameManager manager) {
+        this.manager = manager;
+    }
+    public void collectCoin() {
+        manager.addScore(10);
+    }
+}
+public class HUD {
+    private GameManager manager;
+    public HUD(GameManager manager) {
+        this.manager = manager;
+    }
+    public void draw() {
+        drawText("Score: " + manager.getScore());
+    }
+}
+// Inisialisasi menjadi sangat tidak praktis!
+GameManager manager = new GameManager();
+Player player = new Player(manager);
+HUD hud = new HUD(manager);
+// ...dan seterusnya...
+        \end{minted}
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Kerugian Nyata dari "Object Drilling"}
+\footnotesize
+\begin{spacing}{0.85}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+            \textbf{Analogi: Surat Titipan}
+            \vspace{0.3cm}
+            
+            Bayangkan Anda ingin mengirim \textbf{Surat} (Dependensi) ke \textbf{Sepupu} Anda. Tapi Anda harus menitipkannya ke \textbf{Teman}, yang lalu menitipkannya lagi ke \textbf{Adiknya}.
+            
+            \begin{center}
+            \resizebox{\textwidth}{!}{
+            \begin{tikzpicture}[
+                node/.style={rectangle, draw, rounded corners, fill=cyan!10, text centered},
+                arrow/.style={draw, ->, >=Stealth, thick}
+            ]
+                \node[node] (a) {Anda};
+                \node[node, fill=gray!20] (b) at (2,1) {Teman};
+                \node[node, fill=gray!20] (c) at (4,1) {Adiknya};
+                \node[node] (d) at (6,0) {Sepupu};
+                
+                \draw[arrow, red] (a) -- (b) node[midway, above, sloped, font=\tiny]{titip Surat};
+                \draw[arrow, red] (b) -- (c) node[midway, above, sloped, font=\tiny]{titip Surat};
+                \draw[arrow, red] (c) -- (d) node[midway, above, sloped, font=\tiny]{titip Surat};
+            \end{tikzpicture}
+            }
+            \end{center}
+            
+            Masalahnya, \textbf{Teman} dan \textbf{Adiknya} direpotkan dengan tugas yang bukan urusan mereka. Inilah inti dari \textit{object drilling}.
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \textbf{Konsekuensi dalam Kode:}
+            \begin{itemize}
+                \item \textbf{Sulit Dipelihara:}\\
+                Jika Sepupu butuh \textbf{Paket} (dependensi baru), Anda harus negosiasi ulang dengan semua orang di rantai pengiriman (mengubah semua constructor).
+                
+                \item \textbf{Sulit Diuji:}\\
+                Untuk ``menguji'' Teman Anda, Anda harus memberinya Surat palsu, meskipun ia tidak pernah membacanya. Ini menambah kerumitan yang tidak perlu.
+                
+                \item \textbf{Kode ``Berbohong'':}\\
+                Kemampuan Teman Anda kini seolah-olah adalah "bisa membawa surat", padahal itu bukan tanggung jawab aslinya.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    
+    \begin{alertblock}{Intinya}
+    Object drilling menciptakan kode yang rapuh dan tidak fleksibel karena memaksa komponen perantara untuk terlibat dalam urusan yang bukan tanggung jawabnya.
+    \end{alertblock}
+\end{spacing}
+\end{frame}
+
+% =============================================
+\section{Solusi: Singleton Pattern}
+% =============================================
+
+\begin{frame}[t, fragile]
+\frametitle{Solusi: The Singleton Pattern}
+\footnotesize
+\begin{spacing}{0.85}
+    \begin{beamercolorbox}[rounded=true,shadow=true]{block title}
+        \centering
+        \textbf{Intent: Memastikan sebuah kelas hanya memiliki satu instansi, dan menyediakan titik akses global ke instansi tersebut.}
+    \end{beamercolorbox}
+
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{Sebelum: Ketergantungan Erat}
+            \resizebox{0.8\textwidth}{!}{
+            \begin{tikzpicture}[
+                class/.style={rectangle, draw, fill=yellow!20, text centered, font=\tiny},
+                dep/.style={draw, dashed, ->, >=Stealth, red, thick}
+            ]
+                \node[class] (manager) at (0,0) {GameManager};
+                \node[class] (player) at (-1.5,2) {Player};
+                \node[class] (hud) at (1.5,2) {HUD};
+                
+                \draw[dep] (player) -- (manager);
+                \draw[dep] (hud) -- (manager);
+                \node[font=\tiny\itshape] at (0, -0.5) {Referensi dioper via constructor};
+            \end{tikzpicture}
+            }
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \centering
+            \textbf{Sesudah: Akses Global}
+            \resizebox{0.8\textwidth}{!}{
+            \begin{tikzpicture}[
+                class/.style={rectangle, draw, fill=yellow!20, text centered, font=\tiny},
+                dep/.style={draw, dashed, ->, >=Stealth, blue, thick}
+            ]
+                \node[class] (manager) at (0,0) {\textbf{\underline{GameManager}}};
+                \node[class] (player) at (-1.5,2) {Player};
+                \node[class] (hud) at (1.5,2) {HUD};
+                
+                \draw[dep] (player.south) .. controls (-0.5,1) .. (manager.north) 
+                    node[midway, left, font=\tiny] {\texttt{.getInstance()}};
+                \draw[dep] (hud.south) .. controls (0.5,1) .. (manager.north)
+                    node[midway, right, font=\tiny] {\texttt{.getInstance()}};
+                \node[font=\scriptsize\itshape] at (0, -0.5) {Akses mandiri via metode statis};
+            \end{tikzpicture}
+            }
+        \end{column}
+    \end{columns}
+    
+    Pola ini menyelesaikan dua masalah dari diagram di atas:
+    \begin{enumerate}
+        \item \textbf{Menjamin Satu Instansi:} Mencegah siapa pun membuat \texttt{GameManager} kedua secara tidak sengaja.
+        \item \textbf{Menyediakan Akses Global:} Memberikan metode statis (\texttt{getInstance()}) sehingga \texttt{Player} dan \texttt{HUD} tidak lagi butuh referensi dari luar.
+    \end{enumerate}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Struktur Statis: Class Diagram Singleton}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+        \centering
+        \resizebox{1\textwidth}{!}{
+        \begin{tikzpicture}[
+            class/.style={rectangle split, rectangle split parts=3, draw, fill=yellow!20, text width=5cm, align=center, font=\small},
+            assoc/.style={draw, thick, ->, >=Stealth}
+        ]
+            \node[class] (singleton) {
+                \textit{\guillemotleft class\guillemotright} \\
+                \textbf{GameManager}
+                \nodepart{second}
+                    \raggedright
+                    \underline{- instance: GameManager}
+                \nodepart{third}
+                    \raggedright
+                    - GameManager() \\
+                    \underline{+ getInstance(): GameManager}
+            };
+            
+            \path[assoc] (singleton.east) to[out=0, in=0, looseness=1.5]
+                node[midway, right] {holds} (singleton.south east);
+            \node[below=0.1cm of singleton](cap){Garis bawah menandakan anggota \textit{static}};
+        \end{tikzpicture}
+        }
+    \end{column}
+    \begin{column}{0.55\textwidth}
+        Struktur Singleton ditopang oleh tiga pilar utama:
+        
+        \begin{block}{1. Atribut Statis Privat}
+            \texttt{- instance: GameManager}\\
+            Sebuah ``wadah'' statis di dalam kelas itu sendiri untuk menyimpan satu-satunya instansi.
+        \end{block}
+        
+        \begin{block}{2. Constructor Privat}
+            \texttt{- GameManager()}\\
+            Ini adalah ``kunci'' utamanya. Dengan membuat constructor privat, kita mencegah siapa pun dari luar untuk membuat instansi baru menggunakan \texttt{new GameManager()}.
+        \end{block}
+        
+        \begin{block}{3. Metode Statis Publik}
+            \texttt{+ getInstance()}\\
+            Ini adalah satu-satunya "gerbang masuk" yang sah. Metode ini akan mengontrol kapan instansi perlu dibuat dan memastikan instansi yang sama dikembalikan setiap saat.
+        \end{block}
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[t, fragile]
+\frametitle{Perilaku Dinamis: Panggilan Pertama Kali}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.6\textwidth}
+        \centering
+        \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[
+            node distance=3cm,
+            lifeline/.style={draw, thick},
+            object/.style={rectangle, draw, rounded corners, fill=blue!10, text centered, minimum width=2.5cm, minimum height=0.8cm},
+            msg/.style={draw, -{Stealth[length=2.5mm]}},
+            ret_msg/.style={draw, dashed, -{Stealth[length=2.5mm]}}
+        ]
+            % Objek di atas
+            \node[object] (client) at (0,0) {\footnotesize :Player};
+            \node[object] (singleton) at (4,0) {\footnotesize \underline{GameManager}}; % Class
+
+            % Lifelines
+            \draw[lifeline] (client.south) -- (0,-7) coordinate (client_end);
+            \draw[lifeline] (singleton.south) -- (4,-7) coordinate (singleton_end);
+            
+            % Mendefinisikan titik pada lifeline untuk pesan
+            \coordinate (msg1) at (0,-1);
+            \coordinate (msg2) at (4,-2.5);
+            \coordinate (msg3) at (4,-4);
+
+            % Menggambar Pesan
+            \draw[msg] (msg1 -| client) -- (msg1 -| singleton.west)
+                node[midway, above, font=\small] {1: getInstance()};
+            
+            % Balok aktivasi untuk getInstance()
+            \filldraw[fill=gray!20] ($(singleton.west)+(0,-1)$) rectangle ($(singleton.east)+(0,-6)$);
+
+            \node[draw, fill=yellow!10, text width=3cm, right=0.5cm of singleton, yshift=-1.5cm]
+                {Cek internal: \\ \texttt{instance == null ?} \\ Hasil: \textbf{true}};
+
+            \draw[msg] (msg2 -| singleton.east) .. controls +(0.5,-0.2) and +(0.5,0.2) .. (msg2 -| singleton.east)
+                node[midway, right, font=\small] {2: new GameManager()};
+            
+            \draw[ret_msg] (msg3 -| singleton.west) -- (msg3 -| client)
+                node[midway, above, font=\small] {3: return instance};
+        \end{tikzpicture}
+        }
+    \end{column}
+    \begin{column}{0.4\textwidth}
+        \textbf{Alur Panggilan Pertama:}
+        \begin{enumerate}
+            \item Objek klien (misal: \texttt{Player}) memanggil metode statis \texttt{getInstance()}.
+            \item Kelas \texttt{GameManager} memeriksa atribut \texttt{instance}-nya dan menemukan bahwa ia masih \textit{null}.
+            \item Karena \textit{null}, kelas memanggil constructor pribadinya untuk \textbf{membuat satu instansi baru} dan menyimpannya di atribut \texttt{instance}.
+            \item Instansi yang baru dibuat itu dikembalikan ke klien.
+        \end{enumerate}
+        \begin{alertblock}{Lazy Initialization}
+        Objek \texttt{GameManager} baru dibuat saat benar-benar dibutuhkan untuk pertama kalinya, bukan saat program dimulai.
+        \end{alertblock}
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+% =============================================
+\section{Solusi dalam Kode}
+% =============================================
+\begin{frame}[fragile]
+\frametitle{Implementasi Singleton Pattern}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{minted}[fontsize=\scriptsize]{java}
+public class GameManager {
+    // 1. Satu-satunya instansi, private dan static
+    private static GameManager instance;
+
+    // Data global yang akan dikelola
+    private int score;
+    
+    // 2. Constructor private untuk mencegah instansiasi dari luar
+    private GameManager() {
+        this.score = 0;
+    }
+
+    // 3. Metode static global untuk mendapatkan instansi
+    public static GameManager getInstance() {
+        // Lazy initialization: Dibuat hanya saat pertama kali diminta
+        if (instance == null) {
+            instance = new GameManager();
+        }
+        return instance;
+    }
+
+    // Metode untuk mengelola state global
+    public void addScore(int points) { this.score += points; }
+    public int getScore() { return this.score; }
+}
+\end{minted}
+\end{spacing}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Menggunakan Singleton dari Mana Saja}
+\footnotesize
+\begin{spacing}{0.85}
+Sekarang, `Player` dan `HUD` tidak lagi memerlukan `GameManager` di constructor mereka. Mereka bisa langsung memintanya kapan saja.
+
+\begin{minted}[fontsize=\scriptsize]{java}
+public class Player {
+    // Tidak ada lagi GameManager di constructor!
+    public Player() { /* ... */ }
+
+    public void collectCoin() {
+        // Akses mudah ke instansi global
+        GameManager.getInstance().addScore(10);
+    }
+}
+
+public class HUD {
+    public HUD() { /* ... */ }
+
+    public void draw() {
+        // Akses yang sama dari kelas yang berbeda
+        int currentScore = GameManager.getInstance().getScore();
+        drawText("Score: " + currentScore);
+    }
+}
+\end{minted}
+\end{spacing}
+\end{frame}
+
+% =============================================
+\section{Analisis Pola Desain}
+% =============================================
+\begin{frame}[t]
+\frametitle{Kelebihan Singleton Pattern}
+\begin{spacing}{0.85}
+\begin{itemize}
+    \item \CheckMark \textbf{Akses Global yang Mudah}
+    \begin{itemize}\item Menyediakan titik akses tunggal yang dapat dijangkau dari bagian mana pun dalam kode tanpa perlu \textit{object drilling}.\end{itemize}
+    \item \CheckMark \textbf{Jaminan Satu Instansi}
+    \begin{itemize}\item Mencegah pembuatan objek duplikat yang bisa mengacaukan state aplikasi.\end{itemize}
+    \item \CheckMark \textbf{Inisialisasi Malas (\textit{Lazy Initialization})}
+    \begin{itemize}\item Objek singleton hanya dibuat saat pertama kali dibutuhkan, yang dapat menghemat sumber daya jika objek tersebut berat.\end{itemize}
+\end{itemize}
+\end{spacing}
+\end{frame}
+
+\begin{frame}
+\frametitle{Kelemahan \& Kritik (Penting!)}
+\footnotesize
+\begin{spacing}{0.85}
+Singleton adalah salah satu pola desain yang paling sering diperdebatkan dan terkadang dianggap sebagai \textit{anti-pattern} jika disalahgunakan.
+
+\begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+            \item \WarnSign \textbf{Menciptakan State Global}
+            \begin{itemize}\item State global membuat kode sulit untuk diuji secara terisolasi (\textit{unit testing}) dan sulit untuk dilacak alur datanya.\end{itemize}
+            \item \WarnSign \textbf{Menyembunyikan Dependensi}
+            \begin{itemize}\item Sebuah kelas bisa saja menggunakan singleton secara internal, dan ini tidak terlihat dari ``luar'' (misalnya dari constructor-nya). Ini membuat dependensi menjadi tidak eksplisit.\end{itemize}
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+            \item \WarnSign \textbf{Melanggar Single Responsibility Principle}
+            \begin{itemize}\item Kelas singleton bertanggung jawab atas logikanya sendiri DAN atas siklus hidupnya sendiri (memastikan hanya ada satu instansi).\end{itemize}
+            \item \WarnSign \textbf{Masalah pada Multithreading}
+            \begin{itemize}\item Implementasi dasar tidak aman untuk \textit{thread}. Diperlukan mekanisme `synchronized` untuk mencegah pembuatan beberapa instansi di lingkungan multithreaded.\end{itemize}
+        \end{itemize}
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+% =============================================
+\section{Kesimpulan}
+% =============================================
+\begin{frame}[t, fragile]
+\frametitle{Rangkuman Materi Modul 7}
+\footnotesize
+\begin{spacing}{0.85}
+\begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+        \textbf{Poin-Poin Kunci yang Telah Kita Pelajari:}
+        \begin{enumerate}
+            \item \textbf{Game Loop:} Game berjalan dalam siklus \textbf{Input-Update-Render} yang konstan, berbeda dari model request-response.
+            \vspace{0.4cm}
+            \item \textbf{Masalah State Global:} Game loop menciptakan kebutuhan banyak sistem untuk mengakses satu data pusat, yang rumit jika dioper via constructor.
+            \vspace{0.4cm}
+            \item \textbf{Singleton Pattern:} Solusi untuk masalah ini dengan menjamin satu instansi dan menyediakan titik akses global.
+            \vspace{0.4cm}
+            \item \textbf{Kelemahan Singleton:} Pola ini harus digunakan dengan hati-hati karena bisa menyulitkan testing dan menyembunyikan dependensi.
+        \end{enumerate}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+        \centering
+        \textbf{Peta Perjalanan Belajar}
+        \vspace{0.5cm}
+        \resizebox{!}{0.7\textheight}{
+        \begin{tikzpicture}[
+            node distance=0.4cm and 1.5cm,
+            block/.style={rectangle, draw, thick, fill=blue!10, text width=5cm,
+                          minimum height=1.2cm, text centered, rounded corners},
+            arrow/.style={draw, ->, >=Stealth, thick, color=blue!70!black}
+        ]
+            \node[block, fill=green!10] (p1) {
+                \textbf{1. Paradigma Baru} \\
+                \tiny Game Loop
+            };
+            \node[block, fill=orange!10, below=of p1] (p2) {
+                \textbf{2. Tantangan} \\
+                \tiny Akses State Global
+            };
+            \node[block, fill=cyan!10, below=of p2] (p3) {
+                \textbf{3. Solusi} \\
+                \tiny Singleton Pattern
+            };
+            \node[block, fill=red!10, below=of p3] (p4) {
+                \textbf{4. Analisis Kritis} \\
+                \tiny Kelebihan \& Kelemahan
+            };
+
+            \draw[arrow] (p1) -- (p2);
+            \draw[arrow] (p2) -- (p3);
+            \draw[arrow] (p3) -- (p4);
+        \end{tikzpicture}
+        }
+    \end{column}
+\end{columns}
+\end{spacing}
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\footnotesize
+\begin{spacing}{0.85}
+\centering
+\huge\bfseries Questions?
+\end{spacing}
+\end{frame}

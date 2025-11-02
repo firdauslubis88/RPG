@@ -18,6 +18,7 @@ public class GameManager {
     private int score;
     private float gameTime;
     private int level;
+    private int hp;  // Week 10: HP for obstacle damage
     private boolean gameOver;
 
     /**
@@ -32,6 +33,7 @@ public class GameManager {
         this.score = 0;
         this.gameTime = 0.0f;
         this.level = 1;
+        this.hp = 100;  // Week 10: Start with 100 HP
         this.gameOver = false;
 
         // Debug: Show when the SINGLE instance is created
@@ -94,6 +96,26 @@ public class GameManager {
     }
 
     /**
+     * Week 10: HP management for obstacle damage
+     */
+    public int getHp() {
+        return this.hp;
+    }
+
+    public void takeDamage(int damage) {
+        this.hp -= damage;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+        System.out.println("[GameManager:" + this.hashCode() + "] Took " + damage + " damage! HP: " + this.hp);
+
+        if (this.hp <= 0) {
+            this.gameOver = true;
+            System.out.println("[GameManager:" + this.hashCode() + "] GAME OVER! HP reached 0.");
+        }
+    }
+
+    /**
      * ✅ SOLUTION: Reset for testing (resets THE instance).
      *
      * For testing, we can reset the single instance to clean state.
@@ -103,6 +125,7 @@ public class GameManager {
         this.score = 0;
         this.gameTime = 0.0f;
         this.level = 1;
+        this.hp = 100;
         this.gameOver = false;
     }
 

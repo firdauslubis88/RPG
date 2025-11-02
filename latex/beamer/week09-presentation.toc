@@ -1,2 +1,10 @@
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@sectionintoc {2}{Branch 09-00: The Problem}{4}{0}{2}
+\beamer@sectionintoc {3}{Branch 09-01: Game Loop Solution}{7}{0}{3}
+\beamer@sectionintoc {4}{Branch 09-02: New Challenges}{11}{0}{4}
+\beamer@sectionintoc {5}{Branch 09-03: Singleton Solution}{15}{0}{5}
+\beamer@sectionintoc {6}{Comparative Analysis}{19}{0}{6}
+\beamer@sectionintoc {7}{Design Patterns Deep Dive}{22}{0}{7}
+\beamer@sectionintoc {8}{Discussion Points}{24}{0}{8}
+\beamer@sectionintoc {9}{Assessment}{25}{0}{9}
+\beamer@sectionintoc {10}{Summary}{26}{0}{10}

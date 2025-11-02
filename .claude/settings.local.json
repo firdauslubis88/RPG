@@ -1,19 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(timeout 5 java:*)",
-      "Bash(timeout 8 java:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nFix rendering and improve demonstration clarity\n\nChanges:\n- Use ANSI escape codes for proper terminal clearing (not newlines)\n- Remove debug prints (Drew N at...), show only grid + game state\n- Render every frame (not just every 10th) for better visibility\n- Improve game state display with box drawing characters\n- Keep all intentional delays to demonstrate frame rate coupling\n\nGame mechanics (unchanged):\n- NPC: Moves horizontally (left to right), wraps at edge\n- Coin: Falls vertically (top to bottom), respawns at random X\n\nThis makes the problems more obvious and easier to observe.\nEOF\n)\")",
-      "Bash(git commit:*)",
-      "Bash(timeout:*)",
-      "Bash(git mv:*)",
-      "Bash(java Main:*)",
-      "Bash(pdflatex:*)",
-      "Bash(compile.log)",
-      "Bash(/dev/null)",
-      "Bash(for file in *.tex)",
-      "Bash(do echo \"Compiling $file...\")",
-      "Bash(done)"
+      "Bash(cat:*)",
+      "Bash(pdfinfo:*)",
+      "Bash(pygmentize:*)"
     ],
     "deny": [],
     "ask": []

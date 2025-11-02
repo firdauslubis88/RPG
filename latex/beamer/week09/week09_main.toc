@@ -1,0 +1,11 @@
+\babel@toc {indonesian}{}\relax 
+\beamer@sectionintoc {1}{Pengantar: Perjalanan Pembelajaran Progresif}{2}{0}{1}
+\beamer@sectionintoc {2}{Branch 09-00: Masalah Monolithic}{4}{0}{2}
+\beamer@sectionintoc {3}{Branch 09-01: Solusi Game Loop}{7}{0}{3}
+\beamer@sectionintoc {4}{Branch 09-02: Masalah Baru (Object Drilling)}{11}{0}{4}
+\beamer@sectionintoc {5}{Branch 09-03: Solusi Singleton}{14}{0}{5}
+\beamer@sectionintoc {6}{Analisis Komparatif}{17}{0}{6}
+\beamer@sectionintoc {7}{Design Patterns Deep Dive}{20}{0}{7}
+\beamer@sectionintoc {8}{Diskusi \& Assessment}{23}{0}{8}
+\beamer@sectionintoc {9}{Summary}{26}{0}{9}
+\beamer@sectionintoc {10}{Referensi}{28}{0}{10}

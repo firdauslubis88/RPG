@@ -1,22 +1,23 @@
-\frametitle{09-00: Code Example}
-\begin{lstlisting}[caption={Monolithic main() method}]
-public static void main(String[] args) {
-    // ALL IN ONE METHOD!
-    while (running) {
-        // Update logic
-        npc.x += npc.velocity;
-
-        // Render (causes slowdown!)
-        clearScreen();
-        drawGrid();
-        drawNPC();
-
-        // Slow! Couples logic to render speed
-        Thread.sleep(100); // 10 FPS max
+\frametitle{Branch 09-03: Clean Usage}
+\begin{lstlisting}
+// Main.java - No parameters!
+public class Main {
+    public static void main(String[] args) {
+        GameEngine engine = new GameEngine();
+        engine.start();
     }
 }
-\end{lstlisting}
 
-\begin{alertblock}{Problem}
-    Update and render are \textbf{mixed together}. Slow rendering = slow game logic!
-\end{alertblock}
+// HUD.java - Direct access!
+public class HUD {
+    public HUD() {
+        // No parameters needed!
+    }
+
+    public void draw() {
+        // Guaranteed to be THE instance
+        int score = GameManager.getInstance().getScore();
+        System.out.println("Score: " + score);
+    }
+}
+    \end{lstlisting}

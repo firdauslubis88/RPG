@@ -22,17 +22,20 @@ public class HUD {
 
     /**
      * ✅ Draws the HUD with game stats from THE instance.
+     * Week 10: Added HP display for obstacle damage tracking
      */
     public void draw() {
         // ✅ Reads from THE instance!
         int score = GameManager.getInstance().getScore();
         float time = GameManager.getInstance().getGameTime();
         int level = GameManager.getInstance().getLevel();
+        int hp = GameManager.getInstance().getHp();
 
         System.out.println("\n╔════════════════════════════════════════╗");
         System.out.println("║              HUD DISPLAY               ║");
         System.out.println("╠════════════════════════════════════════╣");
         System.out.printf("║  Score: %d points%n", score);
+        System.out.printf("║  HP: %d / 100%n", hp);
         System.out.printf("║  Time: %ds%n", (int)time);
         System.out.printf("║  Level: %d%n", level);
         System.out.println("╠════════════════════════════════════════╣");

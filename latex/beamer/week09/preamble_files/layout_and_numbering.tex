@@ -1,0 +1,116 @@
+%------------ PAGE NUMBERING -------------------
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{}
+
+%------------------PAGE SETUP-----------
+% Frame title top margins
+\addtobeamertemplate{frametitle}{\vskip 3 ex}{\vskip -2 ex}
+
+% Frame title left margins
+\makeatletter
+\patchcmd\beamer@@tmpl@frametitle{sep=0.3cm}{sep=.5cm}{}{}
+\makeatother
+
+% Frame Content Left Margins
+\setbeamersize{text margin left=.6cm}
+\settowidth{\leftmargini}{\usebeamertemplate{itemize item}}
+\addtolength{\leftmargini}{\labelsep}
+
+%------------------ SECTION/SUBSECTION DIVIDERS ----------------
+\AtBeginSection[]{ \begin{frame} \vfill \centering \begin{beamercolorbox}[sep=10pt,center,shadow=false,rounded=true]{section_begin} \usebeamerfont{section_begin}\insertsectionhead\par \end{beamercolorbox} \vfill \end{frame} }
+\AtBeginSubsection[]{ \begin{frame} \vfill \centering \begin{beamercolorbox}[sep=10pt,center,shadow=false,rounded=true]{section_begin} \usebeamerfont{section_begin}\insertsubsectionhead\par \end{beamercolorbox} \vfill \end{frame} }
+
+% ... (SEMUA KODE PENOMORAN FRAMETITLE YANG KOMPLEKS DARI \newcommand{\SlideHeaderLevel} HINGGA \makeatother setelah definisi frametitle) ...
+
+% 1) Membuat command \FirstSlideHeader
+\newcommand{\SlideHeaderLevel}{subsection}
+\newcommand{\FirstSlideHeader}{\insertsubsectionhead}
+\newcommand{\SetSlideHeaderLevel}[1]{%
+  \renewcommand{\SlideHeaderLevel}{#1}%
+  \ifthenelse{\equal{#1}{section}}{%
+    \renewcommand{\FirstSlideHeader}{\insertsectionhead}%
+  }{%
+    \renewcommand{\FirstSlideHeader}{\insertsubsectionhead}%
+  }%
+}
+
+% 2. Logika Inti untuk Penomoran subsubsection
+\newcounter{subsubid} 
+\newcommand{\currentsubsubtitle}{} 
+\newcommand{\currentsubsubcounter}{} 
+\newif\ifinsubsubsection
+\AtBeginSection{
+  \insubsubsectionfalse
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=10pt,center,shadow=false,rounded=true]{section_begin}
+    \usebeamerfont{section_begin}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+\AtBeginSubsection{\insubsubsectionfalse}
+\makeatletter
+\AtBeginSubsubsection[]{
+     \insubsubsectiontrue 
+     \stepcounter{subsubid}
+     \edef\currentsubsubcounter{subsubtotal\the\value{subsubid}}
+     \edef\TheCounterNameAsString{c@\currentsubsubcounter}
+     \expandafter\@ifundefined\expandafter{\TheCounterNameAsString}{%
+         \expandafter\newcounter\expandafter{\currentsubsubcounter}%
+         \expandafter\regtotcounter\expandafter{\currentsubsubcounter}%
+     }{%
+     }%
+     \expandafter\setcounter\expandafter{\currentsubsubcounter}{0}%
+     \renewcommand{\currentsubsubtitle}{\insertsubsubsectionhead} 
+}
+\makeatother
+
+% 3. Logika if else untuk frametitle
+\makeatletter
+\setbeamertemplate{frametitle}{
+  \ifinsubsubsection
+    \stepcounter{\currentsubsubcounter}
+    \vskip 4 ex
+    \begin{beamercolorbox}[wd=\paperwidth,sep=.5cm]{frametitle}
+        \usebeamerfont{frametitle}\FirstSlideHeader\ \textbar\ \currentsubsubtitle\ \         (\arabic{\currentsubsubcounter}/\total{\currentsubsubcounter})
+        \\ \insertframetitle
+    \end{beamercolorbox}
+    \vskip -3 ex
+    \label{subsub:end:\thesubsubid}
+  \else
+    \ifx\beamer@frametitle\empty\else
+    \vskip 4 ex
+    \begin{beamercolorbox}[wd=\paperwidth,sep=.5cm]{frametitle}
+      \usebeamerfont{frametitle}\FirstSlideHeader\ \textbar\ \insertframetitle
+    \end{beamercolorbox}
+    \vskip -3 ex
+    \fi
+  \fi
+}
+\makeatother
+
+%Solusi lengkap untuk masalah List of Figures/Tables di Beamer
+%======================================================================
+% DEFINISI TEMPLATE CAPTION UNTUK MENAMPILKAN NOMOR
+%======================================================================
+\setbeamertemplate{caption}{
+  \raggedright % atau \centering jika ingin rata tengah
+  \insertcaptionname~\insertcaptionnumber:~\insertcaption\par
+  \vspace{0.5em} % Spasi vertikal opsional setelah caption
+}
+
+\makeatletter
+
+% --- GANTI DENGAN KODE LENGKAP DI BAWAH INI ---
+
+%======================================================================
+% KODE FINAL DENGAN HYPERLINK
+%======================================================================
+
+%======================================================================
+% AKHIR DARI KODE FINAL
+%======================================================================
+
+\AtBeginDocument{ \addtocounter{framenumber}{-1} }

@@ -1,6 +1,7 @@
 import entities.NPC;
 import entities.GameManager;
 import entities.Coin;
+import obstacles.Obstacle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +17,7 @@ import java.util.Random;
 public class GameLogic {
     private NPC npc;
     private List<Coin> coins;
+    private WorldController worldController;
     private int frameCount;
     private Random random;
 
@@ -42,6 +44,9 @@ public class GameLogic {
         this.coins.add(new Coin());
         this.coins.add(new Coin());
         this.coins.add(new Coin());
+
+        // Week 10 Branch 10-01: Initialize WorldController with NPC reference
+        this.worldController = new WorldController(npc);
 
         this.frameCount = 0;
 
@@ -78,12 +83,21 @@ public class GameLogic {
     }
 
     /**
+     * Week 10 Branch 10-01: Update WorldController (spawns and updates obstacles)
+     */
+    public void updateWorldController(float delta) {
+        worldController.update(delta);
+    }
+
+    /**
      * ✅ Check collisions and update score in THE GameManager instance.
+     * Week 10 Branch 10-01: Also check obstacle collisions (damage NPC)
      */
     public void checkCollisions() {
         int npcX = (int)npc.getX();
         int npcY = (int)npc.getY();
 
+        // Check coin collisions
         for (Coin coin : coins) {
             int coinX = (int)coin.getX();
             int coinY = (int)coin.getY();
@@ -97,6 +111,29 @@ public class GameLogic {
                 System.out.println("[GameLogic] Singleton instance: " + GameManager.getInstance().hashCode());
 
                 coin.respawn();
+            }
+        }
+
+        // Week 10 Branch 10-01: Check obstacle collisions
+        for (Obstacle obstacle : worldController.getActiveObstacles()) {
+            int obsX = obstacle.getX();
+            int obsY = obstacle.getY();
+
+            if (npcX == obsX && npcY == obsY && obstacle.isActive()) {
+                // NPC takes damage
+                GameManager.getInstance().takeDamage(obstacle.getDamage());
+
+                System.out.println("[GameLogic] Hit by " + obstacle.getSymbol() + "! Took " + obstacle.getDamage() + " damage.");
+                System.out.println("[GameLogic] HP: " + GameManager.getInstance().getHp());
+
+                // Deactivate obstacle (one-time hit)
+                if (obstacle instanceof obstacles.Spike) {
+                    ((obstacles.Spike) obstacle).setActive(false);
+                } else if (obstacle instanceof obstacles.Goblin) {
+                    ((obstacles.Goblin) obstacle).setActive(false);
+                } else if (obstacle instanceof obstacles.Wolf) {
+                    ((obstacles.Wolf) obstacle).setActive(false);
+                }
             }
         }
     }
@@ -120,5 +157,9 @@ public class GameLogic {
 
     public int getFrameCount() {
         return frameCount;
+    }
+
+    public WorldController getWorldController() {
+        return worldController;
     }
 }

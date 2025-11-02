@@ -248,6 +248,8 @@ default.sty)
 default.sty)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
 default.sty)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
 sty
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
@@ -271,145 +273,11 @@ aryplothandlers.code.tex)
 matrix.code.tex)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
 z/libraries\tikzlibrarytopaths.code.tex)))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.rev
-ision.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.cod
-e.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore
-.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplots
-sysgeneric.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgfplot
-slibrary.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompat
-ib\pgfplotsoldpgfsupp_loader.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
-aryfpu.code.tex)
-Package pgfplots: loading complementary utilities for your pgf version...
-
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompat
-ib\pgfplotsoldpgfsupp_pgfutil-common-lists.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-sutil.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
-e\pgfplotsliststructure.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
-e\pgfplotsliststructureext.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
-e\pgfplotsarray.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
-e\pgfplotsmatrix.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgf
-plotstableshared.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructur
-e\pgfplotsdeque.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-sbinary.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-sbinary.data.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-sutil.verb.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibr
-arypgfplots.surfshading.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibra
-rypgfplots.surfshading.pgfsys-pdftex.def)))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-scolormap.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplot
-scolor.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsstac
-kedplots.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsplot
-handlers.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
-plothandler.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmesh
-plotimage.code.tex)))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.sca
-ling.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscoor
-dprocessing.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.err
-orbars.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.mar
-kers.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotstick
-s.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.pat
-hs.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibrarydecorations.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
-decorations.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibrarydecorations.pathmorphing.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
-ions\pgflibrarydecorations.pathmorphing.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibrarydecorations.pathreplacing.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorat
-ions\pgflibrarydecorations.pathreplacing.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\tikzlib
-rarypgfplots.contourlua.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryplotmarks.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
-aryplotmarks.code.tex)))
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg))
 
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\fontawesom
-e5.sty
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
-tex.def))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3k
-eys2e.sty)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
-e.sty)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\fontawesom
-e5-generic-helper.sty
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\fontawesom
-e5-mapping.def)))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibrarypositioning.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.geometric.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.geometric.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.misc.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.misc.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.symbols.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.symbols.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.arrows.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.arrows.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.callouts.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.callouts.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryshapes.multipart.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
-pgflibraryshapes.multipart.code.tex)))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryarrows.code.tex
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
-aryarrows.code.tex))
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibrarycalc.code.tex)
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
-z/libraries\tikzlibraryfit.code.tex)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemeMadri
 d.sty
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
@@ -421,7 +289,8 @@ rounded.sty)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
 infolines.sty))
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty)
-(week09-presentation.aux)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def) (week09-presentation.aux)
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 
@@ -444,941 +313,514 @@ onths-dictionary-English.dict)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-n
 umbers-dictionary-English.dict)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-t
-heorem-dictionary-English.dict)
-Package pgfplots notification 'compat/show suggested version=true': document ha
-s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
+heorem-dictionary-English.dict) (week09-presentation.nav)
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 30--30
+ [][]  \T1/cmss/m/n/6 ([])  
 
-(week09-presentation.nav)
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 38--38
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
 [1{C:/Users/chemf/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 46--46
+ [][]  \T1/cmss/m/n/6 ([])  
 (week09-presentation.toc)
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
 [2]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 75--75
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \vbox (4.98538pt too high) detected at line 75
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
 [3]
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontaweso
-mefree3.fd)
-[4{C:/Users/chemf/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa
-5free3.enc}] (week09-presentation.vrb)
-Overfull \vbox (41.33536pt too high) detected at line 165
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 117--117
+ [][]  \T1/cmss/m/n/6 ([])  
 
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[4]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 119--119
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 142--142
+ [][]  \T1/cmss/m/n/6 ([])  
+(week09-presentation.vrb)
+Overfull \vbox (23.10788pt too high) detected at line 142
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
 [5]
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontaweso
-mefree0.fd)
-
-! LaTeX Error: Not allowed in LR mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-
-! Package tikz Error: Giving up on this path. Did you forget a semicolon?.
-
-See the tikz package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-<recently read> \tikz@expand@last@token@ 
-                                         
-l.218 \end{frame}
-                 
-! Missing number, treated as zero.
-<to be read again> 
-                   \let 
-l.218 \end{frame}
-                 
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   \let 
-l.218 \end{frame}
-                 
-Missing character: There is no ( in font nullfont!
-Missing character: There is no 3 in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no s in font nullfont!
-Missing character: There is no ) in font nullfont!
-! Extra }, or forgotten \endgroup.
-\beamer@doifinframe ...} \\ \scriptsize (3 lines)}
-                                                  ; \par \node [rectangle, d...
-l.218 \end{frame}
-                 
-Missing character: There is no ; in font nullfont!
-
-! LaTeX Error: Not allowed in LR mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-
-! Package tikz Error: Giving up on this path. Did you forget a semicolon?.
-
-See the tikz package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-<recently read> \tikz@expand@last@token@ 
-                                         
-l.218 \end{frame}
-                 
-! Missing number, treated as zero.
-<to be read again> 
-                   \let 
-l.218 \end{frame}
-                 
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   \let 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\beamer@doifinframe ...) \\ \scriptsize + draw() }
-                                                  ; \par \node [rectangle, d...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\beamer@doifinframe ...ize + draw() }; \par \node 
-                                                  [rectangle, draw=solutiong...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\beamer@doifinframe ...pdateCoins() }; \par \draw 
-                                                  [->,thick] (main) -- (engi...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\beamer@doifinframe ... (main) -- (engine); \draw 
-                                                  [->,thick] (main) -- (logi...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\beamer@doifinframe ...in) -- (logic); \par \node 
-                                                  [below=1.5cm of main, text...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\endtikzpicture ...r@layerlist@globally \endscope 
-                                                  \let \pgf@baseline =\pgf@s...
-l.218 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endpgfpicture ...globally \endgroup \hss \egroup 
-                                                  \pgf@restore@layerlist@fro...
-l.218 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endpgfpicture ...dpicture \endgroup \hss \egroup 
-                                                  \pgfsys@typesetpicturebox ...
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-! Infinite glue shrinkage found in a paragraph.
-<inserted text> }
-                 
-l.218 \end{frame}
-                 
-
-! LaTeX Error: \begin{altenv} on input line 218 ended by \end{tikzpicture}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-
-! LaTeX Error: Not allowed in LR mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-
-! LaTeX Error: Not allowed in LR mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-! Missing } inserted.
-<inserted text> 
-                }
-l.218 \end{frame}
-                 
-
-Overfull \hbox (10.95003pt too wide) detected at line 218
- []
-
-! LaTeX Error: \begin{altenv} on input line 218 ended by \end{center}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.218 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endminipage ...pagefalse \color@endgroup \egroup 
-                                                  \expandafter \@iiiparbox \...
-l.218 \end{frame}
-                 
-! Undefined control sequence.
-\endminipage ...\expandafter \@iiiparbox \@mpargs 
-                                                  {\unvbox \@tempboxa }
-l.218 \end{frame}
-                 
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   -
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endcsname inserted.
-<to be read again> 
-                   \scan_stop: 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endcsname inserted.
-<to be read again> 
-                   \scan_stop: 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-! LaTeX Error: Environment \@@par  undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-\@begin@tempboxa ...begingroup #2\color@endgroup }
-                                                  \def \width {\wd \@tempbox...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-Runaway argument?
-{\@checkend {minipage}\endgroup \UseHook {env/minipage/after}\if@ignore \ETC.
-! Paragraph ended before \setlength was complete.
-<to be read again> 
-                   \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\endminipage ...\expandafter \@iiiparbox \@mpargs 
-                                                  {\unvbox \@tempboxa }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> \node 
-                 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing number, treated as zero.
-<to be read again> 
-                   \relax 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   \relax 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-Overfull \hbox (3.16333pt too wide) in paragraph at lines 221--221
-[]\OT1/cmss/m/n/10.95 [ 
-Runaway argument?
-{\@checkend {minipage}\endgroup \UseHook {env/minipage/after}\if@ignore \ETC.
-! Paragraph ended before \setlength was complete.
-<to be read again> 
-                   \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\beamerx@\beamer@columnenv ...3->\beamer@colclose 
-                                                  \def \beamer@colclose {}\b...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\@tempa ->\beamer@colmode 
-                          
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-! Undefined control sequence.
-\@tempa ->\beamer@colmode 
-                          
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Package keyval Error:  undefined.
-
-See the keyval package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\beamerx@\beamer@columnenv ...\beamer@colheadskip 
-                                                  \ignorespaces 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-<recently read> }
-                 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-Missing character: There is no b in font nullfont!
-
-LaTeX Warning: Unexpected alignment scale=0.6 on input line 221.
-
-Missing character: There is no r in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no d in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no w in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no s in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no u in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no k in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no u in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no w in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no d in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 2 in font nullfont!
-Missing character: There is no . in font nullfont!
-Missing character: There is no 5 in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no u in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no h in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no . in font nullfont!
-Missing character: There is no 8 in font nullfont!
-Missing character: There is no c in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no , in font nullfont!
-Missing character: There is no f in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no = in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no ! in font nullfont!
-Missing character: There is no 1 in font nullfont!
-Missing character: There is no 0 in font nullfont!
-Missing character: There is no ] in font nullfont!
-Missing character: There is no ( in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no ) in font nullfont!
-Missing character: There is no M in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no i in font nullfont!
-Missing character: There is no n in font nullfont!
-
-! LaTeX Error: Not allowed in LR mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing } inserted.
-<inserted text> 
-                }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing } inserted.
-<inserted text> 
-                }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing } inserted.
-<inserted text> 
-                }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-<argument> ...tbf {Main} \\ \scriptsize (3 lines)}
-                                                  ; \par \node [rectangle, d...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> ... \scriptsize (3 lines)}; \par \node 
-                                                  [rectangle, draw=solutiong...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> ... \scriptsize + draw() }; \par \node 
-                                                  [rectangle, draw=solutiong...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> ...tsize + updateCoins() }; \par \draw 
-                                                  [->,thick] (main) -- (engi...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> ...->,thick] (main) -- (engine); \draw 
-                                                  [->,thick] (main) -- (logi...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-<argument> ...hick] (main) -- (logic); \par \node 
-                                                  [below=1.5cm of main, text...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\endtikzpicture ...r@layerlist@globally \endscope 
-                                                  \let \pgf@baseline =\pgf@s...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-\endpgfpicture ...globally \endgroup \hss \egroup 
-                                                  \pgf@restore@layerlist@fro...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-\endpgfpicture ...dpicture \endgroup \hss \egroup 
-                                                  \pgfsys@typesetpicturebox ...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Missing } inserted.
-<inserted text> 
-                }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Infinite glue shrinkage found in a paragraph.
-<inserted text> }
-                 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-! LaTeX Error: \begin{altenv} on input line 221 ended by \end{tikzpicture}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-! LaTeX Error: \begin{uncoverenv} on input line 221 ended by \end{center}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-\endminipage ...pagefalse \color@endgroup \egroup 
-                                                  \expandafter \@iiiparbox \...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Undefined control sequence.
-\endminipage ...\expandafter \@iiiparbox \@mpargs 
-                                                  {\unvbox \@tempboxa }
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Argument of \@iiiparbox has an extra }.
-<inserted text> 
-                \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-Runaway argument?
-\@checkend {minipage}\endgroup \UseHook {env/minipage/after}\if@ignore \ETC.
-! Paragraph ended before \@iiiparbox was complete.
-<to be read again> 
-                   \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-<recently read> }
-                 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Argument of \frame  has an extra }.
-<inserted text> 
-                \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-Runaway argument?
-! Paragraph ended before \frame  was complete.
-<to be read again> 
-                   \par 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra }, or forgotten \endgroup.
-<recently read> }
-                 
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-! Extra \fi.
-\@iiiparbox ...\@parboxto {to\the \@tempdimb }\fi 
-                                                  \if #1b\vbox \else \if #1t...
-l.221 \begin
-            {lstlisting}[caption={Proper game loop structure}]
-
-LaTeX Warning: Unexpected alignment fragile on input line 221.
-
-
-! Undefined control sequence.
-\lstlisting ->\def \lstenv@name 
-                                {lstlisting}\begingroup \lst@setcatcodes \ca...
-l.236 \end{lstlisting}
-                      
-! Package Listings Error: Extra \endlstlisting.
-
-See the Listings package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.236 \end{lstlisting}
-                      
-
-! LaTeX Error: \begin{column} on input line 221 ended by \end{lstlisting}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.236 \end{lstlisting}
-                      
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.245 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.282 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.301 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.352 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.386 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.421 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.460 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.486 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.544 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.577 \end{frame}
-                 
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 166--166
+ [][]  \T1/cmss/m/n/6 ([])  
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
 (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\ot1mathk
 erncmss.fd)
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.613 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.644 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.675 \end{frame}
-                 
 
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontaweso
-mefree1.fd)
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.711 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.732 \end{frame}
-                 
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[6]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 207--207
+ [][]  \T1/cmss/m/n/6 ([])  
 
-(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/fontawesome5\ufontaweso
-mefree2.fd)
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.757 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.813 \end{frame}
-                 
 
-! LaTeX Error: Unicode character 🎉 (U+1F389)
-               not set up for use with LaTeX.
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[7]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 209--209
+ [][]  \T1/cmss/m/n/6 ([])  
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.844 ...f{60 FPS professional architecture}! 🎉
-                                                  
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.846 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.872 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.891 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.926 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.947 \end{frame}
-                 
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.974 \end{frame}
-                 
-! Missing \endcsname inserted.
-<to be read again> 
-                   \vrule 
-l.977     \begin
-                {center}
-! Missing \endcsname inserted.
-<to be read again> 
-                   \vrule 
-l.977     \begin
-                {center}
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 226--226
+ [][]  \T1/cmss/m/n/6 ([])  
+(week09-presentation.vrb)
 
-! LaTeX Error: Environment \vrule  undefined.
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[8]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 231--231
+ [][]  \T1/cmss/m/n/6 ([])  
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.977     \begin
-                {center}
-! Missing number, treated as zero.
-<to be read again> 
-                   }
-l.977     \begin
-                {center}
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   }
-l.977     \begin
-                {center}
-! Extra }, or forgotten \endgroup.
-<recently read> }
-                 
-l.977     \begin
-                {center}
-! You can't use `\hrule' here except with leaders.
-\frame  ... #1\vrule \@width \@wholewidth }\hrule 
-                                                  \@height \@wholewidth \vsk...
-l.977     \begin
-                {center}
-! Missing number, treated as zero.
-<to be read again> 
-                   \vskip 
-l.977     \begin
-                {center}
-! Illegal unit of measure (pt inserted).
-<to be read again> 
-                   \vskip 
-l.977     \begin
-                {center}
-! Missing \endgroup inserted.
-<inserted text> 
-                \endgroup 
-l.977     \begin
-                {center}
-! Missing } inserted.
-<inserted text> 
-                }
-l.977     \begin
-                {center}
+Overfull \vbox (525.86586pt too high) detected at line 231
 
-! LaTeX Error: \begin{frame} on input line 976 ended by \end{center}.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.991     \end{center}
-                      
-! Extra }, or forgotten \endgroup.
-\endframe ->\egroup 
-                    \begingroup \def \@currenvir {frame}
-l.992 \end{frame}
-                 
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[9 <../diagrams/game-loop-pattern.pdf>]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 255--255
+ [][]  \T1/cmss/m/n/6 ([])  
 
-! LaTeX Error: \begin{frame} on input line 952 ended by \end{document}.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.994 \end{document}
-                    
-(week09-presentation.aux)
-! You can't use `\end' in internal vertical mode.
-\enddocument ...cument/end}\deadcycles \z@ \@@end 
-                                                  
-l.994 \end{document}
-                    
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[10]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 284--284
+ [][]  \T1/cmss/m/n/6 ([])  
 
-! LaTeX Error: \begin{frame} on input line 952 ended by \end{document}.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.994 \end{document}
-                    
-)
-! Emergency stop.
-<*> ./week09-presentation.tex
-                             
-!  ==> Fatal error occurred, no output PDF file produced!
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[11]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 323--323
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[12]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 328--328
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \vbox (106.98206pt too high) detected at line 328
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[13 <../diagrams/object-drilling.pdf>]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 330--330
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 353--353
+ [][]  \T1/cmss/m/n/6 ([])  
+(week09-presentation.vrb)
+Overfull \vbox (22.9165pt too high) detected at line 353
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[14]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 388--388
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[15]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 393--393
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \vbox (26.58514pt too high) detected at line 393
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[16 <../diagrams/singleton-pattern.pdf>]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 395--395
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 417--417
+ [][]  \T1/cmss/m/n/6 ([])  
+(week09-presentation.vrb)
+Overfull \vbox (12.10788pt too high) detected at line 417
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[17]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 419--419
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 442--442
+ [][]  \T1/cmss/m/n/6 ([])  
+(week09-presentation.vrb)
+Overfull \vbox (23.10788pt too high) detected at line 442
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[18]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 453--453
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \vbox (236.20108pt too high) detected at line 453
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[19 <../diagrams/uml-comparison.pdf>]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 458--458
+ [][]  \T1/cmss/m/n/6 ([])  
+
+Overfull \vbox (73.55753pt too high) detected at line 458
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[20 <../diagrams/performance-comparison.pdf>]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 480--480
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[21]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 529--529
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[22]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 573--573
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[23]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 600--600
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[24]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 622--622
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[25]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 652--652
+ [][]  \T1/cmss/m/n/6 ([])  
+
+
+Overfull \hbox (83.06581pt too wide) has occurred while \output is active
+ [][]  \T1/cmss/m/n/6 ([])  
+[26]
+Overfull \hbox (83.06581pt too wide) in paragraph at lines 670--670
+ [][]  \T1/cmss/m/n/6 ([])  
+
+[27] (week09-presentation.aux)
+
+Package rerunfilecheck Warning: File `week09-presentation.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information) <C:\Users\chemf\AppData\Lo
+cal\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsi1095.pk>Trying to make PK font ecss1728 at 600 DPI...
+The METFAONT mode is: ljfour
+Creating ecss1728.pk...
+Running miktex-mf.exe...
+This is METAFONT, Version 2.71828182 (MiKTeX 24.4)
+
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ecss1728
+.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbase.m
+f)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ecss.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exroman.
+mf
+ Ok
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccess
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expseudo
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exruwest
+.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlwest
+.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrueast
+.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrleast
+.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbraces
+.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expunct.
+mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccent
+.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exsign.m
+f
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlig.m
+f
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exromp.m
+f
+ Ok [38] [63] [190])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrulett
+.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrllett
+.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrdigit
+.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrligtb
+.mf
+ Ok) ) ) )
+(some charht values had to be adjusted by as much as 0.07538pt)
+Font metrics written on ecss1728.tfm.
+Output written on ecss1728.600gf (256 characters, 74860 bytes).
+Transcript written on ecss1728.log.
+Running miktex-gftopk.exe...
+This is GFtoPK, Version 2.4 (MiKTeX 24.4)
+'METAFONT output 2025.11.02:1146'
+74860 bytes packed to 34876 bytes.
+Installing C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1728.pk...
+ <C:\Users\chemf\AppD
+ata\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss1728.pk>Trying to make PK font ecss2488 at 600 DPI...
+The METFAONT mode is: ljfour
+Creating ecss2488.pk...
+Running miktex-mf.exe...
+This is METAFONT, Version 2.71828182 (MiKTeX 24.4)
+
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ecss2488
+.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbase.m
+f)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ecss.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exroman.
+mf
+ Ok
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccess
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expseudo
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exruwest
+.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlwest
+.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrueast
+.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrleast
+.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbraces
+.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expunct.
+mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccent
+.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exsign.m
+f
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlig.m
+f
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exromp.m
+f
+ Ok [38] [63] [190])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrulett
+.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrllett
+.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrdigit
+.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrligtb
+.mf
+ Ok) ) ) )
+(some charht values had to be adjusted by as much as 0.12524pt)
+Font metrics written on ecss2488.tfm.
+Output written on ecss2488.600gf (256 characters, 107976 bytes).
+Transcript written on ecss2488.log.
+Running miktex-gftopk.exe...
+This is GFtoPK, Version 2.4 (MiKTeX 24.4)
+'METAFONT output 2025.11.02:1146'
+107976 bytes packed to 54640 bytes.
+Installing C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss2488.pk...
+ <C:\Users\chem
+f\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss2488.pk>Trying to make PK font ectt0900 at 600 DPI...
+The METFAONT mode is: ljfour
+Creating ectt0900.pk...
+Running miktex-mf.exe...
+This is METAFONT, Version 2.71828182 (MiKTeX 24.4)
+
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ectt0900
+.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbase.m
+f)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\ectt.mf
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exroman.
+mf
+ Ok
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccess
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expseudo
+.mf
+ Ok)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exruwest
+.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlwest
+.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrueast
+.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrleast
+.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exbraces
+.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\expunct.
+mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exaccent
+.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exsign.m
+f
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrlig.m
+f
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exromp.m
+f
+ Ok [38] [63] [190])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrulett
+.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrllett
+.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exrdigit
+.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\fonts/source/jknappen/ec\exmligtb
+.mf
+ Ok) ) ) )
+Font metrics written on ectt0900.tfm.
+Output written on ectt0900.600gf (256 characters, 39464 bytes).
+Transcript written on ectt0900.log.
+Running miktex-gftopk.exe...
+This is GFtoPK, Version 2.4 (MiKTeX 24.4)
+'METAFONT output 2025.11.02:1146'
+39464 bytes packed to 17512 bytes.
+Installing C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk...
+ <C:\User
+s\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C
+:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1095.
+pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecs
+x1095.pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi6
+00\ecss1200.pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/e
+c/dpi600\ecss0600.pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfour/jkna
+ppen/ec/dpi600\ecss0800.pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecss1095.pk> <C:\Users\chemf\AppData\Local\MiKTeX\fonts/pk
+/ljfour/jknappen/ec/dpi600\ecss1440.pk><C:/Users/chemf/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chemf/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/chemf/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/chem
+f/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb><C:/
+Users/chemf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb><C:/Users/chemf/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
+cm/cmsy7.pfb><C:/Users/chemf/AppData/Local/Programs/MiKTeX/fonts/type1/public/a
+msfonts/symbols/msam10.pfb>
+Output written on week09-presentation.pdf (27 pages, 613658 bytes).
 Transcript written on week09-presentation.log.

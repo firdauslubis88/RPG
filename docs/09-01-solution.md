@@ -1,7 +1,16 @@
-# Solutions in Branch 09-01-with-game-loop
+# Branch 09-01: With Game Loop (Complete Solution)
 
 ## Overview
-This branch demonstrates **proper game loop architecture** with complete separation between update logic and rendering. This solves all the problems from branch 09-00.
+This branch demonstrates **proper game loop architecture** with complete separation between update logic and rendering. This solves ALL problems from branch 09-00 with professional game development patterns.
+
+**Changes from 09-00 to 09-01**:
+1. ✅ Refactored 150-line main() to 3 lines
+2. ✅ Separated update() and draw() methods
+3. ✅ Implemented delta time for frame-rate independence
+4. ✅ Changed entities from `int` to `float` for precision
+5. ✅ Created testable GameLogic class
+6. ✅ Implemented selective rendering to eliminate flickering
+7. ✅ Achieved stable 60 FPS performance
 
 ---
 
@@ -181,6 +190,64 @@ else {
 09-00: Severe flickering (full clear + delays)
 09-01 (Phase 1): Reduced flickering
 09-01 (Phase 2): Smooth rendering ✅
+```
+
+---
+
+## ✅ Solution 5: Entity Refactoring (int → float)
+
+### Problem (from 09-00)
+- Entities used `int x, y, speed`
+- Integer positions → jerky movement
+- Speed in pixels/frame → frame rate dependent
+- Cannot use delta time with integers
+
+### Solution
+**Refactor entities to use float for precision**
+
+**Before (09-00)**:
+```java
+public class NPC {
+    private int x;
+    private int y;
+    private int speed;  // pixels per frame
+
+    public void moveRight() {
+        x += speed;  // ❌ Always moves by 1 full pixel
+    }
+}
+```
+
+**After (09-01)**:
+```java
+public class NPC {
+    private float x;
+    private float y;
+    private float velocity;  // pixels per second
+
+    // No move methods! Logic is external.
+    // Just getters/setters for state.
+}
+```
+
+**Benefits:**
+- Float allows sub-pixel movement (0.048 pixels at 60 FPS)
+- Velocity in pixels/second (frame-rate independent unit)
+- Smooth movement without stuttering
+- Compatible with delta time calculations
+- Entities are pure data (no behavior = easier to test)
+
+**Mathematical Precision**:
+```
+With int:  position can only be 0, 1, 2, 3, ...
+With float: position can be 0.0, 0.048, 0.096, 0.144, ...
+
+At 60 FPS with velocity 3 pixels/second:
+- Delta = 0.016s
+- Movement per frame = 3 × 0.016 = 0.048 pixels
+- After 21 frames: 0.048 × 21 ≈ 1.0 pixel
+
+Smooth accumulation instead of jerky jumps!
 ```
 
 ---
@@ -375,6 +442,70 @@ GameLogic: updateNPC(), updateCoins(), checkCollisions()
 - Week 12: Strategy and State patterns
 
 **This clean architecture makes all future patterns possible!**
+
+---
+
+## 📁 Complete File Changes Summary
+
+### Files Created
+- **[src/GameEngine.java](../src/GameEngine.java)** - Core game loop orchestration
+- **[src/GameLogic.java](../src/GameLogic.java)** - Pure, testable game logic
+- **[test/GameLogicTest.java](../test/GameLogicTest.java)** - Comprehensive unit tests
+
+### Files Modified
+- **[src/Main.java](../src/Main.java)**
+  - Before: 150+ lines with mixed logic/rendering
+  - After: 3 lines (entry point only)
+
+- **[src/entities/NPC.java](../src/entities/NPC.java)**
+  - Changed: `int x, y, speed` → `float x, y, velocity`
+  - Removed: `moveRight()`, `wrapAtEdge()` methods
+  - Now: Pure data model with getters/setters only
+
+- **[src/entities/Coin.java](../src/entities/Coin.java)**
+  - Changed: `int x, y, fallSpeed` → `float x, y, fallSpeed`
+  - Removed: `fall()`, `respawn()` methods
+  - Now: Pure data model with getters/setters only
+
+- **[src/utils/GridRenderer.java](../src/utils/GridRenderer.java)**
+  - Added: `clearCell(x, y)` - Selective cell clearing
+  - Added: `drawCell(symbol, x, y)` - Selective cell drawing
+  - Added: `moveCursor(x, y)` - ANSI cursor positioning
+  - Added: `moveCursorBelowGrid(offsetY)` - HUD positioning
+  - Modified: `clearScreen()` - Now only for initial setup
+
+### Files Unchanged
+- **[src/utils/GridRenderer.java](../src/utils/GridRenderer.java)** - Basic methods kept for first frame rendering
+
+### Architecture Changes
+
+**09-00 Structure**:
+```
+Main (everything)
+├── NPC (with behavior)
+├── Coin (with behavior)
+└── GridRenderer (utilities)
+```
+
+**09-01 Structure**:
+```
+Main (3 lines)
+└── GameEngine
+    ├── update(delta) → GameLogic
+    │   ├── updateNPC()
+    │   ├── updateCoins()
+    │   └── checkCollisions()
+    └── draw() → GridRenderer
+        ├── clearCell() / drawCell() (selective)
+        └── drawGrid() (first frame only)
+
+Entities (pure data)
+├── NPC (float positions, no behavior)
+└── Coin (float positions, no behavior)
+
+Tests
+└── GameLogicTest (8 tests, all passing)
+```
 
 ---
 

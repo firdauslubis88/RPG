@@ -25,7 +25,7 @@ public class GameEngine {
     private int prevNPCY = -1;
     private int[] prevCoinX = null;
     private int[] prevCoinY = null;
-    private int prevObstacleCount = 0;
+    private java.util.Map<obstacles.Obstacle, int[]> prevObstaclePositions = new java.util.HashMap<>();
     private boolean firstFrame = true;
 
     /**
@@ -158,20 +158,22 @@ public class GameEngine {
                 }
             }
 
-            // Week 10: Render obstacles (simple approach - redraw all each frame)
-            // Note: Obstacles change frequently (spawn/move/despawn), so full redraw is simpler
-            int currentObstacleCount = logic.getWorldController().getObstacleCount();
-            if (currentObstacleCount != prevObstacleCount) {
-                // Clear and redraw all obstacles when count changes
-                for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
-                    GridRenderer.drawCell(obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
-                }
-                prevObstacleCount = currentObstacleCount;
-            } else {
-                // Update individual obstacle positions
-                for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
-                    GridRenderer.drawCell(obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
-                }
+            // Week 10: Render obstacles with proper trail clearing
+            // Clear old positions first
+            for (java.util.Map.Entry<obstacles.Obstacle, int[]> entry : prevObstaclePositions.entrySet()) {
+                int[] oldPos = entry.getValue();
+                // Clear old position by redrawing floor/wall from map
+                char mapTile = DungeonMap.getTile(oldPos[0], oldPos[1]);
+                GridRenderer.drawCell(mapTile, oldPos[0], oldPos[1]);
+            }
+            prevObstaclePositions.clear();
+
+            // Draw obstacles at new positions
+            for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                int x = obstacle.getX();
+                int y = obstacle.getY();
+                GridRenderer.drawCell(obstacle.getSymbol(), x, y);
+                prevObstaclePositions.put(obstacle, new int[]{x, y});
             }
         }
 

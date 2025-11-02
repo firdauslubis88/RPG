@@ -50,13 +50,35 @@ public class GameLogic {
         this.frameCount = 0;
     }
 
+    private float npcMoveTimer = 0;
+    private final float npcMoveInterval = 1.0f;  // NPC moves every 1 second
+
     /**
-     * Week 10: NPC no longer auto-moves
-     * Movement would be controlled by player input (not implemented in this demo)
+     * Week 10: NPC moves randomly in dungeon (respects walls)
      */
     public void updateNPC(float delta) {
-        // No auto-movement - coins are static, enemies move
-        // In full implementation, this would handle player input
+        npcMoveTimer += delta;
+
+        if (npcMoveTimer >= npcMoveInterval) {
+            npcMoveTimer = 0;
+
+            // Try random movement direction
+            int direction = random.nextInt(4);  // 0=up, 1=right, 2=down, 3=left
+            int newX = npc.getX();
+            int newY = npc.getY();
+
+            switch(direction) {
+                case 0: newY--; break;  // Up
+                case 1: newX++; break;  // Right
+                case 2: newY++; break;  // Down
+                case 3: newX--; break;  // Left
+            }
+
+            // Only move if target is walkable (not wall)
+            if (DungeonMap.isWalkable(newX, newY)) {
+                npc.tryMove(newX, newY);
+            }
+        }
     }
 
     /**

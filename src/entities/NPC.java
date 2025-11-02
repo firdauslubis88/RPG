@@ -34,7 +34,7 @@ public class NPC {
      * Check if position is valid (in bounds and walkable)
      */
     private boolean isValidPosition(int x, int y) {
-        return x >= 0 && x < 10 && y >= 0 && y < 10;
+        return x >= 0 && x < 20 && y >= 0 && y < 15;
     }
 
     // Getters

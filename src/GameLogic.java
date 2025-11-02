@@ -21,8 +21,8 @@ public class GameLogic {
     private int frameCount;
     private Random random;
 
-    private static final int GRID_WIDTH = 10;
-    private static final int GRID_HEIGHT = 10;
+    private static final int GRID_WIDTH = 20;
+    private static final int GRID_HEIGHT = 15;
 
     /**
      * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
@@ -36,13 +36,17 @@ public class GameLogic {
         // ✅ No manager parameter needed!
         this.npc = new NPC();
 
-        // Week 10: Static coins placed in dungeon
+        // Week 10: Static coins placed in dungeon (more coins for larger map)
         this.coins = new ArrayList<>();
         this.coins.add(new Coin(3, 3));
-        this.coins.add(new Coin(5, 2));
-        this.coins.add(new Coin(7, 5));
-        this.coins.add(new Coin(2, 7));
-        this.coins.add(new Coin(6, 8));
+        this.coins.add(new Coin(8, 2));
+        this.coins.add(new Coin(15, 3));
+        this.coins.add(new Coin(5, 7));
+        this.coins.add(new Coin(12, 7));
+        this.coins.add(new Coin(18, 9));
+        this.coins.add(new Coin(2, 11));
+        this.coins.add(new Coin(10, 13));
+        this.coins.add(new Coin(17, 13));
 
         // Week 10 Branch 10-01: Initialize WorldController with NPC reference
         this.worldController = new WorldController(npc);

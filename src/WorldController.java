@@ -63,8 +63,8 @@ public class WorldController {
             }
         }
 
-        // Remove inactive obstacles or those that went offscreen
-        activeObstacles.removeIf(obs -> !obs.isActive() || obs.getY() > 9);
+        // Remove inactive obstacles or those that went offscreen (15 = height)
+        activeObstacles.removeIf(obs -> !obs.isActive() || obs.getY() > 14);
     }
 
     /**
@@ -79,8 +79,9 @@ public class WorldController {
         int type = random.nextInt(3);  // 0, 1, or 2
 
         // Spawn in walkable area only (not on walls)
-        int x = random.nextInt(7) + 1;  // Random column (1-7, avoid walls at 0 and 9)
-        int y = random.nextInt(7) + 1;  // Random row (1-7, avoid walls at 0 and 9)
+        // Map is 20x15, spawn in safe area (1-18, 1-13)
+        int x = random.nextInt(17) + 1;  // Random column (1-17)
+        int y = random.nextInt(12) + 1;  // Random row (1-12)
 
         Obstacle obstacle = null;
 

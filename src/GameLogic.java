@@ -126,14 +126,9 @@ public class GameLogic {
                 // NPC takes damage
                 GameManager.getInstance().takeDamage(obstacle.getDamage());
 
-                // Deactivate obstacle (one-time hit)
-                if (obstacle instanceof obstacles.Spike) {
-                    ((obstacles.Spike) obstacle).setActive(false);
-                } else if (obstacle instanceof obstacles.Goblin) {
-                    ((obstacles.Goblin) obstacle).setActive(false);
-                } else if (obstacle instanceof obstacles.Wolf) {
-                    ((obstacles.Wolf) obstacle).setActive(false);
-                }
+                // ✅ SOLUTION: Use polymorphism - no instanceof needed!
+                // Week 10 Branch 10-02: setActive() is now in Obstacle interface
+                obstacle.setActive(false);
             }
         }
     }

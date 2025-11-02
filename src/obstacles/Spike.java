@@ -10,8 +10,8 @@ package obstacles;
  * Symbol: '^' (looks like spike pointing up)
  */
 public class Spike implements Obstacle {
-    private final int x;
-    private final int y;
+    private int x;  // Changed from final for factory pattern support
+    private int y;  // Changed from final for factory pattern support
     private final int damage = 20;
     private boolean active = true;
 
@@ -51,7 +51,14 @@ public class Spike implements Obstacle {
         return '^';
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

@@ -42,4 +42,19 @@ public interface Obstacle {
      * @return Character to display on grid
      */
     char getSymbol();
+
+    /**
+     * Set obstacle position
+     * Week 10 Branch 10-02: Added for factory pattern support
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    void setPosition(int x, int y);
+
+    /**
+     * Set obstacle active status
+     * Week 10 Branch 10-02: Moved from concrete classes to interface
+     * @param active true if active, false if inactive
+     */
+    void setActive(boolean active);
 }

@@ -109,7 +109,14 @@ public class Wolf implements Obstacle {
         return 'W';
     }
 
+    @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public void setPosition(int x, int y) {
+        this.x = (float) x;
+        this.y = (float) y;
     }
 }

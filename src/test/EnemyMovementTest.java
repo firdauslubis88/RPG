@@ -1,15 +1,16 @@
-import world.DungeonMap;
+package test;
 
+import world.DungeonMap;
 import entities.NPC;
 import entities.GameManager;
 import obstacles.Goblin;
 import obstacles.Wolf;
-import utils.GridRenderer;
 
 /**
  * Visual test to demonstrate enemy movement and wall collision
  * - Goblin: Patrol left-right, reverses at walls
- * - Wolf: Chase NPC, navigates around walls
+ * - Wolf: Chase NPC, tries to reach NPC position, navigates around walls
+ * - NPC: Moves randomly to trigger Wolf chase behavior
  */
 public class EnemyMovementTest {
     public static void main(String[] args) throws InterruptedException {
@@ -30,6 +31,7 @@ public class EnemyMovementTest {
         System.out.println("This test shows:");
         System.out.println("  1. Goblin patrolling and reversing at walls");
         System.out.println("  2. Wolf chasing NPC and respecting walls");
+        System.out.println("  3. NPC moving randomly (Wolf will chase)");
         System.out.println();
         Thread.sleep(3000);
 
@@ -38,29 +40,60 @@ public class EnemyMovementTest {
         npc.tryMove(10, 10);
 
         // Create Goblin at (7, 10) - will patrol horizontally
-        // Walls: check DungeonMap to ensure path is clear
         Goblin goblin = new Goblin(7, 10);
 
-        // Create Wolf at (15, 10) - will chase NPC
-        Wolf wolf = new Wolf(15, 10);
+        // Create Wolf at (14, 10) - will chase NPC (4 tiles away, within detection range)
+        Wolf wolf = new Wolf(14, 10);
         wolf.setTarget(npc);
 
         // Simulate game loop
         float delta = 0.016f;  // 60 FPS
         int frames = 0;
-        int maxFrames = 300;  // 5 seconds at 60 FPS
+        int maxFrames = 600;  // 10 seconds at 60 FPS
 
-        System.out.println("Starting simulation (5 seconds)...\n");
+        // NPC movement timer
+        float npcMoveTimer = 0;
+        float npcMoveInterval = 0.5f;  // NPC moves every 0.5 seconds
+        java.util.Random random = new java.util.Random();
+
+        System.out.println("Starting simulation (10 seconds)...\n");
         Thread.sleep(1000);
 
+        // Clear screen once at start
+        clearScreen();
+
         while (frames < maxFrames) {
+            // Update NPC (random movement)
+            npcMoveTimer += delta;
+            if (npcMoveTimer >= npcMoveInterval) {
+                npcMoveTimer = 0;
+
+                // Try random movement
+                int direction = random.nextInt(4);  // 0=up, 1=right, 2=down, 3=left
+                int newX = npc.getX();
+                int newY = npc.getY();
+
+                switch(direction) {
+                    case 0: newY--; break;  // Up
+                    case 1: newX++; break;  // Right
+                    case 2: newY++; break;  // Down
+                    case 3: newX--; break;  // Left
+                }
+
+                // Only move if walkable
+                if (DungeonMap.isWalkable(newX, newY)) {
+                    npc.tryMove(newX, newY);
+                }
+            }
+
             // Update enemies
             goblin.update(delta);
             wolf.update(delta);
 
-            // Render every 30 frames (0.5 seconds)
-            if (frames % 30 == 0) {
-                GridRenderer.clearScreen();
+            // Render every 60 frames (1 second) to reduce flickering
+            if (frames % 60 == 0) {
+                // Move cursor to top-left without clearing entire screen
+                moveCursorHome();
                 drawMap(npc, goblin, wolf);
                 printStats(manager, goblin, wolf, npc, frames);
 
@@ -79,12 +112,27 @@ public class EnemyMovementTest {
         System.out.println("Observations:");
         System.out.println("  - Goblin patrols left-right");
         System.out.println("  - Goblin reverses direction at walls");
-        System.out.println("  - Wolf moves towards NPC");
+        System.out.println("  - Wolf chases NPC (tries to reach NPC)");
         System.out.println("  - Wolf respects walls (doesn't pass through)");
+        System.out.println("  - NPC moves randomly, triggering Wolf chase");
         System.out.println();
         System.out.println("Final State:");
         System.out.println("  Score: " + manager.getScore());
         System.out.println("  HP: " + manager.getHp() + " / 100");
+
+        if (manager.getHp() < 100) {
+            System.out.println("\n  ✓ Collision detected! Enemies dealt damage.");
+        }
+    }
+
+    private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private static void moveCursorHome() {
+        System.out.print("\033[H");
+        System.out.flush();
     }
 
     private static void drawMap(NPC npc, Goblin goblin, Wolf wolf) {
@@ -130,6 +178,13 @@ public class EnemyMovementTest {
         System.out.println("  NPC:    (" + npc.getX() + ", " + npc.getY() + ")");
         System.out.println("  Goblin: (" + goblin.getX() + ", " + goblin.getY() + ") " + (goblin.isActive() ? "ACTIVE" : "DEFEATED"));
         System.out.println("  Wolf:   (" + wolf.getX() + ", " + wolf.getY() + ") " + (wolf.isActive() ? "ACTIVE" : "DEFEATED"));
+
+        // Calculate distance from Wolf to NPC
+        float dx = npc.getX() - wolf.getX();
+        float dy = npc.getY() - wolf.getY();
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        System.out.println("  Wolf distance to NPC: " + String.format("%.1f", distance) + " tiles");
+
         System.out.println("───────────────────────────────────────");
         System.out.println("  Score: " + manager.getScore());
         System.out.println("  HP: " + manager.getHp() + " / 100");

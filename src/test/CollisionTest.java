@@ -1,3 +1,5 @@
+package test;
+
 import entities.NPC;
 import entities.GameManager;
 import entities.Coin;

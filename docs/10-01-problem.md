@@ -108,15 +108,18 @@ if (obstacle instanceof obstacles.Spike) {
 3. **`src/obstacles/Goblin.java`** - Patrol obstacle
    - Damage: 15 HP
    - Symbol: `G`
-   - Behavior: Horizontal patrol (reverses at edges)
-   - Velocity: 3.0 units/second
+   - Behavior: Horizontal patrol (reverses at walls)
+   - Velocity: 2.0 units/second (moves every 0.5s)
+   - Wall collision: Uses `DungeonMap.isWalkable()` for proper wall detection
 
 4. **`src/obstacles/Wolf.java`** - Chase obstacle
    - Damage: 25 HP
    - Symbol: `W`
-   - Behavior: Chases NPC within detection range
+   - Behavior: Chases NPC within detection range (stops at distance > 0.5 for collision)
    - Speed: 2.5 units/second
    - Detection range: 5.0 units
+   - Wall collision: Tries diagonal movement first, falls back to horizontal/vertical
+   - Smart pathfinding around walls
 
 5. **`src/WorldController.java`** - Manages obstacle spawning (**ANTI-PATTERN**)
    - **❌ Hard-coded switch-case** for spawning
@@ -144,6 +147,8 @@ if (obstacle instanceof obstacles.Spike) {
 
 4. **`src/HUD.java`**
    - Added HP display (`HP: 100 / 100`)
+   - Repositioned to right side of map (column 28, rows 2-9)
+   - Uses ANSI cursor positioning for fixed display
 
 ---
 
@@ -151,11 +156,17 @@ if (obstacle instanceof obstacles.Spike) {
 
 ```bash
 # Compile
-javac -d bin src/**/*.java src/*.java
+cd src
+javac -d ../bin/10-01-hardcoded-spawning *.java entities/*.java obstacles/*.java utils/*.java world/*.java
 
-# Run
-cd bin
+# Run Main game
+cd ../bin/10-01-hardcoded-spawning
 java Main
+
+# Run tests
+java test.CollisionTest
+java test.VisualCollisionTest
+java test.EnemyMovementTest
 ```
 
 **Expected Behavior:**
@@ -165,6 +176,37 @@ java Main
 - Wolves (`W`) chase the NPC
 - NPC loses HP on collision
 - Game over when HP reaches 0
+
+---
+
+## Testing
+
+### Test Files (in `src/test/` package)
+
+1. **`CollisionTest.java`** - Unit test for all collision types
+   - Tests coin collection (+10 score)
+   - Tests Spike collision (-20 HP)
+   - Tests Goblin collision (-15 HP)
+   - Tests Wolf collision (-25 HP)
+   - Tests multiple coins (score accumulation)
+
+2. **`VisualCollisionTest.java`** - Visual demonstration of collisions
+   - Step-by-step grid display
+   - Shows NPC moving through coins and obstacles
+   - Displays state changes (HP, Score)
+   - Manual verification of collision mechanics
+
+3. **`EnemyMovementTest.java`** - Visual test for enemy AI and wall collision
+   - Demonstrates Goblin patrol behavior (reverses at walls)
+   - Demonstrates Wolf chase behavior (follows NPC)
+   - Demonstrates wall collision (both enemies respect walls)
+   - NPC moves randomly to trigger Wolf chase
+   - Shows collision damage and enemy deactivation
+   - Stats display on right side (column 28, rows 11-18)
+   - Collision notifications below stats (rows 20-23)
+   - Runs for 10 seconds (600 frames at 60 FPS)
+
+**All tests passed successfully!**
 
 ---
 
@@ -203,11 +245,12 @@ java Main
 
 ## Code Statistics
 
-- **Files Modified**: 5
-- **Files Created**: 5
+- **Files Modified**: 5 (GameManager, GameLogic, GameEngine, HUD, DungeonMap moved to world/)
+- **Files Created**: 8 (Obstacle.java, Spike.java, Goblin.java, Wolf.java, WorldController.java, CollisionTest.java, VisualCollisionTest.java, EnemyMovementTest.java)
 - **Lines of Switch-Case**: 17
 - **Instanceof Checks**: 7
 - **Concrete Classes WorldController Knows**: 3 (Spike, Goblin, Wolf)
+- **Test Files**: 3 (in src/test/ package)
 
 **Adding a 4th obstacle (Boss) would require:**
 - ❌ Modifying WorldController.spawnRandomObstacle() (case 3)

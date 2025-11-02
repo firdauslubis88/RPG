@@ -23,6 +23,7 @@ public class HUD {
      * ✅ Draws the HUD with game stats from THE instance.
      * Week 10: Added HP display for obstacle damage tracking
      * Uses ANSI cursor positioning to draw HUD at fixed position (no scrolling)
+     * HUD is positioned to the right of the 25x25 map grid
      */
     public void draw() {
         // ✅ Reads from THE instance!
@@ -31,33 +32,35 @@ public class HUD {
         int level = GameManager.getInstance().getLevel();
         int hp = GameManager.getInstance().getHp();
 
-        // Get the grid height to position HUD below it
-        int startRow = 27;  // Row 27 is below 25x25 grid + 1 line gap
+        // Position HUD to the right of the map
+        // Map is 25 chars wide + 2 for borders = 27 chars total
+        int startCol = 28;  // Start HUD at column 28 (right of map)
+        int startRow = 2;   // Start from top (row 2)
 
         // Draw HUD using ANSI cursor positioning (no scrolling!)
-        System.out.print(String.format("\033[%d;1H", startRow));
-        System.out.print("╔════════════════════════════════════════╗");
+        System.out.print(String.format("\033[%d;%dH", startRow, startCol));
+        System.out.print("╔════════════════════════════╗");
 
-        System.out.print(String.format("\033[%d;1H", startRow + 1));
-        System.out.print("║              HUD DISPLAY               ║");
+        System.out.print(String.format("\033[%d;%dH", startRow + 1, startCol));
+        System.out.print("║       HUD DISPLAY          ║");
 
-        System.out.print(String.format("\033[%d;1H", startRow + 2));
-        System.out.print("╠════════════════════════════════════════╣");
+        System.out.print(String.format("\033[%d;%dH", startRow + 2, startCol));
+        System.out.print("╠════════════════════════════╣");
 
-        System.out.print(String.format("\033[%d;1H", startRow + 3));
-        System.out.print(String.format("║  Score: %-29d║", score));
+        System.out.print(String.format("\033[%d;%dH", startRow + 3, startCol));
+        System.out.print(String.format("║  Score: %-18d║", score));
 
-        System.out.print(String.format("\033[%d;1H", startRow + 4));
-        System.out.print(String.format("║  HP: %d / %-27d║", hp, 100));
+        System.out.print(String.format("\033[%d;%dH", startRow + 4, startCol));
+        System.out.print(String.format("║  HP: %d / %-16d║", hp, 100));
 
-        System.out.print(String.format("\033[%d;1H", startRow + 5));
-        System.out.print(String.format("║  Time: %-30ds║", (int)time));
+        System.out.print(String.format("\033[%d;%dH", startRow + 5, startCol));
+        System.out.print(String.format("║  Time: %-19ds║", (int)time));
 
-        System.out.print(String.format("\033[%d;1H", startRow + 6));
-        System.out.print(String.format("║  Level: %-29d║", level));
+        System.out.print(String.format("\033[%d;%dH", startRow + 6, startCol));
+        System.out.print(String.format("║  Level: %-18d║", level));
 
-        System.out.print(String.format("\033[%d;1H", startRow + 7));
-        System.out.print("╚════════════════════════════════════════╝");
+        System.out.print(String.format("\033[%d;%dH", startRow + 7, startCol));
+        System.out.print("╚════════════════════════════╝");
 
         System.out.flush();
     }

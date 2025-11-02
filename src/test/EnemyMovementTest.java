@@ -5,6 +5,7 @@ import entities.NPC;
 import entities.GameManager;
 import obstacles.Goblin;
 import obstacles.Wolf;
+import utils.GridRenderer;
 
 /**
  * Visual test to demonstrate enemy movement and wall collision
@@ -59,8 +60,16 @@ public class EnemyMovementTest {
         System.out.println("Starting simulation (10 seconds)...\n");
         Thread.sleep(1000);
 
-        // Clear screen once at start
-        clearScreen();
+        // Track previous positions for selective rendering
+        int prevNPCX = npc.getX();
+        int prevNPCY = npc.getY();
+        int prevGoblinX = goblin.getX();
+        int prevGoblinY = goblin.getY();
+        int prevWolfX = wolf.getX();
+        int prevWolfY = wolf.getY();
+        boolean goblinCleared = false;
+        boolean wolfCleared = false;
+        boolean firstFrame = true;
 
         while (frames < maxFrames) {
             // Update NPC (random movement)
@@ -90,22 +99,91 @@ public class EnemyMovementTest {
             goblin.update(delta);
             wolf.update(delta);
 
-            // Render every 60 frames (1 second) to reduce flickering
-            if (frames % 60 == 0) {
-                // Move cursor to top-left without clearing entire screen
-                moveCursorHome();
-                drawMap(npc, goblin, wolf);
+            // Render using selective rendering (like GameEngine)
+            if (firstFrame) {
+                // First frame: Draw everything
+                GridRenderer.clearScreen();
+                char[][] grid = DungeonMap.getMapCopy();
+
+                // Draw entities
+                grid[npc.getY()][npc.getX()] = 'N';
+                if (goblin.isActive()) grid[goblin.getY()][goblin.getX()] = 'G';
+                if (wolf.isActive()) grid[wolf.getY()][wolf.getX()] = 'W';
+
+                GridRenderer.drawGrid(grid);
+
+                // Print initial stats to the right of grid
                 printStats(manager, goblin, wolf, npc, frames);
 
-                // Check collisions
-                checkCollision(npc, goblin, wolf, manager);
+                firstFrame = false;
+            } else {
+                // Selective rendering - only update changed cells
+                int currentNPCX = npc.getX();
+                int currentNPCY = npc.getY();
+
+                // Update NPC position
+                if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
+                    char oldTile = DungeonMap.getTile(prevNPCX, prevNPCY);
+                    GridRenderer.drawCell(oldTile, prevNPCX, prevNPCY);
+                    GridRenderer.drawCell('N', currentNPCX, currentNPCY);
+                    prevNPCX = currentNPCX;
+                    prevNPCY = currentNPCY;
+                }
+
+                // Update Goblin position
+                int currentGoblinX = goblin.getX();
+                int currentGoblinY = goblin.getY();
+                if (goblin.isActive()) {
+                    if (currentGoblinX != prevGoblinX || currentGoblinY != prevGoblinY) {
+                        char oldTile = DungeonMap.getTile(prevGoblinX, prevGoblinY);
+                        GridRenderer.drawCell(oldTile, prevGoblinX, prevGoblinY);
+                        GridRenderer.drawCell('G', currentGoblinX, currentGoblinY);
+                        prevGoblinX = currentGoblinX;
+                        prevGoblinY = currentGoblinY;
+                    }
+                } else if (!goblinCleared) {
+                    // Clear goblin once when it becomes inactive
+                    char oldTile = DungeonMap.getTile(prevGoblinX, prevGoblinY);
+                    GridRenderer.drawCell(oldTile, prevGoblinX, prevGoblinY);
+                    goblinCleared = true;
+                }
+
+                // Update Wolf position
+                int currentWolfX = wolf.getX();
+                int currentWolfY = wolf.getY();
+                if (wolf.isActive()) {
+                    if (currentWolfX != prevWolfX || currentWolfY != prevWolfY) {
+                        char oldTile = DungeonMap.getTile(prevWolfX, prevWolfY);
+                        GridRenderer.drawCell(oldTile, prevWolfX, prevWolfY);
+                        GridRenderer.drawCell('W', currentWolfX, currentWolfY);
+                        prevWolfX = currentWolfX;
+                        prevWolfY = currentWolfY;
+                    }
+                } else if (!wolfCleared) {
+                    // Clear wolf once when it becomes inactive
+                    char oldTile = DungeonMap.getTile(prevWolfX, prevWolfY);
+                    GridRenderer.drawCell(oldTile, prevWolfX, prevWolfY);
+                    wolfCleared = true;
+                }
+
+                // Update stats every 15 frames
+                if (frames % 15 == 0) {
+                    printStats(manager, goblin, wolf, npc, frames);
+                }
             }
+
+            // Check collisions
+            checkCollision(npc, goblin, wolf, manager);
 
             frames++;
             Thread.sleep(16);  // Simulate 60 FPS
         }
 
-        System.out.println("\n========================================");
+        // Move cursor far below the grid and stats before printing final results
+        System.out.print("\033[35;1H");
+        System.out.flush();
+
+        System.out.println("\n\n========================================");
         System.out.println("   SIMULATION COMPLETE!");
         System.out.println("========================================");
         System.out.println();
@@ -123,72 +201,50 @@ public class EnemyMovementTest {
         if (manager.getHp() < 100) {
             System.out.println("\n  ✓ Collision detected! Enemies dealt damage.");
         }
-    }
 
-    private static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-    private static void moveCursorHome() {
-        System.out.print("\033[H");
-        System.out.flush();
-    }
-
-    private static void drawMap(NPC npc, Goblin goblin, Wolf wolf) {
-        // Draw a map section (20x15 grid) centered around position (10, 10)
-        System.out.println("┌────────────────────────────────────────┐");
-        for (int y = 3; y < 18; y++) {
-            System.out.print("│");
-            for (int x = 3; x < 23; x++) {
-                char c = '.';
-
-                // Check map tile
-                char mapTile = DungeonMap.getTile(x, y);
-                if (mapTile == '#') {
-                    c = '#';
-                }
-
-                // Check if NPC is at this position
-                if (npc.getX() == x && npc.getY() == y) {
-                    c = 'N';
-                }
-                // Check if goblin is at this position
-                else if (goblin.getX() == x && goblin.getY() == y && goblin.isActive()) {
-                    c = 'G';
-                }
-                // Check if wolf is at this position
-                else if (wolf.getX() == x && wolf.getY() == y && wolf.isActive()) {
-                    c = 'W';
-                }
-
-                System.out.print(c + " ");
-            }
-            System.out.println("│");
-        }
-        System.out.println("└────────────────────────────────────────┘");
+        System.out.println(); // Extra newline for spacing before command prompt
     }
 
     private static void printStats(GameManager manager, Goblin goblin, Wolf wolf, NPC npc, int frames) {
         float seconds = frames / 60.0f;
-        System.out.println();
-        System.out.println("═══════════════════════════════════════");
-        System.out.println("  Time: " + String.format("%.1f", seconds) + "s");
-        System.out.println("═══════════════════════════════════════");
-        System.out.println("  NPC:    (" + npc.getX() + ", " + npc.getY() + ")");
-        System.out.println("  Goblin: (" + goblin.getX() + ", " + goblin.getY() + ") " + (goblin.isActive() ? "ACTIVE" : "DEFEATED"));
-        System.out.println("  Wolf:   (" + wolf.getX() + ", " + wolf.getY() + ") " + (wolf.isActive() ? "ACTIVE" : "DEFEATED"));
 
         // Calculate distance from Wolf to NPC
         float dx = npc.getX() - wolf.getX();
         float dy = npc.getY() - wolf.getY();
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        System.out.println("  Wolf distance to NPC: " + String.format("%.1f", distance) + " tiles");
 
-        System.out.println("───────────────────────────────────────");
-        System.out.println("  Score: " + manager.getScore());
-        System.out.println("  HP: " + manager.getHp() + " / 100");
-        System.out.println("═══════════════════════════════════════");
+        // Position stats to the right of the map (below HUD)
+        int startCol = 28;  // Same column as HUD
+        int startRow = 11;  // Below HUD (HUD ends at row 9)
+
+        // Draw stats box
+        System.out.print(String.format("\033[%d;%dH", startRow, startCol));
+        System.out.print("╔════════════════════════════╗");
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 1, startCol));
+        System.out.print(String.format("║ Time: %-20.1fs║", seconds));
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 2, startCol));
+        System.out.print("╠════════════════════════════╣");
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 3, startCol));
+        System.out.print(String.format("║ NPC:    (%2d,%2d)          ║", npc.getX(), npc.getY()));
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 4, startCol));
+        System.out.print(String.format("║ Goblin: (%2d,%2d) %-6s  ║",
+            goblin.getX(), goblin.getY(), goblin.isActive() ? "ACTIVE" : "DEAD"));
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 5, startCol));
+        System.out.print(String.format("║ Wolf:   (%2d,%2d) %-6s  ║",
+            wolf.getX(), wolf.getY(), wolf.isActive() ? "ACTIVE" : "DEAD"));
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 6, startCol));
+        System.out.print(String.format("║ Wolf dist: %-15.1f║", distance));
+
+        System.out.print(String.format("\033[%d;%dH", startRow + 7, startCol));
+        System.out.print("╚════════════════════════════╝");
+
+        System.out.flush();
     }
 
     private static void checkCollision(NPC npc, Goblin goblin, Wolf wolf, GameManager manager) {
@@ -199,14 +255,32 @@ public class EnemyMovementTest {
         if (npcX == goblin.getX() && npcY == goblin.getY() && goblin.isActive()) {
             manager.takeDamage(goblin.getDamage());
             goblin.setActive(false);
-            System.out.println("\n>>> GOBLIN HIT! -" + goblin.getDamage() + " HP");
+            // Print notification to the right of map (below stats box)
+            System.out.print("\033[20;28H");
+            System.out.print("╔════════════════════════════╗");
+            System.out.print("\033[21;28H");
+            System.out.print("║  >>> GOBLIN HIT!           ║");
+            System.out.print("\033[22;28H");
+            System.out.print(String.format("║      -%d HP                 ║", goblin.getDamage()));
+            System.out.print("\033[23;28H");
+            System.out.print("╚════════════════════════════╝");
+            System.out.flush();
         }
 
         // Check Wolf collision
         if (npcX == wolf.getX() && npcY == wolf.getY() && wolf.isActive()) {
             manager.takeDamage(wolf.getDamage());
             wolf.setActive(false);
-            System.out.println("\n>>> WOLF HIT! -" + wolf.getDamage() + " HP");
+            // Print notification to the right of map (below stats box)
+            System.out.print("\033[20;28H");
+            System.out.print("╔════════════════════════════╗");
+            System.out.print("\033[21;28H");
+            System.out.print("║  >>> WOLF HIT!             ║");
+            System.out.print("\033[22;28H");
+            System.out.print(String.format("║      -%d HP                 ║", wolf.getDamage()));
+            System.out.print("\033[23;28H");
+            System.out.print("╚════════════════════════════╝");
+            System.out.flush();
         }
     }
 }

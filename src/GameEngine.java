@@ -84,7 +84,11 @@ public class GameEngine {
             }
         }
 
-        System.out.println("\n=================================");
+        // Move cursor far below the grid and HUD before printing final results
+        System.out.print("\033[35;1H");
+        System.out.flush();
+
+        System.out.println("\n\n=================================");
         System.out.println("Game ended after 600 frames");
         System.out.println("=================================");
     }

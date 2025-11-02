@@ -5,8 +5,8 @@ package utils;
  * Uses simple character-based representation.
  */
 public class GridRenderer {
-    private static final int GRID_WIDTH = 10;
-    private static final int GRID_HEIGHT = 10;
+    private static final int GRID_WIDTH = 30;
+    private static final int GRID_HEIGHT = 30;
     private static final char EMPTY_CELL = '░';
 
     /**

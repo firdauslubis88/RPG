@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cat:*)",
       "Bash(pdfinfo:*)",
-      "Bash(pygmentize:*)"
+      "Bash(pygmentize:*)",
+      "Bash(javap:*)"
     ],
     "deny": [],
     "ask": []

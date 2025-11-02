@@ -1,66 +1,57 @@
 import entities.Coin;
+import entities.GameManager;
 import utils.GridRenderer;
 
 /**
- * ✅ SOLUTION: Proper game loop with separated update and draw.
+ * ❌ PROBLEM: GameEngine now requires GameManager parameter!
  *
- * This is the core game loop following industry-standard architecture:
- * - update(): Pure logic, no rendering
- * - draw(): Pure rendering, no logic
- * - Delta time: Frame-rate independent movement
- * - Frame rate control: Stable 60 FPS target
+ * Before (09-01): Clean game loop
+ * Now (09-02): Must receive manager and pass to all components
  *
- * This pattern is used in Unity, Unreal, LibGDX, and all professional game engines.
+ * This demonstrates object drilling problem.
  */
 public class GameEngine {
-    private final GameLogic gameLogic;
+    private final GameManager manager;  // ❌ Dependency
+    private final GameLogic logic;
+    private final HUD hud;
     private boolean running;
 
     // Frame rate control
     private static final int TARGET_FPS = 60;
-    private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;  // Nanoseconds per frame
-
-    // Performance tracking
-    private long updateTime = 0;
-    private long drawTime = 0;
-    private int currentFPS = 0;
-
-    // ✅ SOLUTION: Track previous positions for selective rendering
-    private int prevNPCX = -1;
-    private int prevNPCY = -1;
-    private int[] prevCoinX = null;
-    private int[] prevCoinY = null;
-    private boolean firstFrame = true;
+    private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
 
     /**
-     * Creates game engine with game logic.
+     * ❌ PROBLEM: Constructor requires GameManager parameter!
+     *
+     * @param manager The GameManager instance (from Main)
      */
-    public GameEngine() {
-        this.gameLogic = new GameLogic();
+    public GameEngine(GameManager manager) {
+        this.manager = manager;
+
+        // ❌ Must pass manager to GameLogic
+        this.logic = new GameLogic(manager);
+
+        // ❌ Must pass manager to HUD (but HUD will ignore it!)
+        this.hud = new HUD(manager);
+
         this.running = false;
+
+        System.out.println("[GameEngine] Using manager instance: " + manager.hashCode());
     }
 
     /**
-     * ✅ SOLUTION: Main game loop with proper separation.
-     *
-     * This is THE pattern for game development:
-     * 1. Calculate delta time
-     * 2. Update game logic (no rendering)
-     * 3. Draw everything (no logic)
-     * 4. Control frame rate
+     * Main game loop.
      */
     public void start() {
         running = true;
         long lastTime = System.nanoTime();
-        long lastFPSTime = System.nanoTime();
-        int frames = 0;
 
+        System.out.println("\n=================================");
+        System.out.println("  DUNGEON ESCAPE - WITHOUT SINGLETON");
         System.out.println("=================================");
-        System.out.println("  DUNGEON ESCAPE - WITH GAME LOOP");
-        System.out.println("=================================");
-        System.out.println("✅ Proper separation of concerns");
-        System.out.println("✅ Frame-rate independent movement");
-        System.out.println("✅ Testable game logic");
+        System.out.println("❌ Multiple GameManager instances!");
+        System.out.println("❌ Object drilling problem!");
+        System.out.println("❌ Score inconsistency bug!");
         System.out.println("=================================\n");
 
         try {
@@ -72,149 +63,68 @@ public class GameEngine {
         while (running) {
             long cycleStart = System.nanoTime();
 
-            // ✅ SOLUTION: Calculate delta time
+            // Calculate delta time
             long currentTime = System.nanoTime();
             float delta = (currentTime - lastTime) / 1_000_000_000.0f;
             lastTime = currentTime;
 
-            // ✅ SOLUTION: Update phase (pure logic)
-            long updateStart = System.nanoTime();
+            // Update game time in manager
+            manager.updateTime(delta);
+
+            // Update phase
             update(delta);
-            updateTime = (System.nanoTime() - updateStart) / 1_000_000;  // Convert to milliseconds
 
-            // ✅ SOLUTION: Draw phase (pure rendering)
-            long drawStart = System.nanoTime();
+            // Draw phase
             draw();
-            drawTime = (System.nanoTime() - drawStart) / 1_000_000;  // Convert to milliseconds
 
-            // FPS calculation
-            frames++;
-            if (currentTime - lastFPSTime >= 1_000_000_000) {
-                currentFPS = frames;
-                frames = 0;
-                lastFPSTime = currentTime;
-            }
-
-            // ✅ SOLUTION: Frame rate control
+            // Frame rate control
             sync(cycleStart);
 
             // Stop after demo frames
-            if (gameLogic.getFrameCount() >= 200) {
+            if (logic.getFrameCount() >= 100) {
                 running = false;
             }
         }
 
         System.out.println("\n=================================");
-        System.out.println("Demo ended after 200 frames");
+        System.out.println("Demo ended after 100 frames");
         System.out.println("=================================");
-        System.out.println("\n✅ IMPROVEMENTS ACHIEVED:");
-        System.out.println("1. Smooth 60 FPS (not 2 FPS!)");
-        System.out.println("2. Update and draw separated");
-        System.out.println("3. Frame-rate independent movement");
-        System.out.println("4. Clean, maintainable code");
-        System.out.println("5. Fully testable logic");
-        System.out.println("\nCompare with 09-00 to see the difference!");
+        System.out.println("\n❌ PROBLEMS DEMONSTRATED:");
+        System.out.println("1. HUD shows score = 0 (wrong instance!)");
+        System.out.println("2. GameManager passed through 3+ levels");
+        System.out.println("3. Multiple instances created");
+        System.out.println("\nNext: 09-03 will solve with Singleton!");
     }
 
-    /**
-     * ✅ SOLUTION: Pure logic update - NO rendering!
-     *
-     * @param delta Time since last frame in seconds
-     */
     private void update(float delta) {
-        gameLogic.updateNPC(delta);
-        gameLogic.updateCoins(delta);
-        gameLogic.checkCollisions();
-        gameLogic.incrementFrame();
-
-        // ✅ NO System.out.println here!
-        // ✅ NO rendering code here!
-        // ✅ PURE LOGIC ONLY!
+        logic.updateNPC(delta);
+        logic.updateCoins(delta);
+        logic.checkCollisions();
+        logic.incrementFrame();
     }
 
-    /**
-     * ✅ SOLUTION: Pure rendering - NO logic!
-     *
-     * Uses selective rendering to avoid flickering:
-     * - First frame: Draw entire grid
-     * - Subsequent frames: Only redraw cells that changed
-     */
     private void draw() {
-        if (firstFrame) {
-            // First frame: Draw everything
-            GridRenderer.clearScreen();
+        GridRenderer.clearScreen();
 
-            char[][] grid = GridRenderer.createEmptyGrid();
-            GridRenderer.drawEntity(grid, 'N', gameLogic.getNPCX(), gameLogic.getNPCY());
+        // Draw grid with entities
+        char[][] grid = GridRenderer.createEmptyGrid();
+        GridRenderer.drawEntity(grid, 'N', logic.getNPCX(), logic.getNPCY());
 
-            for (Coin coin : gameLogic.getCoins()) {
-                GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
-            }
-
-            GridRenderer.drawGrid(grid);
-
-            // Initialize previous positions
-            prevNPCX = gameLogic.getNPCX();
-            prevNPCY = gameLogic.getNPCY();
-            prevCoinX = new int[gameLogic.getCoins().size()];
-            prevCoinY = new int[gameLogic.getCoins().size()];
-            for (int i = 0; i < gameLogic.getCoins().size(); i++) {
-                prevCoinX[i] = (int)gameLogic.getCoins().get(i).getX();
-                prevCoinY[i] = (int)gameLogic.getCoins().get(i).getY();
-            }
-
-            firstFrame = false;
-        } else {
-            // ✅ SOLUTION: Selective rendering - only update changed cells!
-
-            // Clear NPC old position if it moved
-            int currentNPCX = gameLogic.getNPCX();
-            int currentNPCY = gameLogic.getNPCY();
-            if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
-                GridRenderer.clearCell(prevNPCX, prevNPCY);
-                GridRenderer.drawCell('N', currentNPCX, currentNPCY);
-                prevNPCX = currentNPCX;
-                prevNPCY = currentNPCY;
-            }
-
-            // Clear coins old positions if they moved
-            for (int i = 0; i < gameLogic.getCoins().size(); i++) {
-                Coin coin = gameLogic.getCoins().get(i);
-                int currentX = (int)coin.getX();
-                int currentY = (int)coin.getY();
-
-                if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
-                    GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
-                    GridRenderer.drawCell('C', currentX, currentY);
-                    prevCoinX[i] = currentX;
-                    prevCoinY[i] = currentY;
-                }
-            }
+        for (Coin coin : logic.getCoins()) {
+            GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
         }
 
-        // Draw HUD (always update)
-        GridRenderer.moveCursorBelowGrid(1);
-        System.out.println("\n╔════════════════════════════════════════╗");
-        System.out.println("║       GAME STATE                       ║");
-        System.out.println("╠════════════════════════════════════════╣");
-        System.out.printf("  Score: %d points%n", gameLogic.getScore());
-        System.out.printf("  Frame: %d%n", gameLogic.getFrameCount());
-        System.out.printf("  FPS: %d | Update: %dms | Draw: %dms%n", currentFPS, updateTime, drawTime);
-        System.out.println("╚════════════════════════════════════════╝");
+        GridRenderer.drawGrid(grid);
 
-        // ✅ NO game logic here!
-        // ✅ NO collision detection here!
-        // ✅ PURE RENDERING ONLY!
+        // Draw HUD (will show WRONG score!)
+        hud.draw();
 
-        // ✅ BENEFIT: Because rendering is separated, we can optimize it
-        //            independently without touching game logic!
+        // Show actual score from GameLogic's manager
+        System.out.println("[GameEngine] Actual score (from GameLogic's manager): " + logic.getManager().getScore());
+        System.out.println("[GameEngine] Frame: " + logic.getFrameCount());
+        System.out.println();
     }
 
-    /**
-     * ✅ SOLUTION: Frame rate control for consistent timing.
-     *
-     * @param cycleStart The start time of this frame cycle
-     */
     private void sync(long cycleStart) {
         long elapsedTime = System.nanoTime() - cycleStart;
         long waitTime = OPTIMAL_TIME - elapsedTime;
@@ -226,6 +136,5 @@ public class GameEngine {
                 Thread.currentThread().interrupt();
             }
         }
-        // If we're running slow, don't sleep (frame drop)
     }
 }

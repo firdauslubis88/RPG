@@ -213,8 +213,7 @@ public class GameEngine {
 
         // Draw HUD (only on first frame or periodically)
         if (firstFrame || hudUpdateTimer >= hudUpdateInterval) {
-            GridRenderer.moveCursorBelowGrid(1);
-            hud.draw();
+            hud.draw();  // HUD positions itself at column 28 (right of map)
             if (hudUpdateTimer >= hudUpdateInterval) {
                 hudUpdateTimer = 0;  // Reset timer
             }

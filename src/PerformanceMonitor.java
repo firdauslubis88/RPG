@@ -135,39 +135,39 @@ public class PerformanceMonitor {
             int startCol = 28;  // Same column as HUD
             int startRow = 27;  // Below map (which ends at row 25)
 
-            // Move cursor to row 27, column 28 (below HUD, same column alignment)
+            // Draw performance box using ANSI positioning (like GridRenderer.moveCursor)
             System.out.print(String.format("\033[%d;%dH", startRow, startCol));
-            System.out.println("╔════════════════════════════╗");
+            System.out.print("╔════════════════════════════╗");
 
             System.out.print(String.format("\033[%d;%dH", startRow + 1, startCol));
-            System.out.println("║   PERFORMANCE SUMMARY      ║");
+            System.out.print("║   PERFORMANCE SUMMARY      ║");
 
             System.out.print(String.format("\033[%d;%dH", startRow + 2, startCol));
-            System.out.println("╠════════════════════════════╣");
+            System.out.print("╠════════════════════════════╣");
 
             System.out.print(String.format("\033[%d;%dH", startRow + 3, startCol));
-            System.out.println(String.format("║  Frame: %-19d║", frameCount));
+            System.out.print(String.format("║  Frame: %-19d║", frameCount));
 
             System.out.print(String.format("\033[%d;%dH", startRow + 4, startCol));
-            System.out.println(String.format("║  Avg: %.1fms (%.1f FPS)%s║",
+            System.out.print(String.format("║  Avg: %.1fms (%.1f FPS)%s║",
                 avgFrameTime * 1000, avgFps,
                 getPadding(avgFrameTime * 1000, avgFps)));
 
             System.out.print(String.format("\033[%d;%dH", startRow + 5, startCol));
-            System.out.println(String.format("║  Worst: %.1fms (%.1f FPS)%s║",
+            System.out.print(String.format("║  Worst: %.1fms (%.1f FPS)%s║",
                 worstFrameTime * 1000, 1.0f / worstFrameTime,
                 getPadding(worstFrameTime * 1000, 1.0f / worstFrameTime)));
 
             System.out.print(String.format("\033[%d;%dH", startRow + 6, startCol));
-            System.out.println(String.format("║  Slow: %d (%.1f%%)%s║",
+            System.out.print(String.format("║  Slow: %d (%.1f%%)%s║",
                 slowFrameCount, slowFramePercent,
                 getPaddingForSlow(slowFrameCount, slowFramePercent)));
 
             System.out.print(String.format("\033[%d;%dH", startRow + 7, startCol));
-            System.out.println(String.format("║  Target: %.1fms (60 FPS)   ║", TARGET_FRAME_TIME * 1000));
+            System.out.print(String.format("║  Target: %.1fms (60 FPS)   ║", TARGET_FRAME_TIME * 1000));
 
             System.out.print(String.format("\033[%d;%dH", startRow + 8, startCol));
-            System.out.println("╚════════════════════════════╝");
+            System.out.print("╚════════════════════════════╝");
 
             System.out.flush();
         }

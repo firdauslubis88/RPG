@@ -519,6 +519,222 @@ this.factories = Arrays.asList(
 
 ---
 
+## Critical Analysis: When NOT to Use Factory Pattern
+
+### Question: "Why not just use concrete classes directly?"
+
+**Valid point!** For simple cases like this project, factory pattern might be overkill.
+
+#### Dependency Count Comparison
+
+**Before (10-01):**
+```java
+import obstacles.Spike;
+import obstacles.Goblin;
+import obstacles.Wolf;
+```
+Dependency count: 3 concrete classes
+
+**After (10-02):**
+```java
+import factories.SpikeFactory;
+import factories.GoblinFactory;
+import factories.WolfFactory;
+```
+Dependency count: 3 factory classes
+
+**Same number of dependencies!** So why use factories?
+
+### Real Benefits (Honest Assessment)
+
+#### 1. Centralized Registration
+**Before**: Dependencies scattered across multiple creation points
+```java
+// In spawnInitialObstacles():
+activeObstacles.add(new Spike(6, 6));
+activeObstacles.add(new Spike(12, 8));
+
+// In spawnRandomObstacle() (if exists):
+case 0: obstacle = new Spike(x, y); break;  // DUPLICATION!
+```
+
+**After**: Dependencies in ONE place (constructor)
+```java
+// Constructor - centralized
+this.factories = Arrays.asList(
+    new SpikeFactory(),
+    new GoblinFactory(),
+    new WolfFactory()
+);
+
+// Everywhere else - no concrete knowledge needed
+obstacle = factories.get(index).createObstacle(x, y);
+```
+
+#### 2. Complex Initialization (Not applicable here, but important)
+```java
+// Without factory - WorldController knows ALL initialization details
+if (type.equals("Wolf")) {
+    Wolf wolf = new Wolf(x, y);
+    wolf.setDamage(25);
+    wolf.setSpeed(2.5f);
+    wolf.setDetectionRange(5.0f);
+    wolf.loadTexture("wolf.png");
+    wolf.loadAI();
+    wolf.setTarget(npc);
+    return wolf;
+}
+
+// With factory - encapsulated in WolfFactory
+public class WolfFactory extends ObstacleFactory {
+    public Obstacle createObstacle() {
+        Wolf wolf = new Wolf(0, 0);
+        wolf.setDamage(25);
+        wolf.setSpeed(2.5f);
+        wolf.setDetectionRange(5.0f);
+        wolf.loadTexture("wolf.png");
+        wolf.loadAI();
+        // WorldController doesn't need to know HOW to create Wolf
+        return wolf;
+    }
+}
+```
+
+#### 3. Merge Conflicts (Slightly easier, not eliminated)
+**Before**: Switch-case conflicts hard to resolve
+```java
+<<<<<<< HEAD
+    case 3: obstacle = new Dragon(x, y); break;
+=======
+    case 3: obstacle = new Boss(x, y); break;
+>>>>>>> branch-b
+// Must renumber cases, change random.nextInt(), etc.
+```
+
+**After**: List conflicts trivial to resolve
+```java
+<<<<<<< HEAD
+    new DragonFactory()
+=======
+    new BossFactory()
+>>>>>>> branch-b
+// Resolution: Keep both (easy)
+this.factories = Arrays.asList(
+    new SpikeFactory(),
+    new GoblinFactory(),
+    new WolfFactory(),
+    new DragonFactory(),
+    new BossFactory()
+);
+```
+
+#### 4. Dependency Inversion Principle
+
+**Before**: High-level depends on low-level
+```
+WorldController (high-level)
+      ↓ depends on
+Spike, Goblin, Wolf (low-level concrete)
+```
+
+**After**: Both depend on abstraction
+```
+WorldController (high-level)
+      ↓ depends on
+ObstacleFactory (abstraction)
+      ↑ implements
+SpikeFactory, GoblinFactory (low-level)
+```
+
+### When Factory Pattern IS Overkill
+
+For this simple project where:
+- ✅ Creation is simple: `new Spike(x, y)` (1 line)
+- ✅ No complex initialization needed
+- ✅ Few types (only 3)
+- ✅ Rarely add new types
+
+**Alternative**: Use concrete classes directly with polymorphism!
+```java
+// Still works fine:
+List<Obstacle> obstacles = new ArrayList<>();
+obstacles.add(new Spike(6, 6));
+obstacles.add(new Goblin(8, 4));
+obstacles.add(new Wolf(7, 12));
+
+// Polymorphism handles the rest
+for (Obstacle obs : obstacles) {
+    obs.update(delta);  // Works for all types
+}
+```
+
+### When Factory Pattern IS Worth It
+
+1. **Complex initialization** - Multiple setup steps per type
+2. **Different creation strategies** - Easy/Hard mode with different configs
+3. **Runtime type selection** - Load from config file
+4. **Dependencies in creation** - Each type needs TextureManager, SoundManager, etc.
+5. **Frequent new types** - Team constantly adding obstacles
+
+### Factory vs Builder Pattern
+
+**Question: "Isn't this similar to Builder pattern?"**
+
+**Great observation!** They solve different problems:
+
+| Pattern | Solves | Use Case |
+|---------|--------|----------|
+| **Factory Method** | "Which **type** to create?" | Multiple types (Spike, Goblin, Wolf) |
+| **Builder** | "How to **construct** complex object?" | Many parameters, optional fields |
+
+**Factory**: Type selection (polymorphism)
+```java
+ObstacleFactory factory = getFactory(type);  // Which type?
+Obstacle obs = factory.createObstacle();
+```
+
+**Builder**: Step-by-step construction (same type, different configs)
+```java
+Wolf wolf = new Wolf.Builder()
+    .setDamage(25)
+    .setSpeed(2.5f)
+    .setDetectionRange(5.0f)
+    .build();
+```
+
+**Can combine both!**
+```java
+public class WolfFactory extends ObstacleFactory {
+    public Obstacle createObstacle() {
+        return new Wolf.Builder()  // Builder for complex construction
+            .setDamage(25)
+            .setSpeed(2.5f)
+            .setDetectionRange(5.0f)
+            .build();
+    }
+}
+
+public class EasyWolfFactory extends ObstacleFactory {
+    public Obstacle createObstacle() {
+        return new Wolf.Builder()  // Same builder, different config
+            .setDamage(10)   // Easier
+            .setSpeed(1.5f)
+            .build();
+    }
+}
+```
+
+### Honest Conclusion
+
+For **this educational project**, factory pattern demonstrates:
+- ✅ Design pattern usage (learning goal)
+- ✅ Extensibility (if project grows)
+- ⚠️ Might be overkill for simple cases
+
+**In real projects**: Use factory when creation logic is complex or types change frequently. For simple cases, direct instantiation with polymorphism is perfectly fine.
+
+---
+
 ## What's Next?
 
 **Branch 10-03** will demonstrate another problem: **Object Pooling**

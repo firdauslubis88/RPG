@@ -20,6 +20,13 @@ public class GameEngine {
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
 
+    // ✅ CARRIED FROM 09-01: Selective rendering to avoid flickering
+    private int prevNPCX = -1;
+    private int prevNPCY = -1;
+    private int[] prevCoinX = null;
+    private int[] prevCoinY = null;
+    private boolean firstFrame = true;
+
     /**
      * ❌ PROBLEM: Constructor requires GameManager parameter!
      *
@@ -104,19 +111,58 @@ public class GameEngine {
     }
 
     private void draw() {
-        GridRenderer.clearScreen();
+        // ✅ CARRIED FROM 09-01: Selective rendering
+        if (firstFrame) {
+            // First frame: Draw everything
+            GridRenderer.clearScreen();
 
-        // Draw grid with entities
-        char[][] grid = GridRenderer.createEmptyGrid();
-        GridRenderer.drawEntity(grid, 'N', logic.getNPCX(), logic.getNPCY());
+            char[][] grid = GridRenderer.createEmptyGrid();
+            GridRenderer.drawEntity(grid, 'N', logic.getNPCX(), logic.getNPCY());
 
-        for (Coin coin : logic.getCoins()) {
-            GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+            for (Coin coin : logic.getCoins()) {
+                GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+            }
+
+            GridRenderer.drawGrid(grid);
+
+            // Initialize previous positions
+            prevNPCX = logic.getNPCX();
+            prevNPCY = logic.getNPCY();
+            prevCoinX = new int[logic.getCoins().size()];
+            prevCoinY = new int[logic.getCoins().size()];
+            for (int i = 0; i < logic.getCoins().size(); i++) {
+                prevCoinX[i] = (int)logic.getCoins().get(i).getX();
+                prevCoinY[i] = (int)logic.getCoins().get(i).getY();
+            }
+
+            firstFrame = false;
+        } else {
+            // ✅ Selective rendering - only update changed cells
+            int currentNPCX = logic.getNPCX();
+            int currentNPCY = logic.getNPCY();
+            if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
+                GridRenderer.clearCell(prevNPCX, prevNPCY);
+                GridRenderer.drawCell('N', currentNPCX, currentNPCY);
+                prevNPCX = currentNPCX;
+                prevNPCY = currentNPCY;
+            }
+
+            for (int i = 0; i < logic.getCoins().size(); i++) {
+                Coin coin = logic.getCoins().get(i);
+                int currentX = (int)coin.getX();
+                int currentY = (int)coin.getY();
+
+                if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
+                    GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
+                    GridRenderer.drawCell('C', currentX, currentY);
+                    prevCoinX[i] = currentX;
+                    prevCoinY[i] = currentY;
+                }
+            }
         }
 
-        GridRenderer.drawGrid(grid);
-
         // Draw HUD (will show WRONG score!)
+        GridRenderer.moveCursorBelowGrid(1);
         hud.draw();
 
         // Show actual score from GameLogic's manager

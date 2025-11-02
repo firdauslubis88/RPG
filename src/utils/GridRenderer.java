@@ -10,17 +10,15 @@ public class GridRenderer {
     private static final char EMPTY_CELL = '░';
 
     /**
-     * Clears the terminal screen using newlines.
-     * Note: In real implementation, could use ANSI escape codes.
+     * Clears the terminal screen using ANSI escape codes.
+     * This moves cursor to home and clears the entire screen.
      */
     public static void clearScreen() {
-        // Simple approach: print many newlines
-        for (int i = 0; i < 50; i++) {
-            System.out.println();
-        }
-        // Alternative ANSI approach (commented out for compatibility):
-        // System.out.print("\033[H\033[2J");
-        // System.out.flush();
+        // ANSI escape codes for clearing screen
+        // \033[H - Move cursor to home (0,0)
+        // \033[2J - Clear entire screen
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     /**
@@ -61,18 +59,6 @@ public class GridRenderer {
         if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
             grid[y][x] = symbol;
         }
-    }
-
-    /**
-     * Draws a single entity directly to console (for mixed update/render demo).
-     * This is intentionally bad practice for demonstration purposes.
-     * @param symbol The character representing the entity
-     * @param x X coordinate
-     * @param y Y coordinate
-     */
-    public static void drawEntityDirect(char symbol, int x, int y) {
-        // ❌ PROBLEM: Direct rendering mixed with game logic
-        System.out.println("Drew " + symbol + " at (" + x + ", " + y + ")");
     }
 
     public static int getGridWidth() {

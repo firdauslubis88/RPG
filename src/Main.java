@@ -38,11 +38,11 @@ public class Main {
         while (true) {
             frameCount++;
 
+            // ❌ PROBLEM: Clear screen mixed with game logic
+            GridRenderer.clearScreen();
+
             // ❌ PROBLEM: Update NPC position
             npc.moveRight();
-
-            // ❌ PROBLEM: IMMEDIATELY draw after update (mixed concerns!)
-            GridRenderer.drawEntityDirect('N', npc.getX(), npc.getY());
 
             // ❌ PROBLEM: Artificial rendering delay simulating real-world GPU bottleneck
             // In production: complex 3D rendering, particle effects, shadows, etc.
@@ -54,10 +54,7 @@ public class Main {
             // ❌ PROBLEM: Update coin position
             coin.fall();
 
-            // ❌ PROBLEM: IMMEDIATELY draw after update (mixed concerns!)
-            GridRenderer.drawEntityDirect('C', coin.getX(), coin.getY());
-
-            // ❌ PROBLEM: Another rendering delay
+            // ❌ PROBLEM: Another rendering delay (still mixed with update logic!)
             Thread.sleep(100);
 
             // ❌ PROBLEM: Check if coin fell off screen
@@ -70,9 +67,6 @@ public class Main {
                 // ❌ PROBLEM: Score update mixed in
                 score += 10;
 
-                // ❌ PROBLEM: Direct console output mixed in
-                System.out.println(">>> COLLISION! Score: " + score);
-
                 // ❌ PROBLEM: Game logic (respawn) mixed in
                 coin.respawn(random.nextInt(GridRenderer.getGridWidth()));
 
@@ -80,35 +74,30 @@ public class Main {
                 Thread.sleep(100);
             }
 
-            // ❌ PROBLEM: Every 10 frames, do a "full render" (even more delays!)
-            if (frameCount % 10 == 0) {
-                // ❌ PROBLEM: Clear screen mixed with game logic
-                GridRenderer.clearScreen();
+            // ❌ PROBLEM: Create and draw entire grid (rendering mixed with logic)
+            char[][] grid = GridRenderer.createEmptyGrid();
+            GridRenderer.drawEntity(grid, 'N', npc.getX(), npc.getY());
+            GridRenderer.drawEntity(grid, 'C', coin.getX(), coin.getY());
+            GridRenderer.drawGrid(grid);
 
-                // ❌ PROBLEM: Create and draw entire grid
-                char[][] grid = GridRenderer.createEmptyGrid();
-                GridRenderer.drawEntity(grid, 'N', npc.getX(), npc.getY());
-                GridRenderer.drawEntity(grid, 'C', coin.getX(), coin.getY());
-                GridRenderer.drawGrid(grid);
+            // ❌ PROBLEM: UI rendering mixed in
+            System.out.println("\n╔════════════════════════════════╗");
+            System.out.println("║       GAME STATE               ║");
+            System.out.println("╠════════════════════════════════╣");
+            System.out.println("  Score: " + score + " points");
+            System.out.println("  Frame: " + frameCount);
+            System.out.println("  NPC: (" + npc.getX() + ", " + npc.getY() + ")  Coin: (" + coin.getX() + ", " + coin.getY() + ")");
+            System.out.println("╚════════════════════════════════╝");
 
-                // ❌ PROBLEM: UI rendering mixed in
-                System.out.println("\n--- GAME STATE ---");
-                System.out.println("Score: " + score);
-                System.out.println("Frame: " + frameCount);
-                System.out.println("NPC Position: (" + npc.getX() + ", " + npc.getY() + ")");
-                System.out.println("Coin Position: (" + coin.getX() + ", " + coin.getY() + ")");
-                System.out.println("------------------\n");
-
-                // ❌ PROBLEM: More rendering delay
-                Thread.sleep(100);
-            }
+            // ❌ PROBLEM: More rendering delay
+            Thread.sleep(100);
 
             // ❌ PROBLEM: Fixed sleep, no delta time
             // If rendering is slow, game logic becomes slow too!
             Thread.sleep(100);
 
-            // ❌ PROBLEM: Total sleep per frame could be 400-500ms!
-            // Expected game speed: 10 updates/sec
+            // ❌ PROBLEM: Total sleep per frame = 500ms!
+            // Expected game speed: 10 updates/sec (with 100ms sleep)
             // Actual game speed: ~2 updates/sec (80% slower!)
 
             // Stop after some frames for demo purposes

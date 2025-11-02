@@ -2,6 +2,7 @@
 % Compile: pdflatex uml-comparison.tex
 
 \documentclass[tikz,border=10pt]{standalone}
+\usepackage[T1]{fontenc}
 \usepackage{tikz}
 \usetikzlibrary{positioning,shapes,arrows,calc}
 
@@ -107,7 +108,7 @@
     solution/.style={fill=green!20},
     singleton/.style={fill=blue!20},
     arrow/.style={->,>=stealth,thick},
-    dashed/.style={->,>=stealth,thick,dashed,blue}
+    dashedarrow/.style={->,>=stealth,thick,densely dashed,blue}
 ]
     \node[class, solution] (main03) {
         \textbf{Main} \\
@@ -140,8 +141,8 @@
     \draw[arrow] (engine03) -- (logic03);
     \draw[arrow] (engine03) -- (hud03);
 
-    \draw[dashed] (logic03) -- (mgr03) node[midway,above,sloped,font=\scriptsize,blue] {getInstance()};
-    \draw[dashed] (hud03) -- (mgr03) node[midway,below,sloped,font=\scriptsize,blue] {getInstance()};
+    \draw[dashedarrow] (logic03) -- (mgr03) node[midway,above,sloped,font=\scriptsize,blue] {getInstance()};
+    \draw[dashedarrow] (hud03) -- (mgr03) node[midway,below,sloped,font=\scriptsize,blue] {getInstance()};
 
     \node[below=3.5cm of main03] {\textbf{09-03: With Singleton}};
     \node[below=3.7cm of main03, text=green!50!black] {\scriptsize Clean + Fixed!};

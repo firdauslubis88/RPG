@@ -2,8 +2,15 @@
 % Compile: pdflatex object-drilling.tex
 
 \documentclass[tikz,border=10pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{tikz}
 \usetikzlibrary{positioning,shapes,arrows,calc,decorations.pathreplacing}
+
+% Replace emojis with text
+\DeclareUnicodeCharacter{274C}{X}
+\DeclareUnicodeCharacter{2705}{OK}
+\DeclareUnicodeCharacter{2022}{$\bullet$}
 
 \begin{document}
 

@@ -7,13 +7,12 @@ This directory contains TikZ diagrams and Beamer presentation for Week 09: Game 
 ```
 latex/
 ├── diagrams/               # Standalone TikZ diagrams
-│   ├── uml-comparison.tex
-│   ├── singleton-pattern.tex
-│   ├── game-loop-pattern.tex
-│   ├── object-drilling.tex
-│   └── performance-comparison.tex
+│   ├── *.tex              # Source files
+│   ├── *.pdf              # Compiled PDFs
+│   └── *.svg              # SVG exports
 ├── beamer/                 # Beamer presentations
-│   └── week09-presentation.tex
+│   ├── week09-presentation.tex  # Source
+│   └── week09-presentation.pdf  # Compiled (607KB)
 └── README.md              # This file
 ```
 
@@ -241,6 +240,15 @@ Change slide dimensions:
 pdflatex uml-comparison.tex
 # Generates: uml-comparison.pdf
 ```
+
+### Converting to SVG
+```bash
+pdftocairo -svg diagram.pdf diagram.svg
+# Or batch convert all:
+for file in *.pdf; do pdftocairo -svg "$file" "${file%.pdf}.svg"; done
+```
+
+All diagrams are provided in both PDF and SVG formats for maximum compatibility.
 
 ## Troubleshooting
 

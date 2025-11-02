@@ -33,6 +33,9 @@ public class PerformanceMonitor {
     private float totalFrameTime = 0;
     private float worstFrameTime = 0;
 
+    // Warning message area (row 21 onwards)
+    private static final int WARNING_START_ROW = 21;
+
     public PerformanceMonitor() {
         // Get GC monitoring beans
         this.gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
@@ -61,13 +64,16 @@ public class PerformanceMonitor {
         // Detect slow frames
         if (frameTime > SLOW_FRAME_THRESHOLD) {
             slowFrameCount++;
-            System.out.println(String.format(
+            // Print warning at row 21 (below performance summary)
+            System.out.print("\033[21;1H\033[K");  // Move to row 21, clear line
+            System.out.print(String.format(
                 "⚠️  SLOW FRAME #%d: %.1fms (%.1f FPS) - %s",
                 frameCount,
                 frameTime * 1000,
                 1.0f / frameTime,
                 getSlowFrameReason(frameTime)
             ));
+            System.out.flush();
         }
 
         // Check for GC activity
@@ -89,11 +95,14 @@ public class PerformanceMonitor {
         // Detect GC pause
         if (currentGcCount > lastGcCount) {
             long gcPauseMs = currentGcTime - lastGcTime;
-            System.out.println(String.format(
+            // Print GC warning at row 22 (below slow frame warning)
+            System.out.print("\033[22;1H\033[K");  // Move to row 22, clear line
+            System.out.print(String.format(
                 "🗑️  GC PAUSE: %dms (%d collections so far)",
                 gcPauseMs,
                 currentGcCount
             ));
+            System.out.flush();
 
             lastGcCount = currentGcCount;
             lastGcTime = currentGcTime;
@@ -115,6 +124,7 @@ public class PerformanceMonitor {
 
     /**
      * Print performance summary every N frames
+     * Displays below HUD (starting at row 11)
      */
     public void printSummary(int everyNFrames) {
         if (frameCount % everyNFrames == 0) {
@@ -122,18 +132,19 @@ public class PerformanceMonitor {
             float avgFps = 1.0f / avgFrameTime;
             float slowFramePercent = (slowFrameCount * 100.0f) / frameCount;
 
-            System.out.println(String.format(
-                "\n📊 Performance Summary (Frame %d):\n" +
-                "   Average: %.1fms (%.1f FPS)\n" +
-                "   Worst: %.1fms (%.1f FPS)\n" +
-                "   Slow frames: %d (%.1f%%)\n" +
-                "   Target: %.1fms (60 FPS)\n",
-                frameCount,
-                avgFrameTime * 1000, avgFps,
-                worstFrameTime * 1000, 1.0f / worstFrameTime,
-                slowFrameCount, slowFramePercent,
-                TARGET_FRAME_TIME * 1000
-            ));
+            // Move cursor to row 11, column 1 (below HUD which ends at row 9)
+            System.out.print("\033[11;1H");
+
+            System.out.println("==============================");
+            System.out.println("  PERFORMANCE SUMMARY");
+            System.out.println("==============================");
+            System.out.println(String.format("  Frame: %d", frameCount));
+            System.out.println(String.format("  Avg: %.1fms (%.1f FPS)", avgFrameTime * 1000, avgFps));
+            System.out.println(String.format("  Worst: %.1fms (%.1f FPS)", worstFrameTime * 1000, 1.0f / worstFrameTime));
+            System.out.println(String.format("  Slow frames: %d (%.1f%%)", slowFrameCount, slowFramePercent));
+            System.out.println(String.format("  Target: %.1fms (60 FPS)", TARGET_FRAME_TIME * 1000));
+            System.out.println("==============================");
+            System.out.flush();
         }
     }
 

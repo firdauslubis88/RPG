@@ -1,0 +1,4 @@
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Branch 10-01: Hard-Coded Creation (Problem)}{5}{0}{2}
+\beamer@sectionintoc {3}{Branch 10-02: Factory Method Pattern (Solution)}{8}{0}{3}
+\beamer@sectionintoc {4}{Branch 10-03: Garbage Collection Problem}{15}{0}{4}

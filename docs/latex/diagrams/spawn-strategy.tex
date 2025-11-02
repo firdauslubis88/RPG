@@ -1,0 +1,122 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,shapes.geometric}
+
+\begin{document}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30, aspect=2]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{tikzpicture}[node distance=1.8cm]
+
+% Title
+\node [above] at (0,10) {\Large\textbf{Safe Spawning Algorithm}};
+\node [above] at (0,9.5) {\textit{Week 10 - Avoiding Invalid Spawn Positions}};
+
+% Start
+\node (start) [startstop] at (0,8) {Start: Need obstacle};
+
+% Select random position
+\node (random) [process, below of=start] {
+    Generate random position\\
+    \texttt{x = 1..23, y = 1..23}
+};
+
+% Check 1: Walkable
+\node (check1) [decision, below of=random, yshift=-0.5cm] {
+    Walkable?\\
+    (Not wall)
+};
+
+% Check 2: Distance from NPC
+\node (check2) [decision, below of=check1, yshift=-1cm] {
+    Distance $\geq$ 3\\
+    from NPC?
+};
+
+% Check 3: No overlap
+\node (check3) [decision, below of=check2, yshift=-1cm] {
+    No overlap\\
+    with existing?
+};
+
+% Found safe position
+\node (found) [process, below of=check3, yshift=-0.5cm] {
+    Safe position found!
+};
+
+% Attempt counter
+\node (counter) [decision, right of=check1, xshift=4cm] {
+    Attempts\\
+    < 10?
+};
+
+% Create obstacle
+\node (create) [process, below of=found] {
+    \textcolor{red}{\textbf{10-03:}} \texttt{new Obstacle()}\\
+    \textcolor{green}{\textbf{10-04:}} \texttt{pool.acquire()}
+};
+
+% Give up
+\node (giveup) [process, right of=counter, xshift=3cm] {
+    Give up\\
+    (no safe position)
+};
+
+% End
+\node (end) [startstop, below of=create] {End};
+
+% Arrows
+\draw [arrow] (start) -- (random);
+\draw [arrow] (random) -- (check1);
+\draw [arrow] (check1) -- node[left] {Yes} (check2);
+\draw [arrow] (check2) -- node[left] {Yes} (check3);
+\draw [arrow] (check3) -- node[left] {Yes} (found);
+\draw [arrow] (found) -- (create);
+\draw [arrow] (create) -- (end);
+
+% Failed checks
+\draw [arrow] (check1.east) -- node[above] {No} ++(1.5,0) |- (counter.west);
+\draw [arrow] (check2.east) -- node[above] {No} ++(1.5,0) |- (counter.west);
+\draw [arrow] (check3.east) -- node[above] {No} ++(1.5,0) |- (counter.west);
+
+% Counter paths
+\draw [arrow] (counter.north) -- node[right] {Yes} ++(0,1) -| (random.east);
+\draw [arrow] (counter.east) -- node[above] {No} (giveup.west);
+\draw [arrow] (giveup.south) -- ++(0,-1.5) -| (end.east);
+
+% Annotations - Check details
+\node [draw, fill=yellow!10, text width=7cm, left of=check2, xshift=-5cm] (note1) {
+    \textbf{Check 1: Walkable}\\
+    \texttt{DungeonMap.isWalkable(x, y)}\\
+    Ensures not spawning inside walls
+};
+
+\node [draw, fill=yellow!10, text width=7cm, below=0.3cm of note1] (note2) {
+    \textbf{Check 2: Distance}\\
+    \texttt{|x-npcX| + |y-npcY| >= 3}\\
+    Manhattan distance (minimum 3 tiles)
+};
+
+\node [draw, fill=yellow!10, text width=7cm, below=0.3cm of note2] (note3) {
+    \textbf{Check 3: No Overlap}\\
+    Loop through \texttt{activeObstacles}\\
+    Check if position already occupied
+};
+
+% Example visualization
+\node [draw, fill=blue!10, text width=8cm, right of=note3, xshift=8cm, yshift=2cm] (visual) {
+    \textbf{Example: NPC at (12, 12)}\\[0.2cm]
+    \textcolor{green}{Valid spawn areas:}\\
+    - $(x, y)$ where $|x-12| + |y-12| \geq 3$\\
+    - Not $(13,12)$, $(12,13)$, $(11,12)$, $(12,11)$\\
+    - Not $(13,13)$, $(11,11)$, etc.\\[0.2cm]
+    \textcolor{red}{Invalid areas (too close):}\\
+    - All positions within 2-tile radius
+};
+
+\end{tikzpicture}
+
+\end{document}

@@ -95,8 +95,8 @@ public class GameEngine {
             // Frame rate control
             sync(frameStart);
 
-            // Stop after demo frames (600 frames = ~10 seconds at 60 FPS)
-            if (logic.getFrameCount() >= 600) {
+            // Stop after demo frames (3000 frames = ~50 seconds at 60 FPS)
+            if (logic.getFrameCount() >= 3000) {
                 running = false;
             }
         }
@@ -106,7 +106,7 @@ public class GameEngine {
         System.out.flush();
 
         System.out.println("\n\n=================================");
-        System.out.println("Game ended after 600 frames");
+        System.out.println("Game ended after 3000 frames (~50 seconds)");
         System.out.println(String.format("Total GC time: %dms", perfMonitor.getTotalGcTime()));
         System.out.println("=================================");
 

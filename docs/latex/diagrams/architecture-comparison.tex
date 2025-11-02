@@ -1,0 +1,150 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,calc}
+
+\begin{document}
+
+\tikzstyle{class} = [rectangle, draw, fill=blue!20, text width=8em, text centered, minimum height=2.5em]
+\tikzstyle{problem} = [rectangle, draw=red, fill=red!10, thick, text width=10em, text centered]
+\tikzstyle{solution} = [rectangle, draw=green, fill=green!10, thick, text width=10em, text centered]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\begin{tikzpicture}[node distance=2cm, auto]
+
+% Title
+\node [above] at (0,10) {\Large\textbf{Architecture Evolution: Week 10}};
+
+% ========== 10-01: Hard-Coded Creation ==========
+\node [problem, minimum height=1.5cm] (title1) at (-8,8) {
+    \textbf{10-01: PROBLEM}\\
+    Hard-Coded Creation
+};
+
+\node [class] (wc1) at (-8,5.5) {
+    \textbf{WorldController}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{switch (type) \{}\\
+    \texttt{~~case 0: new Spike()}\\
+    \texttt{~~case 1: new Goblin()}\\
+    \texttt{~~case 2: new Wolf()}\\
+    \texttt{\}}
+};
+
+\node [draw, fill=orange!10, text width=8em, below=0.5cm of wc1] (issues1) {
+    \textcolor{red}{\textbf{Issues:}}\\
+    $\times$ Tight coupling\\
+    $\times$ Switch statement\\
+    $\times$ Hard to extend\\
+    $\times$ Merge conflicts
+};
+
+% ========== 10-02: Factory Method ==========
+\node [solution, minimum height=1.5cm] (title2) at (0,8) {
+    \textbf{10-02: SOLUTION}\\
+    Factory Method Pattern
+};
+
+\node [class] (wc2) at (0,5.5) {
+    \textbf{WorldController}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{factories: List}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{factory = random()}\\
+    \texttt{factory.create()}
+};
+
+\node [class, below left=0.3cm and -0.5cm of wc2, minimum height=1.5em, text width=4em] (sf) {\texttt{SpikeF}};
+\node [class, below=0.3cm of wc2, minimum height=1.5em, text width=4em] (gf) {\texttt{GoblinF}};
+\node [class, below right=0.3cm and -0.5cm of wc2, minimum height=1.5em, text width=4em] (wf) {\texttt{WolfF}};
+
+\draw [arrow] (wc2) -- (sf);
+\draw [arrow] (wc2) -- (gf);
+\draw [arrow] (wc2) -- (wf);
+
+\node [draw, fill=green!20, text width=8em, below=1.5cm of gf] (benefits2) {
+    \textcolor{green}{\textbf{Benefits:}}\\
+    $\checkmark$ Loose coupling\\
+    $\checkmark$ Open/Closed\\
+    $\checkmark$ Easy to extend\\
+    $\checkmark$ No merge conflicts
+};
+
+% Arrow from 10-01 to 10-02
+\draw [arrow, very thick, blue] (wc1.east) -- (wc2.west) node[midway, above] {\textcolor{blue}{\textbf{Apply Factory}}};
+
+% ========== 10-03: GC Problem ==========
+\node [problem, minimum height=1.5cm] (title3) at (-8,0) {
+    \textbf{10-03: PROBLEM}\\
+    GC Pressure
+};
+
+\node [class] (wc3) at (-8,-2.5) {
+    \textbf{WorldController}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{spawn() \{}\\
+    \texttt{~~new Obstacle()}\\
+    \texttt{~~×20/second}\\
+    \texttt{\}}\\
+    \texttt{removeIf(off-screen)}
+};
+
+\node [draw, fill=orange!10, text width=8em, below=0.5cm of wc3] (issues3) {
+    \textcolor{red}{\textbf{Issues:}}\\
+    $\times$ 1000+ creates\\
+    $\times$ 1000+ destroys\\
+    $\times$ GC pauses\\
+    $\times$ Unstable perf
+};
+
+% ========== 10-04: Object Pool ==========
+\node [solution, minimum height=1.5cm] (title4) at (0,0) {
+    \textbf{10-04: SOLUTION}\\
+    Object Pool Pattern
+};
+
+\node [class] (wc4) at (0,-2.5) {
+    \textbf{WorldController}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{pools: List}\\
+    \rule{6em}{0.4pt}\\
+    \texttt{acquire() from pool}\\
+    \texttt{release() to pool}
+};
+
+\node [class, below=0.3cm of wc4, text width=8em, minimum height=2em] (pools) {
+    \textbf{ObstaclePool}\\
+    \rule{6em}{0.4pt}\\
+    Available: [obj, obj, obj]\\
+    In-use: [obj, obj]
+};
+
+\draw [arrow] (wc4) -- (pools);
+
+\node [draw, fill=green!20, text width=8em, below=0.5cm of pools] (benefits4) {
+    \textcolor{green}{\textbf{Benefits:}}\\
+    $\checkmark$ 150 creates only\\
+    $\checkmark$ 860+ reuses\\
+    $\checkmark$ Minimal GC\\
+    $\checkmark$ Stable perf
+};
+
+% Arrow from 10-03 to 10-04
+\draw [arrow, very thick, blue] (wc3.east) -- (wc4.west) node[midway, above] {\textcolor{blue}{\textbf{Apply Pool}}};
+
+% Connect 10-02 to 10-03 (evolution)
+\draw [arrow, very thick, purple, dashed] (wc2.south) -- ++(0,-1) -| (wc3.north) node[near start, right, text width=5em] {\textcolor{purple}{\textbf{Add high-freq\\spawning}}};
+
+% Legend
+\node [draw, fill=yellow!10, text width=16cm, minimum height=2cm, rounded corners] at (-4,-6.5) {
+    \textbf{Evolution Path:}
+    \begin{itemize}
+        \item \textcolor{red}{\textbf{10-01:}} Hard-coded creation (switch statement) $\rightarrow$ tight coupling, hard to extend
+        \item \textcolor{green}{\textbf{10-02:}} Factory Method (polymorphic creation) $\rightarrow$ loose coupling, Open/Closed Principle
+        \item \textcolor{red}{\textbf{10-03:}} High-frequency spawning $\rightarrow$ GC pressure from continuous allocation
+        \item \textcolor{green}{\textbf{10-04:}} Object Pool (reuse strategy) $\rightarrow$ minimal allocation, stable performance
+    \end{itemize}
+};
+
+\end{tikzpicture}
+
+\end{document}

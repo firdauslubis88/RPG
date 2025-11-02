@@ -4,6 +4,8 @@
 
 Week 10 introduces two essential design patterns through a progression of four branches, each demonstrating a problem and its solution.
 
+**Branch 10-05-analysis** provides comprehensive analysis, diagrams, presentation slides, and teaching materials.
+
 ---
 
 ## Branch Progression
@@ -377,6 +379,36 @@ ObstaclePool pool = new ObstaclePool(
     50
 );
 ```
+
+---
+
+## Branch 10-05: Analysis & Teaching Materials
+
+**Purpose**: Comprehensive analysis and teaching resources for Week 10
+
+**Contents**:
+- **[10-05-analysis.md](10-05-analysis.md)**: Complete analysis document
+  - Comparative code analysis
+  - Design pattern trade-offs
+  - Teaching strategies
+  - Assessment rubrics
+  - Practice exercises
+  - Common pitfalls
+
+- **LaTeX Diagrams** (`latex/diagrams/`):
+  - `factory-pattern.tex`: Factory Method structure
+  - `object-pool-pattern.tex`: Object Pool lifecycle
+  - `gc-performance.tex`: Performance comparison charts
+  - `architecture-comparison.tex`: Branch evolution diagram
+  - `spawn-strategy.tex`: Safe spawning flowchart
+
+- **Beamer Presentation** (`latex/beamer/`):
+  - `week10-presentation.tex`: 90+ comprehensive slides
+  - Covers all 4 branches
+  - Real-world examples
+  - Practice exercises
+
+**Usage**: For instructors teaching Week 10 materials
 
 ---
 

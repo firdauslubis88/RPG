@@ -11,7 +11,10 @@
       "Bash(then)",
       "Bash(if grep -q \"^package\" \"$file\")",
       "Bash(else)",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(\"$file%.tex.log\")",
+      "Bash(echo:*)",
+      "Bash(week10-presentation.log)"
     ],
     "deny": [],
     "ask": []

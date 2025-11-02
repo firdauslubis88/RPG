@@ -1,0 +1,2613 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.2.14)  2 NOV 2025 18:22
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./week10-presentation.tex
+(week10-presentation.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamer.cls
+Document Class: beamer 2025/02/04 v3.72 A class for typesetting presentations
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemodes.
+sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count196
+)
+\beamer@tempbox=\box52
+\beamer@tempcount=\count197
+\c@beamerpauses=\count198
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasedecode
+.sty
+\beamer@slideinframe=\count199
+\beamer@minimum=\count266
+\beamer@decode@box=\box53
+)
+\beamer@commentbox=\box54
+\beamer@modecount=\count267
+)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+\headdp=\dimen141
+\footheight=\dimen142
+\sidebarheight=\dimen143
+\beamer@tempdim=\dimen144
+\beamer@finalheight=\dimen145
+\beamer@animht=\dimen146
+\beamer@animdp=\dimen147
+\beamer@animwd=\dimen148
+\beamer@leftmargin=\dimen149
+\beamer@rightmargin=\dimen150
+\beamer@leftsidebar=\dimen151
+\beamer@rightsidebar=\dimen152
+\beamer@boxsize=\dimen153
+\beamer@vboxoffset=\dimen154
+\beamer@descdefault=\dimen155
+\beamer@descriptionwidth=\dimen156
+\beamer@lastskip=\skip49
+\beamer@areabox=\box55
+\beamer@animcurrent=\box56
+\beamer@animshowbox=\box57
+\beamer@sectionbox=\box58
+\beamer@logobox=\box59
+\beamer@l
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+libraryfiltered.code.tex)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code
+.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.
+code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparse
+r.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.basic.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.trigonometric.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.random.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.comparison.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.base.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.round.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.misc.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunct
+ions.integerarithmetics.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.
+code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat
+.code.tex)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.
+sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.
+sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s.codAppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys
+.code.tex
+\pgfkeys@pathtoks=\toks20
+\pgfkeys@temptoks=\toks21
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/p
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+s-common-pdf.def)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+ssoftpath.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsy
+sprotocol.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+e.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.
+tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epoints.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathconstruct.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathusage.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+escopes.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+egraphicstate.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransformations.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+equick.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eobjects.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epathprocessing.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+earrows.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eshade.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eimage.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+eexternal.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+elayers.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+etransparency.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+epatterns.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcor
+erdf.code.tex)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\xxcolor.s
+ty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty))
+
+Package hyperref Message: Stopped early.
+
+) (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-ltx.sty)
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaserequir
+es.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecompat
+ibility.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasefont.s
+ty (C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\sansmath
+accent.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile.st
+y
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlfile-ho
+ok.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/koma-script\scrlogo.sty
+)))))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetransl
+ator.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator.s
+ty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasemisc.s
+ty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetwoscr
+eens.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseoverla
+y.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetitle.
+sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasesectio
+n.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframe.
+sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseverbat
+im.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframes
+ize.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseframec
+omponents.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasecolor.
+sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenotes.
+sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetoc.st
+y)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetempla
+tes.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseauxtem
+plates.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaseboxes.
+sty)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbaselocals
+tructure.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/tools\enumerate.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tion.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasenaviga
+tionsymbols.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasetheore
+ms.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerbasethemes
+.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemedefau
+lt.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerfontthemed
+efault.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+default.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerinnertheme
+default.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
+default.sty)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerthemeMadri
+d.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+whale.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamercolortheme
+orchid.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beamerinnertheme
+rounded.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/beamer\beameroutertheme
+infolines.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.
+sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+shapes.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+plot.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-0-65.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfco
+mp-version-1-18.sty))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.st
+y
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.
+code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z\tikz.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryplothandlers.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodule
+matrix.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarytopaths.code.tex)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/tools\multicol.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.geometric.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.geometric.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.misc.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.misc.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.symbols.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.symbols.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.arrows.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.arrows.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.callouts.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.callouts.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryshapes.multipart.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\
+pgflibraryshapes.multipart.code.tex)))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryarrows.code.tex
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibr
+aryarrows.code.tex))
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarypositioning.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibraryfit.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tik
+z/libraries\tikzlibrarybackgrounds.code.tex)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def) (week10-presentation.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (week10-presentation.out) (week10-presentation.out)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+asic-dictionary-English.dict)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-b
+ibliography-dictionary-English.dict)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-e
+nvironment-dictionary-English.dict)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-m
+onths-dictionary-English.dict)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-n
+umbers-dictionary-English.dict)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/translator\translator-t
+heorem-dictionary-English.dict) (week10-presentation.nav)
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 32--32
+ [][][][]  
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 39--39
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[1{C:/Users/chemf/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 46--46
+ [][][][]  
+(week10-presentation.toc)
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[2]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 82--82
+ [][][][]  
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\chemf\AppData\Local\Programs\MiKTeX\tex/latex/sansmathaccent\ot1mathk
+erncmss.fd)
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[3]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 95--95
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[4]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 124--124
+ [][][][]  
+Runaway argument?
+{ int type = random.nextInt(3); // 0, 1, or 2 Obstacle obstacle = nul\ETC.
+! Paragraph ended before \lst@next was complete.
+<to be read again> 
+                   \par 
+l.124 \end{frame}
+                 
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[5]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 165--165
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[6]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 187--187
+ [][][][]  
+
+Overfull \hbox (17.61124pt too wide) in paragraph at lines 187--187
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[7]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 219--219
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[8]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 221--221
+ [][][][]  
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 241--241
+ [][][][]  
+(week10-presentation.vrb)
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[9]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 243--243
+ [][][][]  
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 295--295
+ [][][][]  
+(week10-presentation.vrb)
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[10]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 297--297
+ [][][][]  
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 325--325
+ [][][][]  
+(week10-presentation.vrb)
+Overfull \vbox (31.50089pt too high) detected at line 325
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[11]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 369--369
+ [][][][]  
+
+Overfull \hbox (7.75616pt too wide) in paragraph at lines 369--369
+ []\OT1/cmss/m/n/10.95 ObstacleFactory 
+
+Overfull \hbox (3.49785pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 SpikeFactory 
+
+Overfull \hbox (8.54704pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 GoblinFactory 
+
+Overfull \hbox (0.69952pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 WolfFactory 
+
+Overfull \hbox (17.61124pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[12]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 405--405
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[13]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 432--432
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[14]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 454--454
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[15]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 478--478
+ [][][][]  
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+[16]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 511--511
+ [][][][]  
+Runaway argument?
+\lst@keywords \lstenv@Process \fi \fi \lst@next =================+ | \ETC.
+! Paragraph ended before \lst@for was complete.
+<to be read again> 
+                   \par 
+l.511 \end{frame}
+                 
+
+! LaTeX Error: \begin{lstlisting} on input line 511 ended by \end{beamer@framep
+auses}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.511 \end{frame}
+                 
+! Missing } inserted.
+<inserted text> 
+                }
+l.511 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endbeamer@frameslide ...amer@framepauses}\egroup 
+                                                  \ifx \beamer@frametitle \@...
+l.511 \end{frame}
+                 
+
+! LaTeX Error: \begin{lstlisting} on input line 511 ended by \end{beamer@frames
+lide}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.511 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.541 \end{frame}
+                 
+
+Overfull \hbox (72.14178pt too wide) in paragraph at lines 558--559
+ [] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.570 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.602 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.630 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.666 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.694 \end{frame}
+                 
+
+Overfull \hbox (4.31128pt too wide) in paragraph at lines 703--704
+[][] 
+
+Overfull \hbox (19.61163pt too wide) in paragraph at lines 705--706
+[][] 
+
+Overfull \hbox (14.91199pt too wide) in paragraph at lines 706--707
+[][][][][][] 
+
+Overfull \hbox (4.31128pt too wide) in paragraph at lines 710--711
+[][] 
+
+Overfull \hbox (19.61163pt too wide) in paragraph at lines 731--732
+[][] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.747 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.797 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.827 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.860 \end{frame}
+                 
+
+Overfull \hbox (85.86365pt too wide) in paragraph at lines 877--878
+ [] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.886 \end{frame}
+                 
+
+Overfull \hbox (86.82814pt too wide) in paragraph at lines 893--904
+ [] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.913 \end{frame}
+                 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.942 \end{frame}
+                 
+
+Underfull \hbox (badness 10000) in paragraph at lines 962--963
+[]\OT1/cmss/m/n/10.95 Higher mem-ory, re-set()
+
+Overfull \hbox (197.88255pt too wide) in paragraph at lines 954--965
+ [] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.971 \end{frame}
+                 
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.976             \item ✅
+                            Multiple polymorphic types need creation
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.977             \item ✅
+                            Need runtime type selection
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.978             \item ✅
+                            Complex initialization logic
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.979             \item ✅
+                            Want to decouple creation from usage
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.980             \item ✅
+                            System needs to be extensible (new types added)
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.986             \item ❌
+                            Only 1-2 simple types
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.987             \item ❌
+                            Types never change
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.988             \item ❌
+                            Direct \texttt{new} is clear enough
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.989             \item ❌
+                            No extensibility requirements
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.994 \end{frame}
+                 
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.999             \item ✅
+                            High-frequency creation (>10/second)
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1000             \item ✅
+                             Expensive object creation (DB connections, text...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1001             \item ✅
+                             Real-time requirements (games, servers)
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1002             \item ✅
+                             Predictable lifetime (acquire $\rightarrow$ use...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1003             \item ✅
+                             GC pauses are unacceptable
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1009             \item ❌
+                             Objects created rarely (<1/second)
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1010             \item ❌
+                             Unpredictable lifetime
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1011             \item ❌
+                             Memory is constrained
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1012             \item ❌
+                             Objects are very simple (primitives, small stru...
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1013             \item ❌
+                             GC performance is acceptable
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1018 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1063 \end{frame}
+                  
+
+Overfull \hbox (98.29456pt too wide) in paragraph at lines 1079--1080
+\OT1/cmtt/m/n/10 ObstacleBuilder().at(10,10).withDamage(30).build()  
+
+Overfull \hbox (3.79538pt too wide) in paragraph at lines 1086--1087
+\OT1/cmtt/m/n/10 prototype.clone().setPosition(x, 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1092 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1120 \end{frame}
+                  
+
+Overfull \hbox (34.23625pt too wide) in paragraph at lines 1129--1130
+\OT1/cmss/m/n/10.95 Instantiate(bulletPrefab)  
+
+Overfull \hbox (12.5643pt too wide) in paragraph at lines 1139--1140
+\OT1/cmss/m/n/10.95 pool.Release(bullet)  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1156 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1188 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1218 \end{frame}
+                  
+
+Overfull \hbox (182.9075pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 ObstaclePool pool = new ObstaclePool(new GoblinFactor
+y(), 1, 1);[] 
+
+Overfull \hbox (27.69293pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 Obstacle obs1 = pool.acquire(10, 10);[] 
+
+Overfull \hbox (27.69293pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 Obstacle obs2 = pool.acquire(20, 20);[] 
+
+Overfull \hbox (96.67719pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 assertTrue(obs2.isActive());  // Should be reset![] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1246 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1273 \end{frame}
+                  
+
+Overfull \hbox (6.66121pt too wide) in paragraph at lines 1288--1288
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+
+Overfull \hbox (7.75616pt too wide) in paragraph at lines 1289--1289
+ [][]\OT1/cmss/m/n/10.95 ObstacleFactory 
+
+Overfull \hbox (28.60109pt too wide) in paragraph at lines 1296--1297
+ [] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1300 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1333 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1361 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1383 \end{frame}
+                  
+
+Overfull \hbox (9.05042pt too wide) in paragraph at lines 1385--1387
+[][] 
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1406 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1429 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1459 \end{frame}
+                  
+
+! LaTeX Error: Not allowed in LR mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+! Missing } inserted.
+<inserted text> 
+                }
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+
+! Package tikz Error: Giving up on this path. Did you forget a semicolon?.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+! Undefined control sequence.
+<recently read> \tikz@expand@last@token@ 
+                                         
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+! Missing number, treated as zero.
+<to be read again> 
+                   \let 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   \let 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+Missing character: There is no 8 in font nullfont!
+Missing character: There is no 6 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no + in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no s in font nullfont!
+! Extra }, or forgotten \endgroup.
+l.1479 ... of b4] {\tiny 150 creates\\860+ reuses}
+                                                  ;
+Missing character: There is no ; in font nullfont!
+! Undefined control sequence.
+\pgfsys@call@end ->\pgfsys@end@save 
+                                    \pgfsys@endscope 
+l.1480         \end{tikzpicture}
+                                
+! Undefined control sequence.
+\endpgfscope ...pgflinewidth =\pgfscope@linewidth 
+                                                  \global \let \pgf@strokeco...
+l.1480         \end{tikzpicture}
+                                
+! Missing number, treated as zero.
+<to be read again> 
+                   \global 
+l.1480         \end{tikzpicture}
+                                
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   \global 
+l.1480         \end{tikzpicture}
+                                
+! Missing } inserted.
+<inserted text> 
+                }
+l.1480         \end{tikzpicture}
+                                
+! Extra }, or forgotten \endgroup.
+\endpgfpicture ...globally \endgroup \hss \egroup 
+                                                  \pgf@restore@layerlist@fro...
+l.1480         \end{tikzpicture}
+                                
+! Missing } inserted.
+<inserted text> 
+                }
+l.1480         \end{tikzpicture}
+                                
+! Extra }, or forgotten \endgroup.
+\endpgfpicture ...dpicture \endgroup \hss \egroup 
+                                                  \pgfsys@typesetpicturebox ...
+l.1480         \end{tikzpicture}
+                                
+
+! LaTeX Error: \begin{center} on input line 1462 ended by \end{tikzpicture}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1480         \end{tikzpicture}
+                                
+! Infinite glue shrinkage found in a paragraph.
+<argument> ...hskip:D \c_zero_dim \fi: \tex_par:D 
+                                                  \hook_use:n {para/after}\@...
+l.1481     \end{center}
+                       
+
+Overfull \hbox (188.02393pt too wide) in paragraph at lines 1480--1481
+[]  
+
+! LaTeX Error: \begin{frame} on input line 1461 ended by \end{center}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1481     \end{center}
+                       
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1490 \end{frame}
+                  
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1496         \item ✅
+                         \textbf{Open/Closed Principle:} Extend with new fac...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1497         \item ✅
+                         \textbf{Single Responsibility:} Factory creates, Po...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1498         \item ✅
+                         \textbf{Dependency Inversion:} Depend on ObstacleFa...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1499         \item ✅
+                         \textbf{Separation of Concerns:} Creation logic sep...
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1500         \item ✅
+                         \textbf{Don't Repeat Yourself:} One factory per typ...
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1512 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1540 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1568 \end{frame}
+                  
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1589 \end{frame}
+                  
+
+! LaTeX Error: \begin{frame} on input line 1573 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1591 \end{document}
+                     
+(week10-presentation.aux)
+! You can't use `\end' in internal vertical mode.
+\enddocument ...cument/end}\deadcycles \z@ \@@end 
+                                                  
+l.1591 \end{document}
+                     
+
+! LaTeX Error: \begin{frame} on input line 1573 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1591 \end{document}
+                     
+)
+! Emergency stop.
+<*> ./week10-presentation.tex
+                             
+!  ==> Fatal error occurred, no output PDF file produced!
+Transcript written on week10-presentation.log.
+box (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[6
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 187--187
+ [][][][]  
+ []
+
+
+Overfull \hbox (17.61124pt too wide) in paragraph at lines 187--187
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[7
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 219--219
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[8
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 221--221
+ [][][][]  
+ []
+
+\openout4 = `week10-presentation.vrb'.
+
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 241--241
+ [][][][]  
+ []
+
+(week10-presentation.vrb
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <8> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 4.
+)
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[9
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 243--243
+ [][][][]  
+ []
+
+\openout4 = `week10-presentation.vrb'.
+
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 295--295
+ [][][][]  
+ []
+
+(week10-presentation.vrb
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <6> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 6.
+)
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[10
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 297--297
+ [][][][]  
+ []
+
+\openout4 = `week10-presentation.vrb'.
+
+
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 325--325
+ [][][][]  
+ []
+
+(week10-presentation.vrb)
+Overfull \vbox (31.50089pt too high) detected at line 325
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[11
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 369--369
+ [][][][]  
+ []
+
+
+Overfull \hbox (7.75616pt too wide) in paragraph at lines 369--369
+ []\OT1/cmss/m/n/10.95 ObstacleFactory 
+ []
+
+
+Overfull \hbox (3.49785pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 SpikeFactory 
+ []
+
+
+Overfull \hbox (8.54704pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 GoblinFactory 
+ []
+
+
+Overfull \hbox (0.69952pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 WolfFactory 
+ []
+
+
+Overfull \hbox (17.61124pt too wide) in paragraph at lines 369--369
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[12
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 405--405
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[13
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 432--432
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[14
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 454--454
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[15
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 478--478
+ [][][][]  
+ []
+
+
+
+
+Overfull \hbox (1.7062pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[16
+
+]
+Overfull \hbox (1.7062pt too wide) in paragraph at lines 511--511
+ [][][][]  
+ []
+
+Runaway argument?
+\lst@keywords \lstenv@Process \fi \fi \lst@next =================+ | \ETC.
+! Paragraph ended before \lst@for was complete.
+<to be read again> 
+                   \par 
+l.511 \end{frame}
+                 
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+
+! LaTeX Error: \begin{lstlisting} on input line 511 ended by \end{beamer@framep
+auses}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.511 \end{frame}
+                 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.511 \end{frame}
+                 
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra }, or forgotten \endgroup.
+\endbeamer@frameslide ...amer@framepauses}\egroup 
+                                                  \ifx \beamer@frametitle \@...
+l.511 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: \begin{lstlisting} on input line 511 ended by \end{beamer@frames
+lide}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.511 \end{frame}
+                 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.541 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (72.14178pt too wide) in paragraph at lines 558--559
+ [] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.570 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.602 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.630 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.666 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.694 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (4.31128pt too wide) in paragraph at lines 703--704
+[][] 
+ []
+
+
+Overfull \hbox (19.61163pt too wide) in paragraph at lines 705--706
+[][] 
+ []
+
+
+Overfull \hbox (14.91199pt too wide) in paragraph at lines 706--707
+[][][][][][] 
+ []
+
+
+Overfull \hbox (4.31128pt too wide) in paragraph at lines 710--711
+[][] 
+ []
+
+
+Overfull \hbox (19.61163pt too wide) in paragraph at lines 731--732
+[][] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.747 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.797 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.827 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.860 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (85.86365pt too wide) in paragraph at lines 877--878
+ [] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.886 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (86.82814pt too wide) in paragraph at lines 893--904
+ [] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.913 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.942 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 962--963
+[]\OT1/cmss/m/n/10.95 Higher mem-ory, re-set()
+ []
+
+
+Overfull \hbox (197.88255pt too wide) in paragraph at lines 954--965
+ [] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.971 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.976             \item ✅
+                            Multiple polymorphic types need creation
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.977             \item ✅
+                            Need runtime type selection
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.978             \item ✅
+                            Complex initialization logic
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.979             \item ✅
+                            Want to decouple creation from usage
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.980             \item ✅
+                            System needs to be extensible (new types added)
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.986             \item ❌
+                            Only 1-2 simple types
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.987             \item ❌
+                            Types never change
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.988             \item ❌
+                            Direct \texttt{new} is clear enough
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.989             \item ❌
+                            No extensibility requirements
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.994 \end{frame}
+                 
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.999             \item ✅
+                            High-frequency creation (>10/second)
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1000             \item ✅
+                             Expensive object creation (DB connections, text...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1001             \item ✅
+                             Real-time requirements (games, servers)
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1002             \item ✅
+                             Predictable lifetime (acquire $\rightarrow$ use...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1003             \item ✅
+                             GC pauses are unacceptable
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1009             \item ❌
+                             Objects created rarely (<1/second)
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1010             \item ❌
+                             Unpredictable lifetime
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1011             \item ❌
+                             Memory is constrained
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1012             \item ❌
+                             Objects are very simple (primitives, small stru...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ❌ (U+274C)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1013             \item ❌
+                             GC performance is acceptable
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1018 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1063 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (98.29456pt too wide) in paragraph at lines 1079--1080
+\OT1/cmtt/m/n/10 ObstacleBuilder().at(10,10).withDamage(30).build()  
+ []
+
+
+Overfull \hbox (3.79538pt too wide) in paragraph at lines 1086--1087
+\OT1/cmtt/m/n/10 prototype.clone().setPosition(x, 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1092 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1120 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (34.23625pt too wide) in paragraph at lines 1129--1130
+\OT1/cmss/m/n/10.95 Instantiate(bulletPrefab)  
+ []
+
+
+Overfull \hbox (12.5643pt too wide) in paragraph at lines 1139--1140
+\OT1/cmss/m/n/10.95 pool.Release(bullet)  
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1156 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1188 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1218 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (182.9075pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 ObstaclePool pool = new ObstaclePool(new GoblinFactor
+y(), 1, 1);[] 
+ []
+
+
+Overfull \hbox (27.69293pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 Obstacle obs1 = pool.acquire(10, 10);[] 
+ []
+
+
+Overfull \hbox (27.69293pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 Obstacle obs2 = pool.acquire(20, 20);[] 
+ []
+
+
+Overfull \hbox (96.67719pt too wide) in paragraph at lines 1245--1245
+[]    \OT1/cmtt/m/n/10.95 assertTrue(obs2.isActive());  // Should be reset![] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1246 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1273 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (6.66121pt too wide) in paragraph at lines 1288--1288
+ [][]\OT1/cmss/m/n/10.95 WorldController 
+ []
+
+
+Overfull \hbox (7.75616pt too wide) in paragraph at lines 1289--1289
+ [][]\OT1/cmss/m/n/10.95 ObstacleFactory 
+ []
+
+
+Overfull \hbox (28.60109pt too wide) in paragraph at lines 1296--1297
+ [] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1300 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1333 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1361 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1383 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+Overfull \hbox (9.05042pt too wide) in paragraph at lines 1385--1387
+[][] 
+ []
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1406 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1429 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1459 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Not allowed in LR mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! Package tikz Error: Giving up on this path. Did you forget a semicolon?.
+
+See the tikz package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+This error message was generated by an \errmessage
+command, so I can't give any explicit help.
+Pretend that you're Hercule Poirot: Examine all clues,
+and deduce the truth by order and method.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Undefined control sequence.
+<recently read> \tikz@expand@last@token@ 
+                                         
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \let 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   \let 
+l.1479 ...below=0.3cm of b4] {\tiny 150 creates\\8
+                                                  60+ reuses};
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+Missing character: There is no 8 in font nullfont!
+Missing character: There is no 6 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no + in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no s in font nullfont!
+! Extra }, or forgotten \endgroup.
+l.1479 ... of b4] {\tiny 150 creates\\860+ reuses}
+                                                  ;
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+Missing character: There is no ; in font nullfont!
+! Undefined control sequence.
+\pgfsys@call@end ->\pgfsys@end@save 
+                                    \pgfsys@endscope 
+l.1480         \end{tikzpicture}
+                                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\endpgfscope ...pgflinewidth =\pgfscope@linewidth 
+                                                  \global \let \pgf@strokeco...
+l.1480         \end{tikzpicture}
+                                
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Missing number, treated as zero.
+<to be read again> 
+                   \global 
+l.1480         \end{tikzpicture}
+                                
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   \global 
+l.1480         \end{tikzpicture}
+                                
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.1480         \end{tikzpicture}
+                                
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra }, or forgotten \endgroup.
+\endpgfpicture ...globally \endgroup \hss \egroup 
+                                                  \pgf@restore@layerlist@fro...
+l.1480         \end{tikzpicture}
+                                
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.1480         \end{tikzpicture}
+                                
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra }, or forgotten \endgroup.
+\endpgfpicture ...dpicture \endgroup \hss \egroup 
+                                                  \pgfsys@typesetpicturebox ...
+l.1480         \end{tikzpicture}
+                                
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: \begin{center} on input line 1462 ended by \end{tikzpicture}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1480         \end{tikzpicture}
+                                
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Infinite glue shrinkage found in a paragraph.
+<argument> ...hskip:D \c_zero_dim \fi: \tex_par:D 
+                                                  \hook_use:n {para/after}\@...
+l.1481     \end{center}
+                       
+The paragraph just ended includes some glue that has
+infinite shrinkability, e.g., `\hskip 0pt minus 1fil'.
+Such glue doesn't belong there---it allows a paragraph
+of any length to fit on one line. But it's safe to proceed,
+since the offensive shrinkability has been made finite.
+
+
+Overfull \hbox (188.02393pt too wide) in paragraph at lines 1480--1481
+[]  
+ []
+
+
+! LaTeX Error: \begin{frame} on input line 1461 ended by \end{center}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1481     \end{center}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1490 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1496         \item ✅
+                         \textbf{Open/Closed Principle:} Extend with new fac...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1497         \item ✅
+                         \textbf{Single Responsibility:} Factory creates, Po...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1498         \item ✅
+                         \textbf{Dependency Inversion:} Depend on ObstacleFa...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1499         \item ✅
+                         \textbf{Separation of Concerns:} Creation logic sep...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! LaTeX Error: Unicode character ✅ (U+2705)
+               not set up for use with LaTeX.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1500         \item ✅
+                         \textbf{Don't Repeat Yourself:} One factory per typ...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1512 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1540 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1568 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Extra }, or forgotten \endgroup.
+\endframe ->\egroup 
+                    \begingroup \def \@currenvir {frame}
+l.1589 \end{frame}
+                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+\tf@nav=\write6
+\openout6 = `week10-presentation.nav'.
+
+\tf@toc=\write7
+\openout7 = `week10-presentation.toc'.
+
+\tf@snm=\write8
+\openout8 = `week10-presentation.snm'.
+
+
+! LaTeX Error: \begin{frame} on input line 1573 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1591 \end{document}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+(week10-presentation.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+Package rerunfilecheck Info: File `week10-presentation.out' has not changed.
+(rerunfilecheck)             Checksum: D5DF842D2F233A35E9EB61060CE0BDF5;933.
+
+! You can't use `\end' in internal vertical mode.
+\enddocument ...cument/end}\deadcycles \z@ \@@end 
+                                                  
+l.1591 \end{document}
+                     
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+! LaTeX Error: \begin{frame} on input line 1573 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1591 \end{document}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+)
+! Emergency stop.
+<*> ./week10-presentation.tex
+                             
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 30002 strings out of 473530
+ 619273 string characters out of 5714794
+ 1724276 words of memory out of 5000000
+ 52608 multiletter control sequences out of 15000+600000
+ 572311 words of font info for 85 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 128i,15n,123p,413b,2128s stack positions out of 10000i,1000n,20000p,200000b,200000s
+!  ==> Fatal error occurred, no output PDF file produced!

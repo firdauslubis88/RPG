@@ -157,4 +157,11 @@ public class GameLogic {
     public WorldController getWorldController() {
         return worldController;
     }
+
+    /**
+     * Print pool statistics (for branch 10-04)
+     */
+    public void printPoolStats() {
+        worldController.printPoolStats();
+    }
 }

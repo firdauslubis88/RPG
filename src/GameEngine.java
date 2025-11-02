@@ -109,6 +109,9 @@ public class GameEngine {
         System.out.println("Game ended after 600 frames");
         System.out.println(String.format("Total GC time: %dms", perfMonitor.getTotalGcTime()));
         System.out.println("=================================");
+
+        // Print pool statistics for branch 10-04
+        logic.printPoolStats();
     }
 
     private void update(float delta) {

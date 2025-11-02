@@ -28,6 +28,10 @@ public class GameEngine {
     private java.util.Map<obstacles.Obstacle, int[]> prevObstaclePositions = new java.util.HashMap<>();
     private boolean firstFrame = true;
 
+    // HUD rendering control
+    private float hudUpdateTimer = 0;
+    private final float hudUpdateInterval = 0.5f;  // Update HUD every 0.5 seconds
+
     /**
      * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
      *
@@ -88,6 +92,9 @@ public class GameEngine {
         logic.updateWorldController(delta);  // Week 10: Update obstacles
         logic.checkCollisions();
         logic.incrementFrame();
+
+        // Update HUD timer
+        hudUpdateTimer += delta;
     }
 
     private void draw() {
@@ -180,9 +187,14 @@ public class GameEngine {
             }
         }
 
-        // Draw HUD
-        GridRenderer.moveCursorBelowGrid(1);
-        hud.draw();
+        // Draw HUD (only on first frame or periodically)
+        if (firstFrame || hudUpdateTimer >= hudUpdateInterval) {
+            GridRenderer.moveCursorBelowGrid(1);
+            hud.draw();
+            if (hudUpdateTimer >= hudUpdateInterval) {
+                hudUpdateTimer = 0;  // Reset timer
+            }
+        }
     }
 
     private void sync(long cycleStart) {

@@ -83,4 +83,17 @@ public class Goblin implements Obstacle {
         this.x = (float) x;
         this.y = (float) y;
     }
+
+    /**
+     * Reset goblin state for reuse in object pool
+     * Week 10 Branch 10-04: Object Pool pattern support
+     */
+    @Override
+    public void reset(int newX, int newY) {
+        this.x = (float) newX;
+        this.y = (float) newY;
+        this.active = true;
+        this.direction = 1;  // Reset to move right
+        this.moveTimer = 0;  // Reset movement timer
+    }
 }

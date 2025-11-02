@@ -57,4 +57,12 @@ public interface Obstacle {
      * @param active true if active, false if inactive
      */
     void setActive(boolean active);
+
+    /**
+     * Reset obstacle state for reuse (Object Pool pattern)
+     * Week 10 Branch 10-04: Added for object pooling support
+     * @param newX New X coordinate
+     * @param newY New Y coordinate
+     */
+    void reset(int newX, int newY);
 }

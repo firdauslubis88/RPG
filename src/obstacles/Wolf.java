@@ -119,4 +119,16 @@ public class Wolf implements Obstacle {
         this.x = (float) x;
         this.y = (float) y;
     }
+
+    /**
+     * Reset wolf state for reuse in object pool
+     * Week 10 Branch 10-04: Object Pool pattern support
+     */
+    @Override
+    public void reset(int newX, int newY) {
+        this.x = (float) newX;
+        this.y = (float) newY;
+        this.active = true;
+        this.target = null;  // Reset target (will be set by WorldController)
+    }
 }

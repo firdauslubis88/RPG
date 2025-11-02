@@ -87,14 +87,14 @@ public class GameEngine {
             // Frame rate control
             sync(cycleStart);
 
-            // Stop after demo frames
-            if (logic.getFrameCount() >= 100) {
+            // Stop after demo frames (600 frames = ~10 seconds at 60 FPS)
+            if (logic.getFrameCount() >= 600) {
                 running = false;
             }
         }
 
         System.out.println("\n=================================");
-        System.out.println("Demo ended after 100 frames");
+        System.out.println("Demo ended after 600 frames (~10 seconds)");
         System.out.println("=================================");
         System.out.println("\n❌ PROBLEMS DEMONSTRATED:");
         System.out.println("1. HUD shows score = 0 (wrong instance!)");

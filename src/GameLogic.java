@@ -43,6 +43,10 @@ public class GameLogic {
 
         // ❌ Must pass manager to each Coin constructor
         this.coins = new ArrayList<>();
+        // Add more coins to increase collision chances
+        this.coins.add(new Coin(manager));
+        this.coins.add(new Coin(manager));
+        this.coins.add(new Coin(manager));
         this.coins.add(new Coin(manager));
         this.coins.add(new Coin(manager));
 

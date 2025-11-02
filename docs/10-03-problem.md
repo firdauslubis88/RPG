@@ -59,12 +59,45 @@ public class WorldController {
 
     private void spawnRandomObstacle() {
         ObstacleFactory factory = factories.get(random.nextInt(factories.size()));
-        int x = random.nextInt(25);
-        int y = 0;  // Top of screen
 
-        // ❌ Create new object (no pooling!)
-        Obstacle newObstacle = factory.createObstacle(x, y);
-        activeObstacles.add(newObstacle);
+        // Try to find safe spawn position (max 10 attempts)
+        int x = -1, y = -1;
+        int attempts = 0;
+        while (attempts < 10) {
+            int tryX = 1 + random.nextInt(23);  // 1-23 (avoid borders)
+            int tryY = 1 + random.nextInt(23);  // 1-23 (avoid borders)
+
+            // ✅ Check if position is SAFE
+            if (isSafePosition(tryX, tryY)) {
+                x = tryX;
+                y = tryY;
+                break;
+            }
+            attempts++;
+        }
+
+        // Only spawn if we found a safe position
+        if (x != -1 && y != -1) {
+            // ❌ Create new object (no pooling!)
+            Obstacle newObstacle = factory.createObstacle(x, y);
+            activeObstacles.add(newObstacle);
+        }
+    }
+
+    private boolean isSafePosition(int x, int y) {
+        // Check 1: Must be walkable floor (not wall)
+        if (!DungeonMap.isWalkable(x, y)) return false;
+
+        // Check 2: Must not be too close to NPC (minimum 3 tiles)
+        int distance = Math.abs(x - npc.getX()) + Math.abs(y - npc.getY());
+        if (distance < 3) return false;
+
+        // Check 3: Must not overlap with existing obstacles
+        for (Obstacle obs : activeObstacles) {
+            if (obs.getX() == x && obs.getY() == y) return false;
+        }
+
+        return true;  // Safe to spawn here!
     }
 }
 ```
@@ -74,6 +107,12 @@ public class WorldController {
 - Every call creates a **new** `Spike`, `Goblin`, or `Wolf` object
 - When obstacle goes off-screen (Y > 25), it's destroyed
 - Destroyed objects become garbage for GC to collect
+
+**Safe Spawning** (to maintain playability):
+- Checks if position is walkable floor (not wall)
+- Maintains minimum 3-tile distance from NPC (Manhattan distance)
+- Avoids overlapping with existing obstacles
+- Tries up to 10 random positions before giving up
 
 ### 2. PerformanceMonitor: Tracking GC Impact
 

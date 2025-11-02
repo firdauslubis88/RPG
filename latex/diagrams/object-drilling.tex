@@ -1,0 +1,144 @@
+% Object Drilling Problem Visualization
+% Compile: pdflatex object-drilling.tex
+
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,decorations.pathreplacing}
+
+\begin{document}
+
+% Branch 09-02: Object Drilling Problem
+\begin{tikzpicture}[
+    class/.style={rectangle, draw=black, thick, minimum width=3.5cm, minimum height=1.2cm, align=center},
+    problem/.style={fill=red!20},
+    arrow/.style={->,>=stealth,thick,red},
+    param/.style={font=\ttfamily\scriptsize,red},
+    level/.style={font=\bfseries\small,blue}
+]
+    \node[class, problem] (main) {
+        \textbf{Main} \\
+        \texttt{manager = new GameManager()}
+    };
+
+    \node[class, problem, below=1.8cm of main] (engine) {
+        \textbf{GameEngine} \\
+        \texttt{GameEngine(manager)}
+    };
+
+    \node[class, problem, below=1.8cm of engine] (logic) {
+        \textbf{GameLogic} \\
+        \texttt{GameLogic(manager)}
+    };
+
+    \node[class, problem, below left=1.8cm and 0.5cm of logic] (npc) {
+        \textbf{NPC} \\
+        \texttt{NPC(manager)}
+    };
+
+    \node[class, problem, below right=1.8cm and 0.5cm of logic] (coin) {
+        \textbf{Coin} \\
+        \texttt{Coin(manager)}
+    };
+
+    % Arrows with parameter labels
+    \draw[arrow] (main) -- (engine) node[midway,right,param] {manager};
+    \draw[arrow] (engine) -- (logic) node[midway,right,param] {manager};
+    \draw[arrow] (logic) -- (npc) node[midway,left,param] {manager};
+    \draw[arrow] (logic) -- (coin) node[midway,right,param] {manager};
+
+    % Level annotations
+    \node[level, left=1.5cm of main] {Level 0};
+    \node[level, left=1.5cm of engine] {Level 1};
+    \node[level, left=1.5cm of logic] {Level 2};
+    \node[level, left=1.5cm of npc] {Level 3};
+
+    % Problem annotation
+    \node[below=0.5cm of coin, fill=red!10, draw=red, thick, rounded corners, inner sep=8pt, align=center, text width=8cm] (problem-box) {
+        \textbf{❌ Problems:} \\[2pt]
+        • Parameter passed through \textbf{4 levels} \\
+        • Every constructor polluted with \texttt{manager} parameter \\
+        • Refactoring nightmare: change affects \textbf{6+ files} \\
+        • Team collaboration conflicts
+    };
+
+    % Brace showing depth
+    \draw[decorate,decoration={brace,amplitude=10pt,mirror}]
+        ([xshift=-1cm]main.west) -- ([xshift=-1cm]coin.west)
+        node[midway,left=12pt,align=center] {\textbf{4 Levels} \\ \textbf{Deep!}};
+
+\end{tikzpicture}
+
+\vspace{2cm}
+
+% Branch 09-03: Singleton Solution
+\begin{tikzpicture}[
+    class/.style={rectangle, draw=black, thick, minimum width=3.5cm, minimum height=1.2cm, align=center},
+    solution/.style={fill=green!20},
+    singleton/.style={fill=blue!20},
+    arrow/.style={->,>=stealth,thick},
+    access/.style={->,>=stealth,thick,dashed,blue},
+    level/.style={font=\bfseries\small,blue}
+]
+    \node[class, solution] (main2) {
+        \textbf{Main} \\
+        \texttt{new GameEngine()}
+    };
+
+    \node[class, solution, below=1.8cm of main2] (engine2) {
+        \textbf{GameEngine} \\
+        \texttt{GameEngine()}
+    };
+
+    \node[class, solution, below=1.8cm of engine2] (logic2) {
+        \textbf{GameLogic} \\
+        \texttt{GameLogic()}
+    };
+
+    \node[class, solution, below left=1.8cm and 0.5cm of logic2] (npc2) {
+        \textbf{NPC} \\
+        \texttt{NPC()}
+    };
+
+    \node[class, solution, below right=1.8cm and 0.5cm of logic2] (coin2) {
+        \textbf{Coin} \\
+        \texttt{Coin()}
+    };
+
+    % Singleton
+    \node[class, singleton, right=3cm of logic2] (singleton) {
+        \textbf{GameManager} \\
+        \texttt{getInstance()}
+    };
+
+    % Clean arrows (no parameters!)
+    \draw[arrow] (main2) -- (engine2);
+    \draw[arrow] (engine2) -- (logic2);
+    \draw[arrow] (logic2) -- (npc2);
+    \draw[arrow] (logic2) -- (coin2);
+
+    % Direct access to singleton
+    \draw[access] (logic2) -- (singleton) node[midway,above,font=\scriptsize] {getInstance()};
+    \draw[access] (npc2) -- (singleton);
+    \draw[access] (coin2) -- (singleton);
+
+    % Level annotations
+    \node[level, left=1.5cm of main2] {Level 0};
+    \node[level, left=1.5cm of engine2] {Level 1};
+    \node[level, left=1.5cm of logic2] {Level 2};
+    \node[level, left=1.5cm of npc2] {Level 3};
+
+    % Solution annotation
+    \node[below=0.5cm of coin2, fill=green!10, draw=green!50!black, thick, rounded corners, inner sep=8pt, align=center, text width=8cm] (solution-box) {
+        \textbf{✅ Solutions:} \\[2pt]
+        • \textbf{Zero} constructor parameters! \\
+        • Direct access via \texttt{getInstance()} \\
+        • Easy refactoring: change only GameManager \\
+        • Clean, maintainable code
+    };
+
+    % Brace showing no drilling
+    \node[right=0.8cm of main2, align=center, text=green!50!black, font=\bfseries] {No \\ Parameter \\ Passing!};
+
+\end{tikzpicture}
+
+\end{document}

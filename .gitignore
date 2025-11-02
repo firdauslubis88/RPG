@@ -1,0 +1,18 @@
+# Compiled class files in source directories
+src/**/*.class
+test/**/*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts (we keep bin/ in git for educational purposes)
+# bin/ is tracked to show compiled outputs per branch

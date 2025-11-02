@@ -1,0 +1,22 @@
+\frametitle{09-00: Code Example}
+\begin{lstlisting}[caption={Monolithic main() method}]
+public static void main(String[] args) {
+    // ALL IN ONE METHOD!
+    while (running) {
+        // Update logic
+        npc.x += npc.velocity;
+
+        // Render (causes slowdown!)
+        clearScreen();
+        drawGrid();
+        drawNPC();
+
+        // Slow! Couples logic to render speed
+        Thread.sleep(100); // 10 FPS max
+    }
+}
+\end{lstlisting}
+
+\begin{alertblock}{Problem}
+    Update and render are \textbf{mixed together}. Slow rendering = slow game logic!
+\end{alertblock}

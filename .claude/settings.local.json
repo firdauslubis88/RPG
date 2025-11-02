@@ -7,7 +7,13 @@
       "Bash(git commit:*)",
       "Bash(timeout:*)",
       "Bash(git mv:*)",
-      "Bash(java Main:*)"
+      "Bash(java Main:*)",
+      "Bash(pdflatex:*)",
+      "Bash(compile.log)",
+      "Bash(/dev/null)",
+      "Bash(for file in *.tex)",
+      "Bash(do echo \"Compiling $file...\")",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

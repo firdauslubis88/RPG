@@ -25,6 +25,13 @@ public class GameEngine {
     private long drawTime = 0;
     private int currentFPS = 0;
 
+    // ✅ SOLUTION: Track previous positions for selective rendering
+    private int prevNPCX = -1;
+    private int prevNPCY = -1;
+    private int[] prevCoinX = null;
+    private int[] prevCoinY = null;
+    private boolean firstFrame = true;
+
     /**
      * Creates game engine with game logic.
      */
@@ -127,23 +134,66 @@ public class GameEngine {
 
     /**
      * ✅ SOLUTION: Pure rendering - NO logic!
+     *
+     * Uses selective rendering to avoid flickering:
+     * - First frame: Draw entire grid
+     * - Subsequent frames: Only redraw cells that changed
      */
     private void draw() {
-        // Clear screen once at the start
-        GridRenderer.clearScreen();
+        if (firstFrame) {
+            // First frame: Draw everything
+            GridRenderer.clearScreen();
 
-        // Create and populate grid
-        char[][] grid = GridRenderer.createEmptyGrid();
-        GridRenderer.drawEntity(grid, 'N', gameLogic.getNPCX(), gameLogic.getNPCY());
+            char[][] grid = GridRenderer.createEmptyGrid();
+            GridRenderer.drawEntity(grid, 'N', gameLogic.getNPCX(), gameLogic.getNPCY());
 
-        for (Coin coin : gameLogic.getCoins()) {
-            GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+            for (Coin coin : gameLogic.getCoins()) {
+                GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+            }
+
+            GridRenderer.drawGrid(grid);
+
+            // Initialize previous positions
+            prevNPCX = gameLogic.getNPCX();
+            prevNPCY = gameLogic.getNPCY();
+            prevCoinX = new int[gameLogic.getCoins().size()];
+            prevCoinY = new int[gameLogic.getCoins().size()];
+            for (int i = 0; i < gameLogic.getCoins().size(); i++) {
+                prevCoinX[i] = (int)gameLogic.getCoins().get(i).getX();
+                prevCoinY[i] = (int)gameLogic.getCoins().get(i).getY();
+            }
+
+            firstFrame = false;
+        } else {
+            // ✅ SOLUTION: Selective rendering - only update changed cells!
+
+            // Clear NPC old position if it moved
+            int currentNPCX = gameLogic.getNPCX();
+            int currentNPCY = gameLogic.getNPCY();
+            if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
+                GridRenderer.clearCell(prevNPCX, prevNPCY);
+                GridRenderer.drawCell('N', currentNPCX, currentNPCY);
+                prevNPCX = currentNPCX;
+                prevNPCY = currentNPCY;
+            }
+
+            // Clear coins old positions if they moved
+            for (int i = 0; i < gameLogic.getCoins().size(); i++) {
+                Coin coin = gameLogic.getCoins().get(i);
+                int currentX = (int)coin.getX();
+                int currentY = (int)coin.getY();
+
+                if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
+                    GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
+                    GridRenderer.drawCell('C', currentX, currentY);
+                    prevCoinX[i] = currentX;
+                    prevCoinY[i] = currentY;
+                }
+            }
         }
 
-        // Draw grid
-        GridRenderer.drawGrid(grid);
-
-        // Draw HUD
+        // Draw HUD (always update)
+        GridRenderer.moveCursorBelowGrid(1);
         System.out.println("\n╔════════════════════════════════════════╗");
         System.out.println("║       GAME STATE                       ║");
         System.out.println("╠════════════════════════════════════════╣");
@@ -155,6 +205,9 @@ public class GameEngine {
         // ✅ NO game logic here!
         // ✅ NO collision detection here!
         // ✅ PURE RENDERING ONLY!
+
+        // ✅ BENEFIT: Because rendering is separated, we can optimize it
+        //            independently without touching game logic!
     }
 
     /**

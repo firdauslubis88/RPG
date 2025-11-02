@@ -107,6 +107,16 @@ GameEngine (Orchestration)
 - Bug in rendering? Check draw() only
 - Team: 1 person logic, 1 person graphics
 - Easy code review
+- **Independent optimization**: Can improve rendering without touching logic
+
+**Real Example from This Branch:**
+When we encountered flickering issues, we could focus exclusively on the `draw()` method:
+1. Problem identified: Full screen clear causes flicker
+2. Solution: Implement selective rendering (only redraw changed cells)
+3. Game logic untouched: No need to modify update(), collision detection, or movement
+4. Result: Smooth rendering without risking bugs in game mechanics
+
+This demonstrates the power of separation of concerns - we isolated and fixed the rendering problem independently!
 
 **Results:**
 ```
@@ -123,9 +133,9 @@ GameEngine (Orchestration)
 - Long gap between clear and draw = flicker
 - Confusing visual experience
 
-### Solution
-**Update all entities, then draw all at once**
+### Solution (Two-Phase Approach)
 
+**Phase 1: Separate update and draw**
 ```java
 void gameLoop() {
     update(delta);   // Update ALL entities (no rendering)
@@ -133,15 +143,44 @@ void gameLoop() {
 }
 ```
 
+**Phase 2: Selective rendering (further optimization)**
+Instead of clearing the entire screen every frame, only update cells that changed:
+
+```java
+// First frame: Draw everything
+if (firstFrame) {
+    GridRenderer.clearScreen();
+    GridRenderer.drawGrid(grid);
+    // Save positions
+}
+
+// Subsequent frames: Only redraw changed cells
+else {
+    if (npc.moved()) {
+        GridRenderer.clearCell(oldX, oldY);
+        GridRenderer.drawCell('N', newX, newY);
+    }
+    // Same for coins
+}
+```
+
 **Benefits:**
-- Clear and draw happen back-to-back
-- Minimal gap = no visible flicker
-- Smooth visual experience
+- Phase 1: Clear and draw happen back-to-back
+- Phase 2: No full-screen clear, only affected cells updated
+- Minimal visual disruption = smooth experience
+- Uses ANSI cursor positioning for targeted updates
+
+**Implementation Details:**
+- Track previous positions of all entities
+- Compare current vs previous positions
+- Only redraw cells where position changed
+- Use `\033[row;colH` ANSI code for cursor movement
 
 **Results:**
 ```
-09-00: Visible flickering
-09-01: Smooth rendering ✅
+09-00: Severe flickering (full clear + delays)
+09-01 (Phase 1): Reduced flickering
+09-01 (Phase 2): Smooth rendering ✅
 ```
 
 ---

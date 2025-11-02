@@ -12,6 +12,7 @@ public class GridRenderer {
     /**
      * Clears the terminal screen using ANSI escape codes.
      * This moves cursor to home and clears the entire screen.
+     * Only used for initial setup.
      */
     public static void clearScreen() {
         // ANSI escape codes for clearing screen
@@ -19,6 +20,52 @@ public class GridRenderer {
         // \033[2J - Clear entire screen
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    /**
+     * Moves cursor to specific grid position using ANSI escape codes.
+     * @param x X coordinate (0-based)
+     * @param y Y coordinate (0-based)
+     */
+    public static void moveCursor(int x, int y) {
+        // ANSI escape code: \033[row;colH
+        // Note: ANSI uses 1-based indexing, so we add 1
+        System.out.print(String.format("\033[%d;%dH", y + 1, x + 1));
+    }
+
+    /**
+     * Clears a specific cell by drawing empty cell character.
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public static void clearCell(int x, int y) {
+        if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+            moveCursor(x, y);
+            System.out.print(EMPTY_CELL);
+            System.out.flush();
+        }
+    }
+
+    /**
+     * Draws a character at specific cell position.
+     * @param symbol Character to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public static void drawCell(char symbol, int x, int y) {
+        if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+            moveCursor(x, y);
+            System.out.print(symbol);
+            System.out.flush();
+        }
+    }
+
+    /**
+     * Moves cursor to position after the grid for drawing HUD.
+     * @param offsetY How many lines below the grid
+     */
+    public static void moveCursorBelowGrid(int offsetY) {
+        System.out.print(String.format("\033[%d;1H", GRID_HEIGHT + offsetY + 1));
     }
 
     /**

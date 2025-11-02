@@ -134,9 +134,9 @@ public class WorldController {
         // Pick random factory
         ObstacleFactory factory = factories.get(random.nextInt(factories.size()));
 
-        // Random X position at top of screen
-        int x = random.nextInt(25);  // 0-24
-        int y = 0;  // Top of screen
+        // Random X position (1-23, avoiding borders at 0 and 24)
+        int x = 1 + random.nextInt(23);  // 1-23
+        int y = 1;  // Second row (first row after top border)
 
         // ❌ Create new object (no pooling!)
         Obstacle newObstacle = factory.createObstacle(x, y);

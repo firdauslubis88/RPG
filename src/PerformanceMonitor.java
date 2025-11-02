@@ -33,8 +33,8 @@ public class PerformanceMonitor {
     private float totalFrameTime = 0;
     private float worstFrameTime = 0;
 
-    // Warning message area (row 36 onwards, below performance summary)
-    private static final int WARNING_START_ROW = 36;
+    // Warning message area (row 20 onwards, below performance summary)
+    private static final int WARNING_START_ROW = 20;
     private static final int WARNING_START_COL = 28;  // Same column as HUD
 
     public PerformanceMonitor() {
@@ -124,7 +124,7 @@ public class PerformanceMonitor {
 
     /**
      * Print performance summary every N frames
-     * Displays below HUD (at column 28, starting at row 27)
+     * Displays below HUD (at column 28, starting at row 11)
      */
     public void printSummary(int everyNFrames) {
         if (frameCount % everyNFrames == 0) {
@@ -133,7 +133,7 @@ public class PerformanceMonitor {
             float slowFramePercent = (slowFrameCount * 100.0f) / frameCount;
 
             int startCol = 28;  // Same column as HUD
-            int startRow = 27;  // Below map (which ends at row 25)
+            int startRow = 11;  // Below HUD (which ends at row 9)
 
             // Draw performance box using ANSI positioning (like GridRenderer.moveCursor)
             System.out.print(String.format("\033[%d;%dH", startRow, startCol));

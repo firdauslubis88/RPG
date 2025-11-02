@@ -33,8 +33,9 @@ public class PerformanceMonitor {
     private float totalFrameTime = 0;
     private float worstFrameTime = 0;
 
-    // Warning message area (row 21 onwards)
-    private static final int WARNING_START_ROW = 21;
+    // Warning message area (row 36 onwards, below performance summary)
+    private static final int WARNING_START_ROW = 36;
+    private static final int WARNING_START_COL = 28;  // Same column as HUD
 
     public PerformanceMonitor() {
         // Get GC monitoring beans
@@ -64,14 +65,13 @@ public class PerformanceMonitor {
         // Detect slow frames
         if (frameTime > SLOW_FRAME_THRESHOLD) {
             slowFrameCount++;
-            // Print warning at row 21 (below performance summary)
-            System.out.print("\033[21;1H\033[K");  // Move to row 21, clear line
+            // Print warning below performance summary (row 36, col 28)
+            System.out.print(String.format("\033[%d;%dH\033[K", WARNING_START_ROW, WARNING_START_COL));
             System.out.print(String.format(
-                "⚠️  SLOW FRAME #%d: %.1fms (%.1f FPS) - %s",
+                "⚠️  SLOW FRAME #%d: %.1fms (%.1f FPS)",
                 frameCount,
                 frameTime * 1000,
-                1.0f / frameTime,
-                getSlowFrameReason(frameTime)
+                1.0f / frameTime
             ));
             System.out.flush();
         }
@@ -95,10 +95,10 @@ public class PerformanceMonitor {
         // Detect GC pause
         if (currentGcCount > lastGcCount) {
             long gcPauseMs = currentGcTime - lastGcTime;
-            // Print GC warning at row 22 (below slow frame warning)
-            System.out.print("\033[22;1H\033[K");  // Move to row 22, clear line
+            // Print GC warning below slow frame warning (row 37, col 28)
+            System.out.print(String.format("\033[%d;%dH\033[K", WARNING_START_ROW + 1, WARNING_START_COL));
             System.out.print(String.format(
-                "🗑️  GC PAUSE: %dms (%d collections so far)",
+                "🗑️  GC PAUSE: %dms (%d collections)",
                 gcPauseMs,
                 currentGcCount
             ));
@@ -124,7 +124,7 @@ public class PerformanceMonitor {
 
     /**
      * Print performance summary every N frames
-     * Displays below HUD (starting at row 11)
+     * Displays below HUD (at column 28, starting at row 27)
      */
     public void printSummary(int everyNFrames) {
         if (frameCount % everyNFrames == 0) {
@@ -132,20 +132,68 @@ public class PerformanceMonitor {
             float avgFps = 1.0f / avgFrameTime;
             float slowFramePercent = (slowFrameCount * 100.0f) / frameCount;
 
-            // Move cursor to row 11, column 1 (below HUD which ends at row 9)
-            System.out.print("\033[11;1H");
+            int startCol = 28;  // Same column as HUD
+            int startRow = 27;  // Below map (which ends at row 25)
 
-            System.out.println("==============================");
-            System.out.println("  PERFORMANCE SUMMARY");
-            System.out.println("==============================");
-            System.out.println(String.format("  Frame: %d", frameCount));
-            System.out.println(String.format("  Avg: %.1fms (%.1f FPS)", avgFrameTime * 1000, avgFps));
-            System.out.println(String.format("  Worst: %.1fms (%.1f FPS)", worstFrameTime * 1000, 1.0f / worstFrameTime));
-            System.out.println(String.format("  Slow frames: %d (%.1f%%)", slowFrameCount, slowFramePercent));
-            System.out.println(String.format("  Target: %.1fms (60 FPS)", TARGET_FRAME_TIME * 1000));
-            System.out.println("==============================");
+            // Move cursor to row 27, column 28 (below HUD, same column alignment)
+            System.out.print(String.format("\033[%d;%dH", startRow, startCol));
+            System.out.println("╔════════════════════════════╗");
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 1, startCol));
+            System.out.println("║   PERFORMANCE SUMMARY      ║");
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 2, startCol));
+            System.out.println("╠════════════════════════════╣");
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 3, startCol));
+            System.out.println(String.format("║  Frame: %-19d║", frameCount));
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 4, startCol));
+            System.out.println(String.format("║  Avg: %.1fms (%.1f FPS)%s║",
+                avgFrameTime * 1000, avgFps,
+                getPadding(avgFrameTime * 1000, avgFps)));
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 5, startCol));
+            System.out.println(String.format("║  Worst: %.1fms (%.1f FPS)%s║",
+                worstFrameTime * 1000, 1.0f / worstFrameTime,
+                getPadding(worstFrameTime * 1000, 1.0f / worstFrameTime)));
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 6, startCol));
+            System.out.println(String.format("║  Slow: %d (%.1f%%)%s║",
+                slowFrameCount, slowFramePercent,
+                getPaddingForSlow(slowFrameCount, slowFramePercent)));
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 7, startCol));
+            System.out.println(String.format("║  Target: %.1fms (60 FPS)   ║", TARGET_FRAME_TIME * 1000));
+
+            System.out.print(String.format("\033[%d;%dH", startRow + 8, startCol));
+            System.out.println("╚════════════════════════════╝");
+
             System.out.flush();
         }
+    }
+
+    /**
+     * Calculate padding for frame time display to maintain box alignment
+     */
+    private String getPadding(float timeMs, float fps) {
+        // Format: "Avg: 2.3ms (434.8 FPS)"
+        String content = String.format("%.1fms (%.1f FPS)", timeMs, fps);
+        int contentLen = content.length();
+        int targetLen = 22; // Space available in the box
+        int padding = targetLen - contentLen;
+        return " ".repeat(Math.max(0, padding));
+    }
+
+    /**
+     * Calculate padding for slow frame display
+     */
+    private String getPaddingForSlow(int count, float percent) {
+        String content = String.format("%d (%.1f%%)", count, percent);
+        int contentLen = content.length();
+        int targetLen = 16; // Space available
+        int padding = targetLen - contentLen;
+        return " ".repeat(Math.max(0, padding));
     }
 
     /**

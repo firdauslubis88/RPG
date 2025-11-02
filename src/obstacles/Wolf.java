@@ -51,12 +51,15 @@ public class Wolf implements Obstacle {
             float dirX = dx / distance;
             float dirY = dy / distance;
 
-            x += dirX * speed * delta;
-            y += dirY * speed * delta;
+            float newX = x + dirX * speed * delta;
+            float newY = y + dirY * speed * delta;
 
-            // Clamp to grid boundaries
-            x = Math.max(0, Math.min(9, x));
-            y = Math.max(0, Math.min(9, y));
+            // Clamp to walkable area (not walls)
+            newX = Math.max(1, Math.min(8, newX));
+            newY = Math.max(1, Math.min(8, newY));
+
+            x = newX;
+            y = newY;
         }
     }
 

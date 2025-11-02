@@ -77,8 +77,10 @@ public class WorldController {
      */
     private void spawnRandomObstacle() {
         int type = random.nextInt(3);  // 0, 1, or 2
-        int x = random.nextInt(10);    // Random column (0-9)
-        int y = 0;                     // Start at top
+
+        // Spawn in walkable area only (not on walls)
+        int x = random.nextInt(7) + 1;  // Random column (1-7, avoid walls at 0 and 9)
+        int y = random.nextInt(7) + 1;  // Random row (1-7, avoid walls at 0 and 9)
 
         Obstacle obstacle = null;
 

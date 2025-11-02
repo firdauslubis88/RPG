@@ -85,7 +85,6 @@ public class GameEngine {
 
     private void update(float delta) {
         logic.updateNPC(delta);
-        logic.updateCoins(delta);
         logic.updateWorldController(delta);  // Week 10: Update obstacles
         logic.checkCollisions();
         logic.incrementFrame();
@@ -97,17 +96,23 @@ public class GameEngine {
             // First frame: Draw everything
             GridRenderer.clearScreen();
 
-            char[][] grid = GridRenderer.createEmptyGrid();
-            GridRenderer.drawEntity(grid, 'N', logic.getNPCX(), logic.getNPCY());
+            // Week 10: Start with dungeon map
+            char[][] grid = DungeonMap.getMapCopy();
 
+            // Draw coins (only if not collected)
             for (Coin coin : logic.getCoins()) {
-                GridRenderer.drawEntity(grid, 'C', (int)coin.getX(), (int)coin.getY());
+                if (!coin.isCollected()) {
+                    grid[coin.getY()][coin.getX()] = 'C';
+                }
             }
 
             // Week 10: Draw obstacles
             for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
-                GridRenderer.drawEntity(grid, obstacle.getSymbol(), obstacle.getX(), obstacle.getY());
+                grid[obstacle.getY()][obstacle.getX()] = obstacle.getSymbol();
             }
+
+            // Draw NPC last (on top)
+            grid[logic.getNPCY()][logic.getNPCX()] = 'N';
 
             GridRenderer.drawGrid(grid);
 
@@ -117,8 +122,8 @@ public class GameEngine {
             prevCoinX = new int[logic.getCoins().size()];
             prevCoinY = new int[logic.getCoins().size()];
             for (int i = 0; i < logic.getCoins().size(); i++) {
-                prevCoinX[i] = (int)logic.getCoins().get(i).getX();
-                prevCoinY[i] = (int)logic.getCoins().get(i).getY();
+                prevCoinX[i] = logic.getCoins().get(i).getX();
+                prevCoinY[i] = logic.getCoins().get(i).getY();
             }
 
             firstFrame = false;
@@ -135,14 +140,21 @@ public class GameEngine {
 
             for (int i = 0; i < logic.getCoins().size(); i++) {
                 Coin coin = logic.getCoins().get(i);
-                int currentX = (int)coin.getX();
-                int currentY = (int)coin.getY();
 
-                if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
-                    GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
-                    GridRenderer.drawCell('C', currentX, currentY);
-                    prevCoinX[i] = currentX;
-                    prevCoinY[i] = currentY;
+                // Only draw if not collected
+                if (!coin.isCollected()) {
+                    int currentX = coin.getX();
+                    int currentY = coin.getY();
+
+                    if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
+                        GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
+                        GridRenderer.drawCell('C', currentX, currentY);
+                        prevCoinX[i] = currentX;
+                        prevCoinY[i] = currentY;
+                    }
+                } else {
+                    // Coin was collected, clear it
+                    GridRenderer.drawCell('.', prevCoinX[i], prevCoinY[i]);
                 }
             }
 

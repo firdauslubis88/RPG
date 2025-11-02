@@ -36,14 +36,13 @@ public class GameLogic {
         // ✅ No manager parameter needed!
         this.npc = new NPC();
 
-        // ✅ No manager parameter for coins either!
+        // Week 10: Static coins placed in dungeon
         this.coins = new ArrayList<>();
-        // Add more coins to increase collision chances
-        this.coins.add(new Coin());
-        this.coins.add(new Coin());
-        this.coins.add(new Coin());
-        this.coins.add(new Coin());
-        this.coins.add(new Coin());
+        this.coins.add(new Coin(3, 3));
+        this.coins.add(new Coin(5, 2));
+        this.coins.add(new Coin(7, 5));
+        this.coins.add(new Coin(2, 7));
+        this.coins.add(new Coin(6, 8));
 
         // Week 10 Branch 10-01: Initialize WorldController with NPC reference
         this.worldController = new WorldController(npc);
@@ -52,32 +51,12 @@ public class GameLogic {
     }
 
     /**
-     * Update NPC position using delta time.
+     * Week 10: NPC no longer auto-moves
+     * Movement would be controlled by player input (not implemented in this demo)
      */
     public void updateNPC(float delta) {
-        float newX = npc.getX() + npc.getVelocity() * delta;
-
-        // Wrap around at edge
-        if (newX >= GRID_WIDTH) {
-            newX = newX - GRID_WIDTH;
-        }
-
-        npc.setX(newX);
-    }
-
-    /**
-     * Update coins with gravity.
-     */
-    public void updateCoins(float delta) {
-        for (Coin coin : coins) {
-            float newY = coin.getY() + coin.getFallSpeed() * delta;
-
-            if (newY >= GRID_HEIGHT) {
-                coin.respawn();
-            } else {
-                coin.setY(newY);
-            }
-        }
+        // No auto-movement - coins are static, enemies move
+        // In full implementation, this would handle player input
     }
 
     /**
@@ -97,14 +76,16 @@ public class GameLogic {
 
         // Check coin collisions
         for (Coin coin : coins) {
-            int coinX = (int)coin.getX();
-            int coinY = (int)coin.getY();
+            if (coin.isCollected()) continue;
+
+            int coinX = coin.getX();
+            int coinY = coin.getY();
 
             // Simple collision detection
             if (npcX == coinX && npcY == coinY) {
                 // ✅ Update score in THE instance
                 GameManager.getInstance().addScore(10);
-                coin.respawn();
+                coin.collect();
             }
         }
 

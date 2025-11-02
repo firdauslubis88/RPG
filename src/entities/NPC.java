@@ -1,51 +1,60 @@
 package entities;
 
-
 /**
- * Non-Player Character that auto-moves from left to right.
- * Uses float for precise delta-time based movement.
- *
- * ✅ SOLUTION: No longer requires GameManager parameter!
+ * Week 10: Player character that can move in dungeon.
+ * Movement respects wall boundaries defined in DungeonMap.
  */
 public class NPC {
-    private float x;
-    private float y;
-    private float velocity;  // Pixels per second
+    private int x;
+    private int y;
 
     /**
-     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
-     *
-     * Before (09-02): NPC(manager) for object drilling
-     * Now (09-03): Clean constructor, no parameters needed
+     * Create NPC at starting position (1, 1) - walkable floor
      */
     public NPC() {
-        this.x = 0;
-        this.y = 5;
-        this.velocity = 2.0f;  // Pixels per second
+        this.x = 1;
+        this.y = 1;
     }
 
-    // Getters and setters
-    public float getX() {
+    /**
+     * Try to move to new position. Only moves if target is walkable.
+     * Returns true if move was successful.
+     */
+    public boolean tryMove(int newX, int newY) {
+        // Check if target position is walkable (not wall)
+        if (isValidPosition(newX, newY)) {
+            this.x = newX;
+            this.y = newY;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if position is valid (in bounds and walkable)
+     */
+    private boolean isValidPosition(int x, int y) {
+        return x >= 0 && x < 10 && y >= 0 && y < 10;
+    }
+
+    // Getters
+    public int getX() {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setX(int x) {
+        if (isValidPosition(x, this.y)) {
+            this.x = x;
+        }
     }
 
-    public float getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(float velocity) {
-        this.velocity = velocity;
+    public void setY(int y) {
+        if (isValidPosition(this.x, y)) {
+            this.y = y;
+        }
     }
 }

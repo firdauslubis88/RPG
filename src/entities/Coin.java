@@ -1,58 +1,40 @@
 package entities;
 
 /**
- * Collectible coin that falls from top to bottom.
- * Uses float for precise delta-time based movement.
- *
- * ✅ SOLUTION: No longer requires GameManager parameter!
+ * Week 10: Static collectible coin placed in dungeon.
+ * Coins no longer fall - they are statically placed on the map.
  */
 public class Coin {
-    private float x;
-    private float y;
-    private float fallSpeed;  // Pixels per second
+    private int x;
+    private int y;
+    private boolean collected;
 
     /**
-     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
-     *
-     * Before (09-02): Coin(manager) for object drilling
-     * Now (09-03): Clean constructor, no parameters needed
+     * Creates a coin at specific position
      */
-    public Coin() {
-        this.x = (float)(Math.random() * 10);
-        this.y = 0;
-        this.fallSpeed = 3.0f;  // Pixels per second
+    public Coin(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.collected = false;
     }
 
     /**
-     * Respawns coin at top with random X position.
+     * Marks coin as collected
      */
-    public void respawn() {
-        this.y = 0;
-        this.x = (float)(Math.random() * 10);
+    public void collect() {
+        this.collected = true;
     }
 
-    // Getters and setters
-    public float getX() {
+    public boolean isCollected() {
+        return collected;
+    }
+
+    // Getters
+    public int getX() {
         return x;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
+    public int getY() {
         return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public float getFallSpeed() {
-        return fallSpeed;
-    }
-
-    public void setFallSpeed(float fallSpeed) {
-        this.fallSpeed = fallSpeed;
     }
 }

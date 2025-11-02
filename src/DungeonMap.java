@@ -1,0 +1,68 @@
+/**
+ * Week 10: Dungeon map with walls
+ *
+ * Map layout (10x10):
+ * - '#' = Wall (impassable)
+ * - '.' = Floor (walkable)
+ *
+ * This provides boundaries for NPC and enemy movement.
+ */
+public class DungeonMap {
+    private static final int WIDTH = 10;
+    private static final int HEIGHT = 10;
+
+    // Map layout: '#' = wall, '.' = floor
+    private static final char[][] MAP = {
+        {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+        {'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+        {'#', '.', '#', '#', '.', '.', '#', '#', '.', '#'},
+        {'#', '.', '#', '.', '.', '.', '.', '#', '.', '#'},
+        {'#', '.', '.', '.', '#', '#', '.', '.', '.', '#'},
+        {'#', '.', '.', '.', '#', '#', '.', '.', '.', '#'},
+        {'#', '.', '#', '.', '.', '.', '.', '#', '.', '#'},
+        {'#', '.', '#', '#', '.', '.', '#', '#', '.', '#'},
+        {'#', '.', '.', '.', '.', '.', '.', '.', '.', '#'},
+        {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
+    };
+
+    /**
+     * Check if a position is walkable (not a wall)
+     */
+    public static boolean isWalkable(int x, int y) {
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
+            return false;  // Out of bounds
+        }
+        return MAP[y][x] == '.';
+    }
+
+    /**
+     * Get map tile at position
+     */
+    public static char getTile(int x, int y) {
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
+            return '#';  // Out of bounds = wall
+        }
+        return MAP[y][x];
+    }
+
+    public static int getWidth() {
+        return WIDTH;
+    }
+
+    public static int getHeight() {
+        return HEIGHT;
+    }
+
+    /**
+     * Get a copy of the map for rendering
+     */
+    public static char[][] getMapCopy() {
+        char[][] copy = new char[HEIGHT][WIDTH];
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                copy[y][x] = MAP[y][x];
+            }
+        }
+        return copy;
+    }
+}

@@ -5,7 +5,7 @@ package obstacles;
  *
  * Week 10 Branch 10-01: Hard-coded spawning demo
  *
- * Behavior: Moves horizontally, reverses at grid edges
+ * Behavior: Moves horizontally, respects walls
  * Damage: 15 HP
  * Symbol: 'G' (Goblin)
  * Movement: Patrol pattern (horizontal only)
@@ -13,10 +13,12 @@ package obstacles;
 public class Goblin implements Obstacle {
     private float x;
     private float y;
-    private final float velocity = 3.0f;  // Grid units per second
+    private final float velocity = 2.0f;  // Grid units per second
     private int direction = 1;  // 1 = right, -1 = left
     private final int damage = 15;
     private boolean active = true;
+    private float moveTimer = 0;
+    private final float moveInterval = 0.5f;  // Move every 0.5 seconds
 
     public Goblin(int x, int y) {
         this.x = (float) x;
@@ -25,16 +27,22 @@ public class Goblin implements Obstacle {
 
     @Override
     public void update(float delta) {
-        // Move horizontally
-        x += velocity * direction * delta;
+        moveTimer += delta;
 
-        // Reverse direction at grid boundaries
-        if (x >= 9.0f) {
-            x = 9.0f;
-            direction = -1;  // Go left
-        } else if (x <= 0.0f) {
-            x = 0.0f;
-            direction = 1;   // Go right
+        if (moveTimer >= moveInterval) {
+            moveTimer = 0;
+
+            // Try to move in current direction
+            int newX = Math.round(x) + direction;
+            int currentY = Math.round(y);
+
+            // Check if new position is valid (simple bounds check)
+            if (newX > 0 && newX < 9) {
+                x = newX;
+            } else {
+                // Hit boundary, reverse direction
+                direction *= -1;
+            }
         }
     }
 

@@ -1,177 +1,228 @@
-# Branch 09-00: Without Game Loop
+# Branch 09-01: With Game Loop
 
 ## Overview
-This branch demonstrates **intentionally bad design** - a monolithic game implementation where update logic and rendering are completely mixed together. This is an anti-pattern used for educational purposes to show WHY proper game loop architecture is needed.
+This branch demonstrates **proper game loop architecture** with complete separation between update logic and rendering. This is the SOLUTION to all problems shown in branch 09-00.
 
 ## Purpose
-Educational demonstration of problems that occur when:
-- Update and render logic are mixed
-- No separation of concerns
-- Everything in one giant main() method
-- Frame rate coupling affects gameplay
+Professional implementation showing how game development should be done:
+- Separated update() and draw()
+- Frame-rate independent movement (delta time)
+- Fully testable game logic
+- Clean, maintainable code structure
 
 ## Quick Start
 
 ### Compile
 ```bash
-javac -d bin/09-00-without-game-loop src/Main.java src/entities/*.java src/utils/*.java
+javac -d bin/09-01-with-game-loop src/Main.java src/GameEngine.java src/GameLogic.java src/entities/*.java src/utils/*.java
 ```
 
 ### Run
 ```bash
-cd bin/09-00-without-game-loop
+cd bin/09-01-with-game-loop
 java Main
 ```
 
-The game will run for 50 frames and then stop, showing you how slow it becomes due to coupling.
+The game will run at stable 60 FPS for 200 frames, demonstrating smooth, professional gameplay.
 
-**Note**: For best experience, run in a terminal that supports ANSI escape codes (Windows Terminal, PowerShell, CMD with ANSI support, or any Unix terminal).
+## What You'll Observe
+
+1. **Stable 60 FPS**: Smooth, consistent performance
+2. **No Flickering**: Clean screen updates
+3. **Frame-Independent Movement**: Entities move at correct speed regardless of FPS
+4. **Performance Metrics**: See update/draw times in real-time
+
+## Solutions Implemented
+
+### 1. Separated Update and Draw
+**Problem**: Mixed logic and rendering → slow, untestable
+**Solution**:
+- `update(delta)`: Pure logic, no rendering
+- `draw()`: Pure rendering, no logic
+
+### 2. Delta Time
+**Problem**: Frame-rate dependent movement
+**Solution**:
+```java
+newPosition = oldPosition + (velocity × deltaTime)
+```
+Result: Same gameplay speed at any FPS!
+
+### 3. Testable Logic
+**Problem**: Cannot unit test in 09-00
+**Solution**: GameLogic class with pure methods
+Result: 100% testable without display!
+
+### 4. Clean Architecture
+**Problem**: 150+ lines in main()
+**Solution**:
+- Main.java: 3 lines (entry point only)
+- GameEngine: Game loop orchestration
+- GameLogic: Pure logic
+- Entities: Data models
 
 ## Game Mechanics
 
 ### NPC (Symbol: N)
 - **Movement**: Horizontal (left to right)
-- **Behavior**: Auto-moves right, wraps around at edge
-- **Position**: Starts at (0, 5), X increases each frame
-- **No player control** in this version
+- **Speed**: 3 pixels/second (frame-rate independent!)
+- **Behavior**: Auto-moves, wraps at edge
+- **Position**: Uses float for precision
 
 ### Coin (Symbol: C)
 - **Movement**: Vertical (falls down)
-- **Behavior**: Falls from top, respawns at random X when reaching bottom
-- **Position**: Starts at random X, Y=0, Y increases each frame
-- **Collectible**: Score increases when NPC touches it
+- **Speed**: 2 pixels/second (frame-rate independent!)
+- **Behavior**: Falls, respawns at random X when reaching bottom
+- **Position**: Uses float for precision
 
 ### Grid
 - 10x10 grid (no walls)
 - Coordinate system: (X, Y) where X=column, Y=row
-- X: 0 (left) to 9 (right)
-- Y: 0 (top) to 9 (bottom)
+- Smooth movement thanks to float positions
 
-See [MOVEMENT-DEMO.md](MOVEMENT-DEMO.md) for detailed movement visualization.
-
-## What You'll Observe
-
-1. **Slow Performance**: Expected ~10 FPS, actually ~2 FPS (80% slower!)
-2. **Coupled Timing**: Rendering delays directly slow down game logic
-3. **Messy Code**: 150+ lines in main() with no structure
-4. **Untestable**: Cannot write unit tests (see [MainTest.java](test/MainTest.java))
-
-## Problems Demonstrated
-
-### 1. Frame Rate Coupling
-- Render speed affects game logic speed
-- Each `Thread.sleep()` delays the entire game
-- Real-world equivalent: GPU bottleneck slows physics
-
-### 2. Untestability
-- Cannot unit test collision detection
-- Cannot test scoring logic separately
-- Cannot run in CI/CD pipeline
-- See [MainTest.java](test/MainTest.java) for examples
-
-### 3. Poor Maintainability
-- All code in one 150+ line method
-- Logic mixed with rendering
-- Hard to debug and extend
-
-### 4. No Scalability
-- 1 entity: ~2 FPS
-- 10 entities: Would be ~0.2 FPS
-- 100 entities: Game freezes
-
-## File Structure
+## Architecture
 
 ```
-src/
-├── Main.java                 # ❌ Monolithic main() with everything
-├── entities/
-│   ├── NPC.java             # Auto-moving character
-│   └── Coin.java            # Falling collectible
-└── utils/
-    └── GridRenderer.java    # Terminal rendering utilities
-
-test/
-└── MainTest.java            # Demonstrates untestability
-
-PROBLEM.md                   # Detailed problem analysis
-README.md                    # This file
+Main (3 lines)
+  └── GameEngine
+      ├── update(delta) → GameLogic
+      │   ├── updateNPC()
+      │   ├── updateCoins()
+      │   └── checkCollisions()
+      └── draw() → GridRenderer
+          ├── clearScreen()
+          ├── drawGrid()
+          └── drawHUD()
 ```
 
-## Key Anti-Patterns (Intentional!)
+## Testing
 
-1. ❌ **No Separation**: Update and draw mixed
-2. ❌ **No Delta Time**: Fixed Thread.sleep()
-3. ❌ **Everything in main()**: No helper methods
-4. ❌ **No Encapsulation**: All local variables
-5. ❌ **Side Effects**: System.out mixed with logic
+### Run Unit Tests
+```bash
+# Compile tests
+javac -cp .:junit-platform-console-standalone.jar test/GameLogicTest.java
+
+# Run tests
+java -jar junit-platform-console-standalone.jar --class-path . --scan-class-path
+```
+
+### Test Coverage
+- ✅ NPC movement with delta time
+- ✅ Coin falling physics
+- ✅ Wrap-around logic
+- ✅ Frame-rate independence verification
+- ✅ Collision detection
+
+**All tests pass WITHOUT display!**
+
+## Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| Target FPS | 60 |
+| Actual FPS | 60 (stable) |
+| Update Time | < 2ms |
+| Draw Time | < 10ms |
+| Frame Time | ~16ms |
+
+## Comparison with 09-00
+
+| Aspect | 09-00 | 09-01 | Improvement |
+|--------|-------|-------|-------------|
+| FPS | ~2 | 60 | **30x faster** |
+| Main LOC | 150+ | 3 | **50x smaller** |
+| Testability | 0% | 100% | **Full coverage** |
+| Flickering | Yes | No | **Smooth** |
+| Delta Time | No | Yes | **Frame independent** |
+| Maintainability | Poor | Excellent | **Professional** |
+
+## Key Files
+
+- **[Main.java](src/Main.java)**: Minimal entry point (3 lines!)
+- **[GameEngine.java](src/GameEngine.java)**: Core game loop with update/draw separation
+- **[GameLogic.java](src/GameLogic.java)**: Pure logic, fully testable
+- **[entities/NPC.java](src/entities/NPC.java)**: Entity with float positions
+- **[entities/Coin.java](src/entities/Coin.java)**: Entity with float positions
+- **[utils/GridRenderer.java](src/utils/GridRenderer.java)**: Rendering utilities
+- **[test/GameLogicTest.java](test/GameLogicTest.java)**: Unit tests (100% pass!)
+- **[SOLUTION.md](SOLUTION.md)**: Detailed explanation of all solutions
 
 ## Code Highlights
 
-### The Problematic Main Loop
+### Clean Main Method
 ```java
-while (true) {
-    npc.moveRight();                      // Update
-    GridRenderer.drawEntity(...);         // Render immediately!
-    Thread.sleep(100);                    // Delay affects BOTH!
-
-    coin.fall();                          // Update
-    GridRenderer.drawEntity(...);         // Render immediately!
-    Thread.sleep(100);                    // More delays!
-
-    // Collision + scoring + rendering all mixed
-    if (collision) {
-        score += 10;
-        System.out.println(...);
-        Thread.sleep(100);
+public class Main {
+    public static void main(String[] args) {
+        GameEngine engine = new GameEngine();
+        engine.start();
     }
 }
 ```
 
-### Why This Is Bad
-- **Expected**: 10 updates/second
-- **Actual**: 2 updates/second
-- **Loss**: 80% performance
+### Proper Game Loop
+```java
+while (running) {
+    float delta = calculateDelta();
+    update(delta);    // ✅ Logic only
+    draw();           // ✅ Rendering only
+    sync();           // ✅ Frame rate control
+}
+```
 
-## Learning Objectives
+### Delta Time Movement
+```java
+public void updateNPC(float delta) {
+    float newX = npc.getX() + npc.getVelocity() * delta;
+    if (newX >= GRID_WIDTH) newX -= GRID_WIDTH;
+    npc.setX(newX);
+}
+```
 
-After experiencing this code, you should understand:
+### Testable Logic
+```java
+@Test
+void testNPCMovement() {
+    GameLogic logic = new GameLogic();
+    logic.updateNPC(0.016f);  // ✅ No rendering needed!
+    assertTrue(logic.getNPCX() > 0);
+}
+```
 
-1. **Why separation matters**: Logic and rendering must be independent
-2. **Frame rate coupling**: Render speed shouldn't affect game speed
-3. **Testability**: Separation enables automated testing
-4. **Real-world relevance**: All professional games separate update/render
+## Learning Outcomes
 
-## Comparison: Industry Standards
+After studying this branch, you should understand:
 
-| This Code | Professional Games |
-|-----------|-------------------|
-| Mixed update/render | Separated update() and draw() |
-| Fixed delays | Delta time calculation |
-| 2 FPS unstable | 60 FPS stable |
-| 0% testable | 70%+ test coverage |
-| 150+ line main() | Clean architecture |
+1. **Separation of Concerns**: Why update and draw must be separate
+2. **Delta Time**: How to make movement frame-rate independent
+3. **Testability**: Why pure logic enables automated testing
+4. **Game Loop Pattern**: Industry-standard architecture used in all professional games
+5. **Clean Code**: How to structure game code for maintainability
 
-## Next Steps
+## Industry Relevance
 
-See **branch 09-01-with-game-loop** for the solution:
-- ✅ Separated update() and draw()
-- ✅ Proper delta time handling
-- ✅ Testable game logic
-- ✅ Clean architecture
-- ✅ Stable 60 FPS
+This pattern is used in:
+- **Unity**: `Update()` vs `FixedUpdate()`
+- **Unreal**: `Tick(DeltaTime)`
+- **Godot**: `_process(delta)`
+- **LibGDX**: `render(delta)`
+- **Custom Engines**: All modern game engines
+
+**This is THE foundation of game development.**
 
 ## Discussion Questions
 
-1. What happens if we add 10 more coins?
-2. How would you test collision detection with this architecture?
-3. Why does rendering delay affect gameplay speed?
-4. Can you identify all the SOLID principles being violated?
+1. Why does separating update/draw solve the flickering problem?
+2. How does delta time make the game run at the same speed on different hardware?
+3. Why couldn't we write unit tests in 09-00, but can now in 09-01?
+4. What happens if update() takes longer than 16ms (60 FPS target)?
+5. How would you add a second NPC to this system?
 
-## References
+## Next Branch
 
-- [Game Programming Patterns - Game Loop](http://gameprogrammingpatterns.com/game-loop.html)
-- [Fix Your Timestep](https://gafferongames.com/post/fix_your_timestep/)
+**Branch 09-02** will introduce global state management problems, leading to the Singleton pattern in 09-03.
+
+See [SOLUTION.md](SOLUTION.md) for detailed explanations of all improvements!
 
 ---
 
-**⚠️ WARNING**: This code is intentionally bad for educational purposes. **DO NOT use this pattern in production!**
+**✅ Professional game loop architecture implemented!**

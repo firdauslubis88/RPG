@@ -2,63 +2,47 @@ package entities;
 
 /**
  * Non-Player Character that auto-moves from left to right.
- * No player control in this version - purely autonomous movement.
+ * Uses float for precise delta-time based movement.
  */
 public class NPC {
-    private int x;
-    private int y;
-    private int speed;
+    private float x;
+    private float y;
+    private float velocity;  // Pixels per second
 
     /**
-     * Creates an NPC at the specified position.
+     * Creates an NPC at the specified position with velocity.
      * @param x Initial X coordinate
      * @param y Initial Y coordinate
+     * @param velocity Movement speed in pixels per second
      */
-    public NPC(int x, int y) {
+    public NPC(float x, float y, float velocity) {
         this.x = x;
         this.y = y;
-        this.speed = 1; // Fixed speed: 1 pixel per frame
-    }
-
-    /**
-     * Moves the NPC to the right by its speed value.
-     */
-    public void moveRight() {
-        x += speed;
-    }
-
-    /**
-     * Wraps the NPC position when it reaches the edge.
-     * @param gridWidth The width of the game grid
-     */
-    public void wrapAtEdge(int gridWidth) {
-        if (x >= gridWidth) {
-            x = 0;
-        }
+        this.velocity = velocity;
     }
 
     // Getters and setters
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public int getSpeed() {
-        return speed;
+    public float getVelocity() {
+        return velocity;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
     }
 }

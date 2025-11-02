@@ -4,6 +4,7 @@ import factories.SpikeFactory;
 import factories.GoblinFactory;
 import factories.WolfFactory;
 import entities.NPC;
+import world.DungeonMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,20 +94,20 @@ public class WorldController {
     /**
      * Update all obstacles
      *
-     * ❌ PROBLEM: High-frequency spawning AND destruction!
+     * ❌ PROBLEM: High-frequency spawning AND destruction creating GC pressure!
      * ❌ PROBLEM: Creates 20 new objects per second
-     * ❌ PROBLEM: Destroys objects when off-screen
+     * ❌ PROBLEM: Short-lived objects quickly become garbage
      * ❌ PROBLEM: GC cannot keep up - causes 150-200ms pauses!
      */
     public void update(float delta) {
-        // ❌ PROBLEM: Spawn obstacles at high rate (20/second)
+        // ❌ PROBLEM: Spawn obstacles at high rate (20/second) for GC pressure
         spawnTimer += delta;
         if (spawnTimer >= SPAWN_INTERVAL) {
-            spawnRandomObstacle();
+            spawnRandomObstacle();  // Spawns at safe positions
             spawnTimer = 0;
         }
 
-        // Update all active obstacles
+        // Update visible obstacles
         for (Obstacle obstacle : activeObstacles) {
             obstacle.update(delta);
 
@@ -116,16 +117,14 @@ public class WorldController {
             }
         }
 
-        // ❌ PROBLEM: Frequent destruction when obstacles go off-screen
-        // This creates tons of garbage for GC to collect!
-        activeObstacles.removeIf(obs ->
-            !obs.isActive() || obs.getY() > OFF_SCREEN_Y
-        );
+        // ❌ PROBLEM: Remove off-screen obstacles (creates garbage!)
+        activeObstacles.removeIf(obs -> !obs.isActive() || obs.getY() > OFF_SCREEN_Y);
     }
 
     /**
-     * Spawn random obstacle using factory pattern
+     * Spawn random obstacle using factory pattern at SAFE position
      *
+     * ✅ SOLUTION: Spawns at safe positions (not near NPC, walls, or other obstacles)
      * ❌ PROBLEM: Called 20 times per second!
      * ❌ PROBLEM: Each call creates NEW object (no reuse)
      * ❌ PROBLEM: After 1 minute: 1200 objects created + destroyed
@@ -134,13 +133,59 @@ public class WorldController {
         // Pick random factory
         ObstacleFactory factory = factories.get(random.nextInt(factories.size()));
 
-        // Random X position (1-23, avoiding borders at 0 and 24)
-        int x = 1 + random.nextInt(23);  // 1-23
-        int y = 1;  // Second row (first row after top border)
+        // Try to find safe spawn position (max 10 attempts)
+        int x = -1, y = -1;
+        int attempts = 0;
+        while (attempts < 10) {
+            // Random position (1-23, avoiding borders at 0 and 24)
+            int tryX = 1 + random.nextInt(23);  // 1-23
+            int tryY = 1 + random.nextInt(23);  // 1-23
 
-        // ❌ Create new object (no pooling!)
-        Obstacle newObstacle = factory.createObstacle(x, y);
-        activeObstacles.add(newObstacle);
+            // ✅ Check if position is SAFE
+            if (isSafePosition(tryX, tryY)) {
+                x = tryX;
+                y = tryY;
+                break;
+            }
+            attempts++;
+        }
+
+        // Only spawn if we found a safe position
+        if (x != -1 && y != -1) {
+            // ❌ Create new object (no pooling!)
+            Obstacle newObstacle = factory.createObstacle(x, y);
+            activeObstacles.add(newObstacle);
+        }
+    }
+
+    /**
+     * Check if position is safe for spawning
+     * - Must be walkable floor (not wall)
+     * - Must not be too close to NPC (minimum 3 tiles distance)
+     * - Must not overlap with existing obstacles
+     */
+    private boolean isSafePosition(int x, int y) {
+        // Check 1: Must be walkable floor
+        if (!DungeonMap.isWalkable(x, y)) {
+            return false;
+        }
+
+        // Check 2: Must not be too close to NPC (minimum 3 tiles Manhattan distance)
+        int npcX = npc.getX();
+        int npcY = npc.getY();
+        int distance = Math.abs(x - npcX) + Math.abs(y - npcY);
+        if (distance < 3) {
+            return false;  // Too close to NPC!
+        }
+
+        // Check 3: Must not overlap with existing obstacles
+        for (Obstacle obs : activeObstacles) {
+            if (obs.getX() == x && obs.getY() == y) {
+                return false;  // Position occupied!
+            }
+        }
+
+        return true;  // Safe to spawn here!
     }
 
     /**

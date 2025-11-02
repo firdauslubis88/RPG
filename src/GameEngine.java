@@ -1,3 +1,5 @@
+import world.DungeonMap;
+
 import entities.Coin;
 import entities.GameManager;
 import obstacles.Obstacle;

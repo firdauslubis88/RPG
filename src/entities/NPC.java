@@ -1,5 +1,7 @@
 package entities;
 
+import world.DungeonMap;
+
 /**
  * Week 10: Player character that can move in dungeon.
  * Movement respects wall boundaries defined in DungeonMap.

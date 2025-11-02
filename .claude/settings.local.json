@@ -4,7 +4,14 @@
       "Bash(cat:*)",
       "Bash(pdfinfo:*)",
       "Bash(pygmentize:*)",
-      "Bash(javap:*)"
+      "Bash(javap:*)",
+      "Bash(for file in GameLogic.java GameEngine.java entities/NPC.java EnemyMovementTest.java)",
+      "Bash(do)",
+      "Bash(if ! grep -q \"import world.DungeonMap\" \"$file\")",
+      "Bash(then)",
+      "Bash(if grep -q \"^package\" \"$file\")",
+      "Bash(else)",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []

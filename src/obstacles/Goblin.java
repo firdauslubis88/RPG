@@ -1,5 +1,7 @@
 package obstacles;
 
+import world.DungeonMap;
+
 /**
  * Goblin - Patrol obstacle that moves left-right
  *
@@ -36,11 +38,11 @@ public class Goblin implements Obstacle {
             int newX = Math.round(x) + direction;
             int currentY = Math.round(y);
 
-            // Check if new position is valid (25x25 map)
-            if (newX > 0 && newX < 24) {
+            // Check if new position is walkable (not wall)
+            if (DungeonMap.isWalkable(newX, currentY)) {
                 x = newX;
             } else {
-                // Hit boundary, reverse direction
+                // Hit wall or boundary, reverse direction
                 direction *= -1;
             }
         }

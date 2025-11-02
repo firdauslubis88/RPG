@@ -1,3 +1,5 @@
+import world.DungeonMap;
+
 import entities.NPC;
 import entities.GameManager;
 import entities.Coin;

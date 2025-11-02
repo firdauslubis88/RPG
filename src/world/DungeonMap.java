@@ -1,3 +1,5 @@
+package world;
+
 /**
  * Week 10: Dungeon map with walls
  *

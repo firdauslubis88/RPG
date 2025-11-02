@@ -1,6 +1,7 @@
 package obstacles;
 
 import entities.NPC;
+import world.DungeonMap;
 
 /**
  * Wolf - Chase obstacle that follows the NPC
@@ -54,12 +55,32 @@ public class Wolf implements Obstacle {
             float newX = x + dirX * speed * delta;
             float newY = y + dirY * speed * delta;
 
-            // Clamp to walkable area (25x25 map)
-            newX = Math.max(1, Math.min(23, newX));
-            newY = Math.max(1, Math.min(23, newY));
+            // Round to grid coordinates
+            int targetX = Math.round(newX);
+            int targetY = Math.round(newY);
 
-            x = newX;
-            y = newY;
+            // Only move if target position is walkable (not wall)
+            if (DungeonMap.isWalkable(targetX, targetY)) {
+                x = newX;
+                y = newY;
+            }
+            // If blocked by wall, try moving in only X or Y direction
+            else {
+                // Try moving only horizontally
+                int tryX = Math.round(x + dirX * speed * delta);
+                int tryY = Math.round(y);
+                if (DungeonMap.isWalkable(tryX, tryY)) {
+                    x = x + dirX * speed * delta;
+                }
+                // Try moving only vertically
+                else {
+                    tryX = Math.round(x);
+                    tryY = Math.round(y + dirY * speed * delta);
+                    if (DungeonMap.isWalkable(tryX, tryY)) {
+                        y = y + dirY * speed * delta;
+                    }
+                }
+            }
         }
     }
 

@@ -3,11 +3,16 @@ package utils;
 /**
  * Static utility class for rendering the game grid to terminal.
  * Uses simple character-based representation.
+ *
+ * Week 10: Grid dimensions inferred from grid array passed in (dynamic sizing)
+ * This eliminates hard-coded constants - grid size comes from DungeonMap
  */
 public class GridRenderer {
-    private static final int GRID_WIDTH = 30;
-    private static final int GRID_HEIGHT = 30;
     private static final char EMPTY_CELL = '░';
+
+    // Cache grid dimensions (set when drawGrid is called)
+    private static int cachedWidth = 30;
+    private static int cachedHeight = 30;
 
     /**
      * Clears the terminal screen using ANSI escape codes.
@@ -39,7 +44,7 @@ public class GridRenderer {
      * @param y Y coordinate
      */
     public static void clearCell(int x, int y) {
-        if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+        if (x >= 0 && x < cachedWidth && y >= 0 && y < cachedHeight) {
             moveCursor(x, y);
             System.out.print(EMPTY_CELL);
             System.out.flush();
@@ -53,7 +58,7 @@ public class GridRenderer {
      * @param y Y coordinate
      */
     public static void drawCell(char symbol, int x, int y) {
-        if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+        if (x >= 0 && x < cachedWidth && y >= 0 && y < cachedHeight) {
             moveCursor(x, y);
             System.out.print(symbol);
             System.out.flush();
@@ -65,7 +70,7 @@ public class GridRenderer {
      * @param offsetY How many lines below the grid
      */
     public static void moveCursorBelowGrid(int offsetY) {
-        System.out.print(String.format("\033[%d;1H", GRID_HEIGHT + offsetY + 1));
+        System.out.print(String.format("\033[%d;1H", cachedHeight + offsetY + 1));
     }
 
     /**
@@ -73,8 +78,14 @@ public class GridRenderer {
      * @param entities Array of entity characters and their positions
      */
     public static void drawGrid(char[][] grid) {
-        for (int y = 0; y < GRID_HEIGHT; y++) {
-            for (int x = 0; x < GRID_WIDTH; x++) {
+        // Update cached dimensions from grid array
+        if (grid.length > 0) {
+            cachedHeight = grid.length;
+            cachedWidth = grid[0].length;
+        }
+
+        for (int y = 0; y < cachedHeight; y++) {
+            for (int x = 0; x < cachedWidth; x++) {
                 System.out.print(grid[y][x]);
             }
             System.out.println();
@@ -86,9 +97,9 @@ public class GridRenderer {
      * @return 2D char array representing empty grid
      */
     public static char[][] createEmptyGrid() {
-        char[][] grid = new char[GRID_HEIGHT][GRID_WIDTH];
-        for (int y = 0; y < GRID_HEIGHT; y++) {
-            for (int x = 0; x < GRID_WIDTH; x++) {
+        char[][] grid = new char[cachedHeight][cachedWidth];
+        for (int y = 0; y < cachedHeight; y++) {
+            for (int x = 0; x < cachedWidth; x++) {
                 grid[y][x] = EMPTY_CELL;
             }
         }
@@ -103,16 +114,16 @@ public class GridRenderer {
      * @param y Y coordinate
      */
     public static void drawEntity(char[][] grid, char symbol, int x, int y) {
-        if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
+        if (x >= 0 && x < cachedWidth && y >= 0 && y < cachedHeight) {
             grid[y][x] = symbol;
         }
     }
 
     public static int getGridWidth() {
-        return GRID_WIDTH;
+        return cachedWidth;
     }
 
     public static int getGridHeight() {
-        return GRID_HEIGHT;
+        return cachedHeight;
     }
 }

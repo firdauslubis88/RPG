@@ -21,8 +21,7 @@ public class GameLogic {
     private int frameCount;
     private Random random;
 
-    private static final int GRID_WIDTH = 30;
-    private static final int GRID_HEIGHT = 30;
+    // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
      * ✅ SOLUTION: Constructor no longer needs GameManager parameter!

@@ -35,9 +35,6 @@ public class GameManager {
         this.level = 1;
         this.hp = 100;  // Week 10: Start with 100 HP
         this.gameOver = false;
-
-        // Debug: Show when the SINGLE instance is created
-        System.out.println("[DEBUG] GameManager singleton instance created: " + this.hashCode());
     }
 
     /**
@@ -61,7 +58,6 @@ public class GameManager {
      */
     public void addScore(int points) {
         this.score += points;
-        System.out.println("[GameManager:" + this.hashCode() + "] Score updated: " + this.score);
     }
 
     public int getScore() {
@@ -107,11 +103,9 @@ public class GameManager {
         if (this.hp < 0) {
             this.hp = 0;
         }
-        System.out.println("[GameManager:" + this.hashCode() + "] Took " + damage + " damage! HP: " + this.hp);
 
         if (this.hp <= 0) {
             this.gameOver = true;
-            System.out.println("[GameManager:" + this.hashCode() + "] GAME OVER! HP reached 0.");
         }
     }
 

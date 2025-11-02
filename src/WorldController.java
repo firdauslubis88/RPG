@@ -89,15 +89,12 @@ public class WorldController {
         switch(type) {
             case 0:
                 obstacle = new Spike(x, y);
-                System.out.println("[WorldController] Spawned Spike at (" + x + ", " + y + ")");
                 break;
             case 1:
                 obstacle = new Goblin(x, y);
-                System.out.println("[WorldController] Spawned Goblin at (" + x + ", " + y + ")");
                 break;
             case 2:
                 obstacle = new Wolf(x, y);
-                System.out.println("[WorldController] Spawned Wolf at (" + x + ", " + y + ")");
                 break;
             // ❌ Want to add Boss? Must add case 3 here!
             // ❌ Want to add Missile? Must add case 4 here!

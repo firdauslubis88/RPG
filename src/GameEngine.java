@@ -39,8 +39,6 @@ public class GameEngine {
         this.hud = new HUD();
 
         this.running = false;
-
-        System.out.println("[GameEngine] Using Singleton - no object drilling!");
     }
 
     /**
@@ -51,18 +49,8 @@ public class GameEngine {
         long lastTime = System.nanoTime();
 
         System.out.println("\n=================================");
-        System.out.println("  DUNGEON ESCAPE - WITH SINGLETON");
-        System.out.println("=================================");
-        System.out.println("✅ Single GameManager instance!");
-        System.out.println("✅ No object drilling!");
-        System.out.println("✅ Score consistency guaranteed!");
+        System.out.println("     DUNGEON ESCAPE GAME");
         System.out.println("=================================\n");
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
 
         while (running) {
             long cycleStart = System.nanoTime();
@@ -91,13 +79,8 @@ public class GameEngine {
         }
 
         System.out.println("\n=================================");
-        System.out.println("Demo ended after 600 frames (~10 seconds)");
+        System.out.println("Game ended after 600 frames");
         System.out.println("=================================");
-        System.out.println("\n✅ PROBLEMS SOLVED:");
-        System.out.println("1. HUD shows correct score (same instance!)");
-        System.out.println("2. No parameter passing needed");
-        System.out.println("3. Single instance guaranteed");
-        System.out.println("\nSingleton pattern success!");
     }
 
     private void update(float delta) {
@@ -180,14 +163,9 @@ public class GameEngine {
             }
         }
 
-        // ✅ Draw HUD (will show CORRECT score now!)
+        // Draw HUD
         GridRenderer.moveCursorBelowGrid(1);
         hud.draw();
-
-        // ✅ Show score from THE instance
-        System.out.println("[GameEngine] Score: " + GameManager.getInstance().getScore() + " | HP: " + GameManager.getInstance().getHp());
-        System.out.println("[GameEngine] Frame: " + logic.getFrameCount() + " | Obstacles: " + logic.getWorldController().getObstacleCount());
-        System.out.println();
     }
 
     private void sync(long cycleStart) {

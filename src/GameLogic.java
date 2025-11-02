@@ -49,8 +49,6 @@ public class GameLogic {
         this.worldController = new WorldController(npc);
 
         this.frameCount = 0;
-
-        System.out.println("[GameLogic] Using Singleton - no parameters needed!");
     }
 
     /**
@@ -106,10 +104,6 @@ public class GameLogic {
             if (npcX == coinX && npcY == coinY) {
                 // ✅ Update score in THE instance
                 GameManager.getInstance().addScore(10);
-
-                System.out.println("[GameLogic] Collision detected!");
-                System.out.println("[GameLogic] Singleton instance: " + GameManager.getInstance().hashCode());
-
                 coin.respawn();
             }
         }
@@ -122,9 +116,6 @@ public class GameLogic {
             if (npcX == obsX && npcY == obsY && obstacle.isActive()) {
                 // NPC takes damage
                 GameManager.getInstance().takeDamage(obstacle.getDamage());
-
-                System.out.println("[GameLogic] Hit by " + obstacle.getSymbol() + "! Took " + obstacle.getDamage() + " damage.");
-                System.out.println("[GameLogic] HP: " + GameManager.getInstance().getHp());
 
                 // Deactivate obstacle (one-time hit)
                 if (obstacle instanceof obstacles.Spike) {

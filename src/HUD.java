@@ -16,8 +16,7 @@ public class HUD {
      * Now: No parameter, uses getInstance() when needed
      */
     public HUD() {
-        System.out.println("[HUD] Using Singleton - no parameters needed!");
-        System.out.println("[HUD] Singleton instance: " + GameManager.getInstance().hashCode());
+        // Constructor intentionally empty - uses Singleton pattern
     }
 
     /**
@@ -38,9 +37,6 @@ public class HUD {
         System.out.printf("║  HP: %d / 100%n", hp);
         System.out.printf("║  Time: %ds%n", (int)time);
         System.out.printf("║  Level: %d%n", level);
-        System.out.println("╠════════════════════════════════════════╣");
-        System.out.println("║  ✅ FIXED: Reading from THE instance!  ║");
-        System.out.printf("║  Singleton hashCode: %d%n", GameManager.getInstance().hashCode());
         System.out.println("╚════════════════════════════════════════╝\n");
     }
 }

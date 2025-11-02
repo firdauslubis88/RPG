@@ -11,8 +11,8 @@ public class GridRenderer {
     private static final char EMPTY_CELL = '░';
 
     // Cache grid dimensions (set when drawGrid is called)
-    private static int cachedWidth = 30;
-    private static int cachedHeight = 30;
+    private static int cachedWidth = 25;
+    private static int cachedHeight = 25;
 
     /**
      * Clears the terminal screen using ANSI escape codes.

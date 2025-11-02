@@ -35,18 +35,18 @@ public class GameLogic {
         // ✅ No manager parameter needed!
         this.npc = new NPC();
 
-        // Week 10: Static coins placed in dungeon (30x30 map)
+        // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
-        this.coins.add(new Coin(5, 5));
-        this.coins.add(new Coin(12, 3));
-        this.coins.add(new Coin(20, 5));
-        this.coins.add(new Coin(28, 8));
-        this.coins.add(new Coin(8, 12));
-        this.coins.add(new Coin(15, 15));
-        this.coins.add(new Coin(22, 18));
-        this.coins.add(new Coin(5, 22));
-        this.coins.add(new Coin(18, 25));
-        this.coins.add(new Coin(28, 27));
+        this.coins.add(new Coin(4, 4));
+        this.coins.add(new Coin(10, 3));
+        this.coins.add(new Coin(16, 4));
+        this.coins.add(new Coin(23, 6));
+        this.coins.add(new Coin(7, 10));
+        this.coins.add(new Coin(12, 12));
+        this.coins.add(new Coin(18, 15));
+        this.coins.add(new Coin(4, 18));
+        this.coins.add(new Coin(15, 21));
+        this.coins.add(new Coin(23, 22));
 
         // Week 10 Branch 10-01: Initialize WorldController with NPC reference
         this.worldController = new WorldController(npc);

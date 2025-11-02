@@ -50,22 +50,22 @@ public class WorldController {
      */
     private void spawnInitialObstacles() {
         // ❌ HARD-CODED CREATION - Must know all concrete types!
-        // Spawn 4 Spikes at strategic positions (30x30 map)
-        activeObstacles.add(new Spike(7, 7));
-        activeObstacles.add(new Spike(15, 10));
-        activeObstacles.add(new Spike(22, 15));
-        activeObstacles.add(new Spike(10, 23));
+        // Spawn 4 Spikes at strategic positions (25x25 map)
+        activeObstacles.add(new Spike(6, 6));
+        activeObstacles.add(new Spike(12, 8));
+        activeObstacles.add(new Spike(18, 12));
+        activeObstacles.add(new Spike(8, 19));
 
         // Spawn 4 Goblins that patrol corridors
-        activeObstacles.add(new Goblin(10, 5));
-        activeObstacles.add(new Goblin(18, 12));
-        activeObstacles.add(new Goblin(12, 20));
-        activeObstacles.add(new Goblin(25, 25));
+        activeObstacles.add(new Goblin(8, 4));
+        activeObstacles.add(new Goblin(15, 10));
+        activeObstacles.add(new Goblin(10, 17));
+        activeObstacles.add(new Goblin(20, 20));
 
         // Spawn 3 Wolves that chase
-        activeObstacles.add(new Wolf(8, 15));
-        activeObstacles.add(new Wolf(20, 8));
-        activeObstacles.add(new Wolf(15, 22));
+        activeObstacles.add(new Wolf(7, 12));
+        activeObstacles.add(new Wolf(17, 7));
+        activeObstacles.add(new Wolf(12, 18));
 
         // ❌ Want to add Boss? Must add new lines here!
         // ❌ This violates Open/Closed Principle!

@@ -32,7 +32,7 @@ public class HUD {
         int hp = GameManager.getInstance().getHp();
 
         // Get the grid height to position HUD below it
-        int startRow = 32;  // Row 32 is below 30x30 grid + 1 line gap
+        int startRow = 27;  // Row 27 is below 25x25 grid + 1 line gap
 
         // Draw HUD using ANSI cursor positioning (no scrolling!)
         System.out.print(String.format("\033[%d;1H", startRow));

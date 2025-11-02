@@ -132,7 +132,10 @@ public class GameEngine {
             int currentNPCX = logic.getNPCX();
             int currentNPCY = logic.getNPCY();
             if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
-                GridRenderer.clearCell(prevNPCX, prevNPCY);
+                // Clear old NPC position by restoring map tile
+                char oldTile = DungeonMap.getTile(prevNPCX, prevNPCY);
+                GridRenderer.drawCell(oldTile, prevNPCX, prevNPCY);
+                // Draw NPC at new position
                 GridRenderer.drawCell('N', currentNPCX, currentNPCY);
                 prevNPCX = currentNPCX;
                 prevNPCY = currentNPCY;

@@ -36,8 +36,8 @@ public class Goblin implements Obstacle {
             int newX = Math.round(x) + direction;
             int currentY = Math.round(y);
 
-            // Check if new position is valid (20x15 map)
-            if (newX > 0 && newX < 19) {
+            // Check if new position is valid (30x30 map)
+            if (newX > 0 && newX < 29) {
                 x = newX;
             } else {
                 // Hit boundary, reverse direction

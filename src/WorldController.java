@@ -31,27 +31,50 @@ public class WorldController {
     private final List<Obstacle> activeObstacles;
     private final Random random;
     private final NPC npc;
-    private float spawnTimer;
-    private final float spawnInterval = 2.0f;  // Spawn every 2 seconds
 
     public WorldController(NPC npc) {
         this.activeObstacles = new ArrayList<>();
         this.random = new Random();
         this.npc = npc;
-        this.spawnTimer = 0.0f;
+
+        // Week 10: Spawn initial obstacles using HARD-CODED creation
+        spawnInitialObstacles();
     }
 
     /**
-     * Update all obstacles and handle spawning
+     * Spawn initial set of obstacles using HARD-CODED creation
+     *
+     * ❌ PROBLEM: Hard-coded instantiation!
+     * ❌ PROBLEM: WorldController knows ALL concrete types
+     * ❌ PROBLEM: Cannot extend without modification
+     */
+    private void spawnInitialObstacles() {
+        // ❌ HARD-CODED CREATION - Must know all concrete types!
+        // Spawn 4 Spikes at strategic positions (30x30 map)
+        activeObstacles.add(new Spike(7, 7));
+        activeObstacles.add(new Spike(15, 10));
+        activeObstacles.add(new Spike(22, 15));
+        activeObstacles.add(new Spike(10, 23));
+
+        // Spawn 4 Goblins that patrol corridors
+        activeObstacles.add(new Goblin(10, 5));
+        activeObstacles.add(new Goblin(18, 12));
+        activeObstacles.add(new Goblin(12, 20));
+        activeObstacles.add(new Goblin(25, 25));
+
+        // Spawn 3 Wolves that chase
+        activeObstacles.add(new Wolf(8, 15));
+        activeObstacles.add(new Wolf(20, 8));
+        activeObstacles.add(new Wolf(15, 22));
+
+        // ❌ Want to add Boss? Must add new lines here!
+        // ❌ This violates Open/Closed Principle!
+    }
+
+    /**
+     * Update all obstacles (no periodic spawning)
      */
     public void update(float delta) {
-        // Update spawn timer
-        spawnTimer += delta;
-        if (spawnTimer >= spawnInterval) {
-            spawnRandomObstacle();
-            spawnTimer = 0.0f;
-        }
-
         // Update all active obstacles
         for (Obstacle obstacle : activeObstacles) {
             obstacle.update(delta);
@@ -63,50 +86,8 @@ public class WorldController {
             }
         }
 
-        // Remove inactive obstacles or those that went offscreen (15 = height)
-        activeObstacles.removeIf(obs -> !obs.isActive() || obs.getY() > 14);
-    }
-
-    /**
-     * Spawn a random obstacle using HARD-CODED creation
-     *
-     * ❌ PROBLEM: Switch-case hell!
-     * ❌ PROBLEM: Cannot extend without modification
-     * ❌ PROBLEM: Merge conflict hotspot in team development
-     * ❌ PROBLEM: WorldController tightly coupled to ALL obstacle types
-     */
-    private void spawnRandomObstacle() {
-        int type = random.nextInt(3);  // 0, 1, or 2
-
-        // Spawn in walkable area only (not on walls)
-        // Map is 20x15, spawn in safe area (1-18, 1-13)
-        int x = random.nextInt(17) + 1;  // Random column (1-17)
-        int y = random.nextInt(12) + 1;  // Random row (1-12)
-
-        Obstacle obstacle = null;
-
-        // ❌ HARD-CODED CREATION PROBLEM!
-        // Every new obstacle type requires modifying this switch-case
-        // What if we want to add Boss, Missile, Trap? Must modify here!
-        // Two developers adding obstacles = MERGE CONFLICT!
-        switch(type) {
-            case 0:
-                obstacle = new Spike(x, y);
-                break;
-            case 1:
-                obstacle = new Goblin(x, y);
-                break;
-            case 2:
-                obstacle = new Wolf(x, y);
-                break;
-            // ❌ Want to add Boss? Must add case 3 here!
-            // ❌ Want to add Missile? Must add case 4 here!
-            // ❌ This violates the Open/Closed Principle!
-        }
-
-        if (obstacle != null) {
-            activeObstacles.add(obstacle);
-        }
+        // Remove only inactive obstacles
+        activeObstacles.removeIf(obs -> !obs.isActive());
     }
 
     /**

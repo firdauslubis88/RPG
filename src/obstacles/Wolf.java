@@ -54,9 +54,9 @@ public class Wolf implements Obstacle {
             float newX = x + dirX * speed * delta;
             float newY = y + dirY * speed * delta;
 
-            // Clamp to walkable area (20x15 map)
-            newX = Math.max(1, Math.min(18, newX));
-            newY = Math.max(1, Math.min(13, newY));
+            // Clamp to walkable area (30x30 map)
+            newX = Math.max(1, Math.min(28, newX));
+            newY = Math.max(1, Math.min(28, newY));
 
             x = newX;
             y = newY;

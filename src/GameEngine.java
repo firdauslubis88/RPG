@@ -6,16 +6,24 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
- * ✅ SOLUTION: GameEngine no longer needs GameManager parameter!
+ * GameEngine - Main game loop with performance monitoring
  *
- * Before (09-02): Required manager parameter for object drilling
- * Now (09-03): Uses GameManager.getInstance() directly
+ * Week 10 Branch 10-03: GC PERFORMANCE PROBLEM DEMONSTRATION
  *
- * This eliminates object drilling problem.
+ * ❌ PROBLEM: You'll see GC pauses causing frame drops!
+ * ❌ PROBLEM: High object creation rate (20/second) triggers frequent GC
+ * ❌ PROBLEM: GC pause = stop-the-world = visible lag spikes
+ *
+ * Watch the console output for:
+ * - "⚠️ SLOW FRAME" messages when FPS drops below 30
+ * - "🗑️ GC PAUSE" messages showing how long GC took
+ *
+ * This demonstrates WHY we need Object Pool pattern!
  */
 public class GameEngine {
     private final GameLogic logic;
     private final HUD hud;
+    private final PerformanceMonitor perfMonitor;  // ❌ Track GC impact!
     private boolean running;
 
     // Frame rate control
@@ -35,38 +43,39 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.5f;  // Update HUD every 0.5 seconds
 
     /**
-     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
-     *
-     * Components will access GameManager via getInstance().
+     * Constructor with performance monitoring
      */
     public GameEngine() {
-        // ✅ No manager parameter needed!
         this.logic = new GameLogic();
         this.hud = new HUD();
+        this.perfMonitor = new PerformanceMonitor();  // ❌ Monitor GC impact!
 
         this.running = false;
     }
 
     /**
-     * Main game loop.
+     * Main game loop with performance monitoring
+     *
+     * ❌ PROBLEM: Watch for GC pauses slowing down the game!
      */
     public void start() {
         running = true;
         long lastTime = System.nanoTime();
 
         System.out.println("\n=================================");
-        System.out.println("     DUNGEON ESCAPE GAME");
+        System.out.println("  DUNGEON ESCAPE - GC PROBLEM DEMO");
+        System.out.println("  Watch for GC pauses and lag!");
         System.out.println("=================================\n");
 
         while (running) {
-            long cycleStart = System.nanoTime();
+            long frameStart = System.nanoTime();
 
             // Calculate delta time
             long currentTime = System.nanoTime();
             float delta = (currentTime - lastTime) / 1_000_000_000.0f;
             lastTime = currentTime;
 
-            // ✅ Update game time in THE instance
+            // Update game time in THE instance
             GameManager.getInstance().updateTime(delta);
 
             // Update phase
@@ -75,8 +84,16 @@ public class GameEngine {
             // Draw phase
             draw();
 
+            // ❌ MEASURE: Calculate frame time
+            long frameEnd = System.nanoTime();
+            float frameTime = (frameEnd - frameStart) / 1_000_000_000.0f;
+            perfMonitor.recordFrame(frameTime);
+
+            // Print performance summary every 60 frames (~1 second)
+            perfMonitor.printSummary(60);
+
             // Frame rate control
-            sync(cycleStart);
+            sync(frameStart);
 
             // Stop after demo frames (600 frames = ~10 seconds at 60 FPS)
             if (logic.getFrameCount() >= 600) {
@@ -90,6 +107,7 @@ public class GameEngine {
 
         System.out.println("\n\n=================================");
         System.out.println("Game ended after 600 frames");
+        System.out.println(String.format("Total GC time: %dms", perfMonitor.getTotalGcTime()));
         System.out.println("=================================");
     }
 

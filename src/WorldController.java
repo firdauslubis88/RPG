@@ -13,24 +13,31 @@ import java.util.Arrays;
 /**
  * WorldController - Manages obstacle spawning and lifecycle
  *
- * Week 10 Branch 10-02: FACTORY METHOD PATTERN (SOLUTION)
+ * Week 10 Branch 10-03: GARBAGE COLLECTION PERFORMANCE PROBLEM
  *
- * ✅ SOLUTION: WorldController no longer knows concrete obstacle types!
- * ✅ SOLUTION: Uses factories for object creation (Open/Closed Principle)
- * ✅ SOLUTION: Adding new obstacle = create new factory, modify ZERO files!
- * ✅ SOLUTION: No switch-case, no instanceof checks for creation
+ * ❌ PROBLEM: High-frequency object creation/destruction causing GC lag!
+ * ❌ PROBLEM: Spawning 20 obstacles/second = 1200/minute
+ * ❌ PROBLEM: Frequent destruction when off-screen
+ * ❌ PROBLEM: GC pauses 150-200ms causing visible frame drops
+ *
+ * This branch demonstrates what happens when we don't reuse objects.
+ * Next branch will fix this with Object Pool pattern.
  *
  * Teaching Points:
- * - Loose coupling through factory pattern
- * - Open/Closed Principle compliance
- * - Easy to extend (just add new factory)
- * - No merge conflicts on this file
+ * - GC cost of frequent allocation/deallocation
+ * - Stop-the-world pauses impact game performance
+ * - Why object pooling matters in real-time applications
  */
 public class WorldController {
     private final List<Obstacle> activeObstacles;
     private final List<ObstacleFactory> factories;
     private final Random random;
     private final NPC npc;
+
+    // ❌ PROBLEM: High spawn rate causing GC pressure!
+    private float spawnTimer = 0;
+    private static final float SPAWN_INTERVAL = 0.05f;  // 20 obstacles/second!
+    private static final int OFF_SCREEN_Y = 25;  // Boundary for destruction
 
     public WorldController(NPC npc) {
         this.activeObstacles = new ArrayList<>();
@@ -86,24 +93,54 @@ public class WorldController {
     /**
      * Update all obstacles
      *
-     * ✅ SOLUTION: Still has instanceof for Wolf targeting
-     * This will be fixed in next refactoring by using polymorphism
+     * ❌ PROBLEM: High-frequency spawning AND destruction!
+     * ❌ PROBLEM: Creates 20 new objects per second
+     * ❌ PROBLEM: Destroys objects when off-screen
+     * ❌ PROBLEM: GC cannot keep up - causes 150-200ms pauses!
      */
     public void update(float delta) {
+        // ❌ PROBLEM: Spawn obstacles at high rate (20/second)
+        spawnTimer += delta;
+        if (spawnTimer >= SPAWN_INTERVAL) {
+            spawnRandomObstacle();
+            spawnTimer = 0;
+        }
+
         // Update all active obstacles
         for (Obstacle obstacle : activeObstacles) {
             obstacle.update(delta);
 
             // ⚠️ TEMPORARY: Still using instanceof for Wolf targeting
-            // This will be fixed by adding setTarget() to Obstacle interface
-            // or using visitor pattern in advanced branch
             if (obstacle instanceof obstacles.Wolf) {
                 ((obstacles.Wolf) obstacle).setTarget(npc);
             }
         }
 
-        // Remove only inactive obstacles
-        activeObstacles.removeIf(obs -> !obs.isActive());
+        // ❌ PROBLEM: Frequent destruction when obstacles go off-screen
+        // This creates tons of garbage for GC to collect!
+        activeObstacles.removeIf(obs ->
+            !obs.isActive() || obs.getY() > OFF_SCREEN_Y
+        );
+    }
+
+    /**
+     * Spawn random obstacle using factory pattern
+     *
+     * ❌ PROBLEM: Called 20 times per second!
+     * ❌ PROBLEM: Each call creates NEW object (no reuse)
+     * ❌ PROBLEM: After 1 minute: 1200 objects created + destroyed
+     */
+    private void spawnRandomObstacle() {
+        // Pick random factory
+        ObstacleFactory factory = factories.get(random.nextInt(factories.size()));
+
+        // Random X position at top of screen
+        int x = random.nextInt(25);  // 0-24
+        int y = 0;  // Top of screen
+
+        // ❌ Create new object (no pooling!)
+        Obstacle newObstacle = factory.createObstacle(x, y);
+        activeObstacles.add(newObstacle);
     }
 
     /**

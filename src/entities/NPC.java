@@ -5,24 +5,20 @@ package entities;
  * Non-Player Character that auto-moves from left to right.
  * Uses float for precise delta-time based movement.
  *
- * ❌ PROBLEM: Now requires GameManager parameter (object drilling).
+ * ✅ SOLUTION: No longer requires GameManager parameter!
  */
 public class NPC {
     private float x;
     private float y;
     private float velocity;  // Pixels per second
-    private final GameManager manager;  // ❌ Dependency
 
     /**
-     * ❌ PROBLEM: Constructor requires GameManager parameter!
+     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
      *
-     * Before: Simple constructor
-     * Now: Must pass manager from 3 levels up!
-     *
-     * @param manager The GameManager instance (passed down from Main)
+     * Before (09-02): NPC(manager) for object drilling
+     * Now (09-03): Clean constructor, no parameters needed
      */
-    public NPC(GameManager manager) {
-        this.manager = manager;
+    public NPC() {
         this.x = 0;
         this.y = 5;
         this.velocity = 2.0f;  // Pixels per second

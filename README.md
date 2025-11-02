@@ -1,228 +1,234 @@
-# Branch 09-01: With Game Loop
+# Week 09-03: Singleton Pattern Solution
 
 ## Overview
-This branch demonstrates **proper game loop architecture** with complete separation between update logic and rendering. This is the SOLUTION to all problems shown in branch 09-00.
+This branch demonstrates the **Singleton pattern solution** to problems from branch 09-02: multiple instances, object drilling, and state inconsistency.
 
-## Purpose
-Professional implementation showing how game development should be done:
-- Separated update() and draw()
-- Frame-rate independent movement (delta time)
-- Fully testable game logic
-- Clean, maintainable code structure
+## Quick Links
+- **Full Documentation**: [docs/09-03-solution.md](docs/09-03-solution.md)
+- **Problem Branch**: [09-02-without-singleton](../09-02-without-singleton/)
+- **Previous Solution**: [09-01-with-game-loop](../09-01-with-game-loop/)
 
-## Quick Start
+## What's Different from 09-02?
 
-### Compile
-```bash
-javac -d bin/09-01-with-game-loop src/Main.java src/GameEngine.java src/GameLogic.java src/entities/*.java src/utils/*.java
-```
+### ✅ Problems Solved
 
-### Run
-```bash
-cd bin/09-01-with-game-loop
-java Main
-```
+1. **Multiple Instances** → Single instance guaranteed
+   - Private constructor prevents `new GameManager()`
+   - Only `getInstance()` can access the instance
+   - Compiler enforced!
 
-The game will run at stable 60 FPS for 200 frames, demonstrating smooth, professional gameplay.
+2. **Object Drilling** → Clean constructors
+   - No more parameter passing through 4 levels
+   - Constructors have zero parameters
+   - Clean, simple code
 
-## What You'll Observe
+3. **State Inconsistency** → Fixed HUD bug
+   - HUD now shows correct score
+   - Everyone reads from THE instance
+   - No more confusion
 
-1. **Stable 60 FPS**: Smooth, consistent performance
-2. **No Flickering**: Clean screen updates
-3. **Frame-Independent Movement**: Entities move at correct speed regardless of FPS
-4. **Performance Metrics**: See update/draw times in real-time
+### Code Changes Summary
 
-## Solutions Implemented
-
-### 1. Separated Update and Draw
-**Problem**: Mixed logic and rendering → slow, untestable
-**Solution**:
-- `update(delta)`: Pure logic, no rendering
-- `draw()`: Pure rendering, no logic
-
-### 2. Delta Time
-**Problem**: Frame-rate dependent movement
-**Solution**:
+**Before (09-02)**:
 ```java
-newPosition = oldPosition + (velocity × deltaTime)
-```
-Result: Same gameplay speed at any FPS!
+// Main.java
+GameManager manager = new GameManager();
+GameEngine engine = new GameEngine(manager);
 
-### 3. Testable Logic
-**Problem**: Cannot unit test in 09-00
-**Solution**: GameLogic class with pure methods
-Result: 100% testable without display!
+// GameEngine.java
+public GameEngine(GameManager manager) {
+    this.logic = new GameLogic(manager);
+    this.hud = new HUD(manager);
+}
 
-### 4. Clean Architecture
-**Problem**: 150+ lines in main()
-**Solution**:
-- Main.java: 3 lines (entry point only)
-- GameEngine: Game loop orchestration
-- GameLogic: Pure logic
-- Entities: Data models
-
-## Game Mechanics
-
-### NPC (Symbol: N)
-- **Movement**: Horizontal (left to right)
-- **Speed**: 3 pixels/second (frame-rate independent!)
-- **Behavior**: Auto-moves, wraps at edge
-- **Position**: Uses float for precision
-
-### Coin (Symbol: C)
-- **Movement**: Vertical (falls down)
-- **Speed**: 2 pixels/second (frame-rate independent!)
-- **Behavior**: Falls, respawns at random X when reaching bottom
-- **Position**: Uses float for precision
-
-### Grid
-- 10x10 grid (no walls)
-- Coordinate system: (X, Y) where X=column, Y=row
-- Smooth movement thanks to float positions
-
-## Architecture
-
-```
-Main (3 lines)
-  └── GameEngine
-      ├── update(delta) → GameLogic
-      │   ├── updateNPC()
-      │   ├── updateCoins()
-      │   └── checkCollisions()
-      └── draw() → GridRenderer
-          ├── clearScreen()
-          ├── drawGrid()
-          └── drawHUD()
+// HUD.java
+private final GameManager manager = new GameManager();  // BUG!
 ```
 
-## Testing
-
-### Run Unit Tests
-```bash
-# Compile tests
-javac -cp .:junit-platform-console-standalone.jar test/GameLogicTest.java
-
-# Run tests
-java -jar junit-platform-console-standalone.jar --class-path . --scan-class-path
-```
-
-### Test Coverage
-- ✅ NPC movement with delta time
-- ✅ Coin falling physics
-- ✅ Wrap-around logic
-- ✅ Frame-rate independence verification
-- ✅ Collision detection
-
-**All tests pass WITHOUT display!**
-
-## Performance Metrics
-
-| Metric | Value |
-|--------|-------|
-| Target FPS | 60 |
-| Actual FPS | 60 (stable) |
-| Update Time | < 2ms |
-| Draw Time | < 10ms |
-| Frame Time | ~16ms |
-
-## Comparison with 09-00
-
-| Aspect | 09-00 | 09-01 | Improvement |
-|--------|-------|-------|-------------|
-| FPS | ~2 | 60 | **30x faster** |
-| Main LOC | 150+ | 3 | **50x smaller** |
-| Testability | 0% | 100% | **Full coverage** |
-| Flickering | Yes | No | **Smooth** |
-| Delta Time | No | Yes | **Frame independent** |
-| Maintainability | Poor | Excellent | **Professional** |
-
-## Key Files
-
-- **[Main.java](src/Main.java)**: Minimal entry point (3 lines!)
-- **[GameEngine.java](src/GameEngine.java)**: Core game loop with update/draw separation
-- **[GameLogic.java](src/GameLogic.java)**: Pure logic, fully testable
-- **[entities/NPC.java](src/entities/NPC.java)**: Entity with float positions
-- **[entities/Coin.java](src/entities/Coin.java)**: Entity with float positions
-- **[utils/GridRenderer.java](src/utils/GridRenderer.java)**: Rendering utilities
-- **[test/GameLogicTest.java](test/GameLogicTest.java)**: Unit tests (100% pass!)
-- **[docs/09-01-solution.md](docs/09-01-solution.md)**: Detailed explanation of all solutions
-
-## Code Highlights
-
-### Clean Main Method
+**After (09-03)**:
 ```java
-public class Main {
-    public static void main(String[] args) {
-        GameEngine engine = new GameEngine();
-        engine.start();
+// Main.java
+GameEngine engine = new GameEngine();  // Clean!
+
+// GameEngine.java
+public GameEngine() {
+    this.logic = new GameLogic();  // Clean!
+    this.hud = new HUD();          // Clean!
+}
+
+// HUD.java
+public void draw() {
+    int score = GameManager.getInstance().getScore();  // Fixed!
+}
+```
+
+## Singleton Pattern Structure
+
+```java
+public class GameManager {
+    // 1. Static instance variable
+    private static GameManager instance = null;
+
+    // 2. Private constructor
+    private GameManager() {
+        // Initialize...
+    }
+
+    // 3. Public static accessor
+    public static GameManager getInstance() {
+        if (instance == null) {
+            instance = new GameManager();
+        }
+        return instance;
     }
 }
 ```
 
-### Proper Game Loop
-```java
-while (running) {
-    float delta = calculateDelta();
-    update(delta);    // ✅ Logic only
-    draw();           // ✅ Rendering only
-    sync();           // ✅ Frame rate control
-}
+## Running the Demo
+
+### Compile
+```bash
+javac -d bin/09-03-with-singleton src/Main.java src/GameEngine.java src/GameLogic.java src/HUD.java src/entities/*.java src/utils/*.java
 ```
 
-### Delta Time Movement
-```java
-public void updateNPC(float delta) {
-    float newX = npc.getX() + npc.getVelocity() * delta;
-    if (newX >= GRID_WIDTH) newX -= GRID_WIDTH;
-    npc.setX(newX);
-}
+### Run
+```bash
+cd bin/09-03-with-singleton
+java Main
 ```
 
-### Testable Logic
-```java
-@Test
-void testNPCMovement() {
-    GameLogic logic = new GameLogic();
-    logic.updateNPC(0.016f);  // ✅ No rendering needed!
-    assertTrue(logic.getNPCX() > 0);
-}
+### Expected Behavior
+
+**Startup Messages**:
+```
+[DEBUG] GameManager singleton instance created: 146589023  ← Only ONE!
+[GameLogic] Using Singleton - no parameters needed!
+[HUD] Singleton instance: 146589023  ← Same hashCode
+[GameEngine] Using Singleton - no object drilling!
+
+=================================
+  DUNGEON ESCAPE - WITH SINGLETON
+=================================
+✅ Single GameManager instance!
+✅ No object drilling!
+✅ Score consistency guaranteed!
+=================================
 ```
 
-## Learning Outcomes
+**During Gameplay**:
+```
+[GameManager:146589023] Score updated: 10
+[GameManager:146589023] Score updated: 20
+[GameManager:146589023] Score updated: 30
 
-After studying this branch, you should understand:
+║ HUD DISPLAY ║
+║ Score: 30 points  ← ✅ CORRECT! (was 0 in 09-02)
+║ Singleton hashCode: 146589023  ← Same instance!
 
-1. **Separation of Concerns**: Why update and draw must be separate
-2. **Delta Time**: How to make movement frame-rate independent
-3. **Testability**: Why pure logic enables automated testing
-4. **Game Loop Pattern**: Industry-standard architecture used in all professional games
-5. **Clean Code**: How to structure game code for maintainability
+[GameEngine] Score from Singleton: 30  ← ✅ Matches!
+```
 
-## Industry Relevance
+## Solutions Carried Forward
 
-This pattern is used in:
-- **Unity**: `Update()` vs `FixedUpdate()`
-- **Unreal**: `Tick(DeltaTime)`
-- **Godot**: `_process(delta)`
-- **LibGDX**: `render(delta)`
-- **Custom Engines**: All modern game engines
+### From 09-01 (Game Loop)
+- ✅ Separated update() and draw()
+- ✅ Delta time for smooth movement
+- ✅ Selective rendering (no flickering!)
+- ✅ Testable game logic
+- ✅ 60 FPS frame rate control
 
-**This is THE foundation of game development.**
+### New in 09-03 (Singleton)
+- ✅ Single instance guarantee
+- ✅ Global access without parameters
+- ✅ State consistency
+- ✅ Clean constructors
+
+## Files Modified
+
+| File | Change | Purpose |
+|------|--------|---------|
+| `entities/GameManager.java` | Private constructor + getInstance() | Singleton implementation |
+| `Main.java` | Removed manager creation/passing | Clean entry point |
+| `GameEngine.java` | Removed manager parameter | Clean constructor |
+| `GameLogic.java` | Use getInstance() | Direct access |
+| `HUD.java` | Use getInstance() | Fixed bug! |
+| `entities/NPC.java` | Removed manager parameter | Clean entity |
+| `entities/Coin.java` | Removed manager parameter | Clean entity |
+
+## Key Learning Points
+
+1. **Singleton = Private constructor + getInstance()**
+   - Prevents external instantiation
+   - Provides global access
+   - Lazy initialization
+
+2. **When to Use Singleton**
+   - ✅ Game state management
+   - ✅ Configuration/settings
+   - ✅ Resource managers
+   - ❌ Regular game entities
+   - ❌ Utility functions
+
+3. **Benefits**
+   - Single instance guarantee
+   - No object drilling
+   - Easy global access
+   - Testable with reset()
+
+4. **Trade-offs**
+   - Global state concerns
+   - Hidden dependencies
+   - Threading considerations
+   - Can be overused
+
+## Comparison: 09-02 vs 09-03
+
+| Aspect | 09-02 | 09-03 |
+|--------|-------|-------|
+| Instances created | 2+ | 1 |
+| Constructor parameters | Many | None |
+| HUD shows score | 0 (wrong) | 30 (correct) |
+| Object drilling levels | 4 | 0 |
+| Compile-time protection | None | Private constructor |
+| Refactoring difficulty | High | Low |
+
+## Progressive Learning Path
+
+```
+09-00: Monolithic
+  └─ Problems: Everything mixed together
+
+09-01: Game Loop Pattern
+  └─ Solutions: Separation, delta time, selective rendering
+
+09-02: Add Features (NEW problems appear)
+  └─ Problems: Multiple instances, object drilling
+
+09-03: Singleton Pattern (current)
+  └─ Solutions: Single instance, no drilling, clean code
+```
+
+**Key Insight**: Each branch maintains previous solutions while solving new problems!
+
+## Next Steps
+
+- Read [docs/09-03-solution.md](docs/09-03-solution.md) for comprehensive details
+- Compare with 09-02 to see the differences
+- Experiment: Try breaking Singleton (make constructor public) to see compiler errors
+- Discuss: When is Singleton NOT the right choice?
 
 ## Discussion Questions
 
-1. Why does separating update/draw solve the flickering problem?
-2. How does delta time make the game run at the same speed on different hardware?
-3. Why couldn't we write unit tests in 09-00, but can now in 09-01?
-4. What happens if update() takes longer than 16ms (60 FPS target)?
-5. How would you add a second NPC to this system?
-
-## Next Branch
-
-**Branch 09-02** will introduce global state management problems, leading to the Singleton pattern in 09-03.
-
-See [docs/09-01-solution.md](docs/09-01-solution.md) for detailed explanations of all improvements!
+1. What happens if you try `new GameManager()` now?
+2. Why is `getInstance()` static?
+3. How does this solve the HUD bug from 09-02?
+4. When should you NOT use Singleton?
+5. How would you test code that uses Singleton?
 
 ---
 
-**✅ Professional game loop architecture implemented!**
+**Branch**: 09-03-with-singleton
+**Pattern**: Singleton
+**Status**: ✅ Complete
+**Builds on**: 09-01, 09-02
+**Demonstrates**: Global state management done right

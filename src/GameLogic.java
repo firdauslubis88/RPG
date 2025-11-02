@@ -6,18 +6,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * ❌ PROBLEM: GameLogic now requires GameManager parameter!
+ * ✅ SOLUTION: GameLogic no longer needs GameManager parameter!
  *
- * Before (09-01): GameLogic managed its own state
- * Now (09-02): Must receive and pass GameManager everywhere
+ * Before (09-02): Required GameManager in constructor, passed to entities
+ * Now (09-03): Uses getInstance(), entities do the same
  *
- * This demonstrates object drilling - passing parameters through
- * multiple levels just to reach the final destination.
- *
- * This is INTENTIONALLY BAD code for educational purposes!
+ * This eliminates object drilling.
  */
 public class GameLogic {
-    private final GameManager manager;  // ❌ Dependency
     private NPC npc;
     private List<Coin> coins;
     private int frameCount;
@@ -27,32 +23,29 @@ public class GameLogic {
     private static final int GRID_HEIGHT = 10;
 
     /**
-     * ❌ PROBLEM: Constructor requires GameManager parameter!
+     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
      *
-     * This starts the object drilling chain:
-     * Main → GameEngine → GameLogic → NPC/Coin
-     *
-     * @param manager The GameManager instance (to be passed down further)
+     * Before: GameLogic(manager) → NPC(manager) → Coin(manager)
+     * Now: No parameters needed! Clean constructors!
      */
-    public GameLogic(GameManager manager) {
-        this.manager = manager;
+    public GameLogic() {
         this.random = new Random();
 
-        // ❌ Must pass manager to NPC constructor
-        this.npc = new NPC(manager);
+        // ✅ No manager parameter needed!
+        this.npc = new NPC();
 
-        // ❌ Must pass manager to each Coin constructor
+        // ✅ No manager parameter for coins either!
         this.coins = new ArrayList<>();
         // Add more coins to increase collision chances
-        this.coins.add(new Coin(manager));
-        this.coins.add(new Coin(manager));
-        this.coins.add(new Coin(manager));
-        this.coins.add(new Coin(manager));
-        this.coins.add(new Coin(manager));
+        this.coins.add(new Coin());
+        this.coins.add(new Coin());
+        this.coins.add(new Coin());
+        this.coins.add(new Coin());
+        this.coins.add(new Coin());
 
         this.frameCount = 0;
 
-        System.out.println("[GameLogic] Using manager instance: " + manager.hashCode());
+        System.out.println("[GameLogic] Using Singleton - no parameters needed!");
     }
 
     /**
@@ -85,7 +78,7 @@ public class GameLogic {
     }
 
     /**
-     * Check collisions and update score in GameManager.
+     * ✅ Check collisions and update score in THE GameManager instance.
      */
     public void checkCollisions() {
         int npcX = (int)npc.getX();
@@ -97,11 +90,11 @@ public class GameLogic {
 
             // Simple collision detection
             if (npcX == coinX && npcY == coinY) {
-                // ✅ Update score in manager (THIS instance)
-                manager.addScore(10);
+                // ✅ Update score in THE instance
+                GameManager.getInstance().addScore(10);
 
                 System.out.println("[GameLogic] Collision detected!");
-                System.out.println("[GameLogic] Manager instance: " + manager.hashCode());
+                System.out.println("[GameLogic] Singleton instance: " + GameManager.getInstance().hashCode());
 
                 coin.respawn();
             }
@@ -127,9 +120,5 @@ public class GameLogic {
 
     public int getFrameCount() {
         return frameCount;
-    }
-
-    public GameManager getManager() {
-        return manager;
     }
 }

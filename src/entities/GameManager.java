@@ -1,45 +1,61 @@
 package entities;
 
 /**
- * ❌ PROBLEM: Global game state WITHOUT singleton protection!
+ * ✅ SOLUTION: Global game state WITH singleton protection!
  *
- * This class demonstrates what happens when you need global state
- * but don't use Singleton pattern:
- * - PUBLIC constructor → anyone can create instances
- * - Multiple instances → state inconsistency
- * - Object drilling → parameter pollution
- * - Testing overhead → complex setup
+ * This class demonstrates the Singleton pattern for global state management:
+ * - PRIVATE constructor → only this class can create instances
+ * - Single instance → consistent state everywhere
+ * - Global access → no object drilling needed
+ * - Easy testing → reset() controls the single instance
  *
- * This is INTENTIONALLY BAD code for educational purposes!
+ * This solves all problems from 09-02!
  */
 public class GameManager {
+    // ✅ SOLUTION: Single static instance (lazy initialization)
+    private static GameManager instance = null;
+
     private int score;
     private float gameTime;
     private int level;
     private boolean gameOver;
 
     /**
-     * ❌ PROBLEM: PUBLIC constructor allows multiple instances!
+     * ✅ SOLUTION: PRIVATE constructor prevents external instantiation!
      *
-     * Anyone can do:
-     *   GameManager m1 = new GameManager();
-     *   GameManager m2 = new GameManager();
+     * This means:
+     *   GameManager m = new GameManager();  // ❌ Compiler error!
      *
-     * Result: Two separate states! Chaos!
+     * Only getInstance() can create the instance.
      */
-    public GameManager() {
+    private GameManager() {
         this.score = 0;
         this.gameTime = 0.0f;
         this.level = 1;
         this.gameOver = false;
 
-        // Debug: Show when instance is created
-        System.out.println("[DEBUG] GameManager instance created: " + this.hashCode());
+        // Debug: Show when the SINGLE instance is created
+        System.out.println("[DEBUG] GameManager singleton instance created: " + this.hashCode());
+    }
+
+    /**
+     * ✅ SOLUTION: Global access point to the single instance.
+     *
+     * Lazy initialization: Instance created on first call.
+     * Thread-safe: Not needed for single-threaded game (can add if needed).
+     *
+     * @return The single GameManager instance
+     */
+    public static GameManager getInstance() {
+        if (instance == null) {
+            instance = new GameManager();
+        }
+        return instance;
     }
 
     /**
      * Adds points to the score.
-     * But which instance's score? That's the problem!
+     * Now guaranteed to update THE score (only one exists!).
      */
     public void addScore(int points) {
         this.score += points;
@@ -78,12 +94,26 @@ public class GameManager {
     }
 
     /**
-     * Reset for testing (but which instance gets reset?).
+     * ✅ SOLUTION: Reset for testing (resets THE instance).
+     *
+     * For testing, we can reset the single instance to clean state.
+     * Optionally, add resetInstance() to fully recreate if needed.
      */
     public void reset() {
         this.score = 0;
         this.gameTime = 0.0f;
         this.level = 1;
         this.gameOver = false;
+    }
+
+    /**
+     * ✅ BONUS: For testing - fully reset singleton instance.
+     *
+     * Use this in test teardown to ensure clean state between tests.
+     */
+    public static void resetInstance() {
+        if (instance != null) {
+            instance.reset();
+        }
     }
 }

@@ -3,15 +3,14 @@ import entities.GameManager;
 import utils.GridRenderer;
 
 /**
- * ❌ PROBLEM: GameEngine now requires GameManager parameter!
+ * ✅ SOLUTION: GameEngine no longer needs GameManager parameter!
  *
- * Before (09-01): Clean game loop
- * Now (09-02): Must receive manager and pass to all components
+ * Before (09-02): Required manager parameter for object drilling
+ * Now (09-03): Uses GameManager.getInstance() directly
  *
- * This demonstrates object drilling problem.
+ * This eliminates object drilling problem.
  */
 public class GameEngine {
-    private final GameManager manager;  // ❌ Dependency
     private final GameLogic logic;
     private final HUD hud;
     private boolean running;
@@ -28,22 +27,18 @@ public class GameEngine {
     private boolean firstFrame = true;
 
     /**
-     * ❌ PROBLEM: Constructor requires GameManager parameter!
+     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
      *
-     * @param manager The GameManager instance (from Main)
+     * Components will access GameManager via getInstance().
      */
-    public GameEngine(GameManager manager) {
-        this.manager = manager;
-
-        // ❌ Must pass manager to GameLogic
-        this.logic = new GameLogic(manager);
-
-        // ❌ Must pass manager to HUD (but HUD will ignore it!)
-        this.hud = new HUD(manager);
+    public GameEngine() {
+        // ✅ No manager parameter needed!
+        this.logic = new GameLogic();
+        this.hud = new HUD();
 
         this.running = false;
 
-        System.out.println("[GameEngine] Using manager instance: " + manager.hashCode());
+        System.out.println("[GameEngine] Using Singleton - no object drilling!");
     }
 
     /**
@@ -54,11 +49,11 @@ public class GameEngine {
         long lastTime = System.nanoTime();
 
         System.out.println("\n=================================");
-        System.out.println("  DUNGEON ESCAPE - WITHOUT SINGLETON");
+        System.out.println("  DUNGEON ESCAPE - WITH SINGLETON");
         System.out.println("=================================");
-        System.out.println("❌ Multiple GameManager instances!");
-        System.out.println("❌ Object drilling problem!");
-        System.out.println("❌ Score inconsistency bug!");
+        System.out.println("✅ Single GameManager instance!");
+        System.out.println("✅ No object drilling!");
+        System.out.println("✅ Score consistency guaranteed!");
         System.out.println("=================================\n");
 
         try {
@@ -75,8 +70,8 @@ public class GameEngine {
             float delta = (currentTime - lastTime) / 1_000_000_000.0f;
             lastTime = currentTime;
 
-            // Update game time in manager
-            manager.updateTime(delta);
+            // ✅ Update game time in THE instance
+            GameManager.getInstance().updateTime(delta);
 
             // Update phase
             update(delta);
@@ -96,11 +91,11 @@ public class GameEngine {
         System.out.println("\n=================================");
         System.out.println("Demo ended after 600 frames (~10 seconds)");
         System.out.println("=================================");
-        System.out.println("\n❌ PROBLEMS DEMONSTRATED:");
-        System.out.println("1. HUD shows score = 0 (wrong instance!)");
-        System.out.println("2. GameManager passed through 3+ levels");
-        System.out.println("3. Multiple instances created");
-        System.out.println("\nNext: 09-03 will solve with Singleton!");
+        System.out.println("\n✅ PROBLEMS SOLVED:");
+        System.out.println("1. HUD shows correct score (same instance!)");
+        System.out.println("2. No parameter passing needed");
+        System.out.println("3. Single instance guaranteed");
+        System.out.println("\nSingleton pattern success!");
     }
 
     private void update(float delta) {
@@ -161,12 +156,12 @@ public class GameEngine {
             }
         }
 
-        // Draw HUD (will show WRONG score!)
+        // ✅ Draw HUD (will show CORRECT score now!)
         GridRenderer.moveCursorBelowGrid(1);
         hud.draw();
 
-        // Show actual score from GameLogic's manager
-        System.out.println("[GameEngine] Actual score (from GameLogic's manager): " + logic.getManager().getScore());
+        // ✅ Show score from THE instance
+        System.out.println("[GameEngine] Score from Singleton: " + GameManager.getInstance().getScore());
         System.out.println("[GameEngine] Frame: " + logic.getFrameCount());
         System.out.println();
     }

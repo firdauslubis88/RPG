@@ -1,31 +1,21 @@
-import entities.GameManager;
-
 /**
- * ❌ PROBLEM: Must create and pass GameManager everywhere!
+ * ✅ SOLUTION: Clean main with no object drilling!
  *
- * Before (09-01): Simple 3-line main
- * Now (09-02): Must manage GameManager instance
+ * Before (09-02): Had to create and pass GameManager
+ * Now (09-03): GameEngine handles everything via Singleton
  *
- * This starts the object drilling chain:
- * Main → GameEngine → GameLogic → NPC/Coin (4 levels!)
+ * This is how it should be - simple, clean, no parameter pollution!
  */
 public class Main {
     public static void main(String[] args) {
-        // ❌ PROBLEM: Creates GameManager instance
-        // But nothing prevents creating MORE instances elsewhere!
-        GameManager manager = new GameManager();
-
-        System.out.println("[Main] Created GameManager instance: " + manager.hashCode());
-
-        // ❌ Must pass manager to GameEngine
-        GameEngine engine = new GameEngine(manager);
+        // ✅ SOLUTION: No GameManager creation/passing needed!
+        // GameEngine will access it via getInstance()
+        GameEngine engine = new GameEngine();
         engine.start();
 
-        // ❌ PROBLEM: Object drilling has begun!
-        // Main → GameEngine (1 level)
-        // GameEngine → GameLogic (2 levels)
-        // GameEngine → HUD (2 levels)
-        // GameLogic → NPC (3 levels)
-        // GameLogic → Coin (3 levels)
+        // ✅ Clean! No object drilling!
+        // Compare with 09-02:
+        //   GameManager manager = new GameManager();
+        //   GameEngine engine = new GameEngine(manager);
     }
 }

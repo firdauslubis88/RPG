@@ -4,24 +4,20 @@ package entities;
  * Collectible coin that falls from top to bottom.
  * Uses float for precise delta-time based movement.
  *
- * ❌ PROBLEM: Now requires GameManager parameter (object drilling).
+ * ✅ SOLUTION: No longer requires GameManager parameter!
  */
 public class Coin {
     private float x;
     private float y;
     private float fallSpeed;  // Pixels per second
-    private final GameManager manager;  // ❌ Dependency
 
     /**
-     * ❌ PROBLEM: Constructor requires GameManager parameter!
+     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
      *
-     * Before: Simple constructor
-     * Now: Must pass manager from 3 levels up!
-     *
-     * @param manager The GameManager instance (passed down from Main)
+     * Before (09-02): Coin(manager) for object drilling
+     * Now (09-03): Clean constructor, no parameters needed
      */
-    public Coin(GameManager manager) {
-        this.manager = manager;
+    public Coin() {
         this.x = (float)(Math.random() * 10);
         this.y = 0;
         this.fallSpeed = 3.0f;  // Pixels per second

@@ -14,16 +14,40 @@ Educational demonstration of problems that occur when:
 
 ### Compile
 ```bash
-cd src
-javac Main.java entities/*.java utils/*.java
+javac -d bin/09-00-without-game-loop src/Main.java src/entities/*.java src/utils/*.java
 ```
 
 ### Run
 ```bash
+cd bin/09-00-without-game-loop
 java Main
 ```
 
 The game will run for 50 frames and then stop, showing you how slow it becomes due to coupling.
+
+**Note**: For best experience, run in a terminal that supports ANSI escape codes (Windows Terminal, PowerShell, CMD with ANSI support, or any Unix terminal).
+
+## Game Mechanics
+
+### NPC (Symbol: N)
+- **Movement**: Horizontal (left to right)
+- **Behavior**: Auto-moves right, wraps around at edge
+- **Position**: Starts at (0, 5), X increases each frame
+- **No player control** in this version
+
+### Coin (Symbol: C)
+- **Movement**: Vertical (falls down)
+- **Behavior**: Falls from top, respawns at random X when reaching bottom
+- **Position**: Starts at random X, Y=0, Y increases each frame
+- **Collectible**: Score increases when NPC touches it
+
+### Grid
+- 10x10 grid (no walls)
+- Coordinate system: (X, Y) where X=column, Y=row
+- X: 0 (left) to 9 (right)
+- Y: 0 (top) to 9 (bottom)
+
+See [MOVEMENT-DEMO.md](MOVEMENT-DEMO.md) for detailed movement visualization.
 
 ## What You'll Observe
 

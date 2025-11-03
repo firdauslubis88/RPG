@@ -14,7 +14,9 @@
       "Bash(fi)",
       "Bash(\"$file%.tex.log\")",
       "Bash(echo:*)",
-      "Bash(week10-presentation.log)"
+      "Bash(week10-presentation.log)",
+      "Bash(biber:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

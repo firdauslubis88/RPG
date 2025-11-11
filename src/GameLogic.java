@@ -1,41 +1,45 @@
 import world.DungeonMap;
 
-import entities.NPC;
+import entities.Player;
 import entities.GameManager;
 import entities.Coin;
 import obstacles.Obstacle;
+import input.InputHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * ✅ SOLUTION: GameLogic no longer needs GameManager parameter!
+ * Week 11-01: GameLogic with Player Control
  *
- * Before (09-02): Required GameManager in constructor, passed to entities
- * Now (09-03): Uses getInstance(), entities do the same
- *
- * This eliminates object drilling.
+ * NEW: Player-controlled character with keyboard input
+ * NPC removed, replaced by Player (@)
+ * Collision detection for Player vs Coins and Obstacles
  */
 public class GameLogic {
-    private NPC npc;
+    private Player player;
     private List<Coin> coins;
     private WorldController worldController;
+    private InputHandler inputHandler;
     private int frameCount;
     private Random random;
+
+    // Week 11: Track last collision for notification
+    private String lastCollisionMessage = "";
 
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * ✅ SOLUTION: Constructor no longer needs GameManager parameter!
+     * Week 11-01: Constructor initializes Player and InputHandler
      *
-     * Before: GameLogic(manager) → NPC(manager) → Coin(manager)
-     * Now: No parameters needed! Clean constructors!
+     * Player starts at center of map (12, 12)
+     * InputHandler created with hardcoded key bindings (ANTI-PATTERN)
      */
     public GameLogic() {
         this.random = new Random();
 
-        // ✅ No manager parameter needed!
-        this.npc = new NPC();
+        // Week 11: Player-controlled character
+        this.player = new Player(12, 12);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
@@ -50,41 +54,22 @@ public class GameLogic {
         this.coins.add(new Coin(15, 21));
         this.coins.add(new Coin(23, 22));
 
-        // Week 10 Branch 10-01: Initialize WorldController with NPC reference
-        this.worldController = new WorldController(npc);
+        // Week 11-01: Hardcoded input handler (ANTI-PATTERN)
+        this.inputHandler = new InputHandler(player);
+
+        // Week 11: WorldController tracks Player instead of NPC
+        this.worldController = new WorldController(player);
 
         this.frameCount = 0;
     }
 
-    private float npcMoveTimer = 0;
-    private final float npcMoveInterval = 1.0f;  // NPC moves every 1 second
-
     /**
-     * Week 10: NPC moves randomly in dungeon (respects walls)
+     * Week 11-01: Handle keyboard input
+     *
+     * ❌ ANTI-PATTERN: Input handling with hardcoded keys
      */
-    public void updateNPC(float delta) {
-        npcMoveTimer += delta;
-
-        if (npcMoveTimer >= npcMoveInterval) {
-            npcMoveTimer = 0;
-
-            // Try random movement direction
-            int direction = random.nextInt(4);  // 0=up, 1=right, 2=down, 3=left
-            int newX = npc.getX();
-            int newY = npc.getY();
-
-            switch(direction) {
-                case 0: newY--; break;  // Up
-                case 1: newX++; break;  // Right
-                case 2: newY++; break;  // Down
-                case 3: newX--; break;  // Left
-            }
-
-            // Only move if target is walkable (not wall)
-            if (DungeonMap.isWalkable(newX, newY)) {
-                npc.tryMove(newX, newY);
-            }
-        }
+    public void handleInput() {
+        inputHandler.handleInput();
     }
 
     /**
@@ -95,12 +80,11 @@ public class GameLogic {
     }
 
     /**
-     * ✅ Check collisions and update score in THE GameManager instance.
-     * Week 10 Branch 10-01: Also check obstacle collisions (damage NPC)
+     * Week 11-01: Check collisions - Player vs Coins and Obstacles
      */
     public void checkCollisions() {
-        int npcX = (int)npc.getX();
-        int npcY = (int)npc.getY();
+        int playerX = player.getX();
+        int playerY = player.getY();
 
         // Check coin collisions
         for (Coin coin : coins) {
@@ -110,24 +94,30 @@ public class GameLogic {
             int coinY = coin.getY();
 
             // Simple collision detection
-            if (npcX == coinX && npcY == coinY) {
-                // ✅ Update score in THE instance
-                GameManager.getInstance().addScore(10);
+            if (playerX == coinX && playerY == coinY) {
+                // Player collects coin
+                player.collectCoin(coin.getValue());
+                GameManager.getInstance().addScore(coin.getValue());
                 coin.collect();
             }
         }
 
-        // Week 10 Branch 10-01: Check obstacle collisions
+        // Week 11-01: Check obstacle collisions
         for (Obstacle obstacle : worldController.getActiveObstacles()) {
             int obsX = obstacle.getX();
             int obsY = obstacle.getY();
 
-            if (npcX == obsX && npcY == obsY && obstacle.isActive()) {
-                // NPC takes damage
+            if (playerX == obsX && playerY == obsY && obstacle.isActive()) {
+                // Player takes damage
+                player.takeDamage(obstacle.getDamage());
                 GameManager.getInstance().takeDamage(obstacle.getDamage());
 
-                // ✅ SOLUTION: Use polymorphism - no instanceof needed!
-                // Week 10 Branch 10-02: setActive() is now in Obstacle interface
+                // Week 11: Record collision for notification
+                lastCollisionMessage = String.format("💥 HIT! -%dHP | Remaining: %d/100",
+                    obstacle.getDamage(),
+                    GameManager.getInstance().getHp());
+
+                // Remove obstacle after hit
                 obstacle.setActive(false);
             }
         }
@@ -138,12 +128,16 @@ public class GameLogic {
     }
 
     // Getters
-    public int getNPCX() {
-        return (int)npc.getX();
+    public Player getPlayer() {
+        return player;
     }
 
-    public int getNPCY() {
-        return (int)npc.getY();
+    public int getPlayerX() {
+        return player.getX();
+    }
+
+    public int getPlayerY() {
+        return player.getY();
     }
 
     public List<Coin> getCoins() {
@@ -156,6 +150,20 @@ public class GameLogic {
 
     public WorldController getWorldController() {
         return worldController;
+    }
+
+    /**
+     * Week 11: Get last collision message for display
+     */
+    public String getLastCollisionMessage() {
+        return lastCollisionMessage;
+    }
+
+    /**
+     * Week 11: Clear collision message after display
+     */
+    public void clearCollisionMessage() {
+        lastCollisionMessage = "";
     }
 
     /**

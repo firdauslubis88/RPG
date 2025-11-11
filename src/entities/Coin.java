@@ -8,6 +8,8 @@ public class Coin {
     private int x;
     private int y;
     private boolean collected;
+    private int value;
+    private char symbol;
 
     /**
      * Creates a coin at specific position
@@ -16,6 +18,8 @@ public class Coin {
         this.x = x;
         this.y = y;
         this.collected = false;
+        this.value = 10;  // Each coin worth 10 points
+        this.symbol = '$';  // Coin symbol
     }
 
     /**
@@ -36,5 +40,13 @@ public class Coin {
 
     public int getY() {
         return y;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public char getSymbol() {
+        return symbol;
     }
 }

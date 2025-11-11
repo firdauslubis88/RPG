@@ -23,16 +23,16 @@ import utils.GridRenderer;
 public class GameEngine {
     private final GameLogic logic;
     private final HUD hud;
-    private final PerformanceMonitor perfMonitor;  // ❌ Track GC impact!
+    private final PerformanceMonitor perfMonitor;  // Week 10: Track GC impact (not needed in Week 11)
     private boolean running;
 
     // Frame rate control
     private static final int TARGET_FPS = 60;
     private static final long OPTIMAL_TIME = 1_000_000_000 / TARGET_FPS;
 
-    // ✅ CARRIED FROM 09-01: Selective rendering to avoid flickering
-    private int prevNPCX = -1;
-    private int prevNPCY = -1;
+    // Week 11: Selective rendering to avoid flickering
+    private int prevPlayerX = -1;
+    private int prevPlayerY = -1;
     private int[] prevCoinX = null;
     private int[] prevCoinY = null;
     private java.util.Map<obstacles.Obstacle, int[]> prevObstaclePositions = new java.util.HashMap<>();
@@ -40,7 +40,11 @@ public class GameEngine {
 
     // HUD rendering control
     private float hudUpdateTimer = 0;
-    private final float hudUpdateInterval = 0.5f;  // Update HUD every 0.5 seconds
+    private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
+
+    // Week 11: Notification display control (fixed position, no scrolling)
+    private String currentNotification = "";
+    private final int notificationRow = 30;  // Fixed row below map
 
     /**
      * Constructor with performance monitoring
@@ -63,9 +67,17 @@ public class GameEngine {
         long lastTime = System.nanoTime();
 
         System.out.println("\n=================================");
-        System.out.println("  DUNGEON ESCAPE - GC PROBLEM DEMO");
-        System.out.println("  Watch for GC pauses and lag!");
+        System.out.println("  DUNGEON ESCAPE");
+        System.out.println("  Week 11-01: Hardcoded Input (ANTI-PATTERN)");
+        System.out.println("=================================");
+        System.out.println("Controls: W/A/S/D + Enter to move");
+        System.out.println("          Q + Enter to quit");
+        System.out.println("Note: Windows requires Enter after each key");
         System.out.println("=================================\n");
+
+        // Week 11: Hide cursor before game starts
+        System.out.print("\033[?25l");
+        System.out.flush();
 
         while (running) {
             long frameStart = System.nanoTime();
@@ -84,14 +96,6 @@ public class GameEngine {
             // Draw phase
             draw();
 
-            // ❌ MEASURE: Calculate frame time
-            long frameEnd = System.nanoTime();
-            float frameTime = (frameEnd - frameStart) / 1_000_000_000.0f;
-            perfMonitor.recordFrame(frameTime);
-
-            // Print performance summary every 60 frames (~1 second)
-            perfMonitor.printSummary(60);
-
             // Frame rate control
             sync(frameStart);
 
@@ -100,6 +104,10 @@ public class GameEngine {
                 running = false;
             }
         }
+
+        // Week 11: Show cursor again after game ends
+        System.out.print("\033[?25h");
+        System.out.flush();
 
         // Move cursor far below the grid and HUD before printing final results
         System.out.print("\033[35;1H");
@@ -115,9 +123,11 @@ public class GameEngine {
     }
 
     private void update(float delta) {
-        logic.updateNPC(delta);
-        logic.updateWorldController(delta);  // Week 10: Update obstacles
-        logic.checkCollisions();
+        // Week 11-01: Handle player input (ANTI-PATTERN: hardcoded keys)
+        logic.handleInput();
+
+        logic.updateWorldController(delta);  // Update obstacles
+        logic.checkCollisions();  // Check Player vs Coins and Obstacles
         logic.incrementFrame();
 
         // Update HUD timer
@@ -125,6 +135,9 @@ public class GameEngine {
     }
 
     private void draw() {
+        // Week 11: Begin frame buffering to reduce flickering
+        GridRenderer.beginFrame();
+
         // ✅ CARRIED FROM 09-01: Selective rendering
         if (firstFrame) {
             // First frame: Draw everything
@@ -136,7 +149,7 @@ public class GameEngine {
             // Draw coins (only if not collected)
             for (Coin coin : logic.getCoins()) {
                 if (!coin.isCollected()) {
-                    grid[coin.getY()][coin.getX()] = 'C';
+                    grid[coin.getY()][coin.getX()] = coin.getSymbol();
                 }
             }
 
@@ -146,13 +159,13 @@ public class GameEngine {
             }
 
             // Draw NPC last (on top)
-            grid[logic.getNPCY()][logic.getNPCX()] = 'N';
+            grid[logic.getPlayerY()][logic.getPlayerX()] = '@';
 
             GridRenderer.drawGrid(grid);
 
             // Initialize previous positions
-            prevNPCX = logic.getNPCX();
-            prevNPCY = logic.getNPCY();
+            prevPlayerX = logic.getPlayerX();
+            prevPlayerY = logic.getPlayerY();
             prevCoinX = new int[logic.getCoins().size()];
             prevCoinY = new int[logic.getCoins().size()];
             for (int i = 0; i < logic.getCoins().size(); i++) {
@@ -162,17 +175,17 @@ public class GameEngine {
 
             firstFrame = false;
         } else {
-            // ✅ Selective rendering - only update changed cells
-            int currentNPCX = logic.getNPCX();
-            int currentNPCY = logic.getNPCY();
-            if (currentNPCX != prevNPCX || currentNPCY != prevNPCY) {
-                // Clear old NPC position by restoring map tile
-                char oldTile = DungeonMap.getTile(prevNPCX, prevNPCY);
-                GridRenderer.drawCell(oldTile, prevNPCX, prevNPCY);
-                // Draw NPC at new position
-                GridRenderer.drawCell('N', currentNPCX, currentNPCY);
-                prevNPCX = currentNPCX;
-                prevNPCY = currentNPCY;
+            // Week 11: Selective rendering - only update changed cells
+            int currentPlayerX = logic.getPlayerX();
+            int currentPlayerY = logic.getPlayerY();
+            if (currentPlayerX != prevPlayerX || currentPlayerY != prevPlayerY) {
+                // Clear old Player position by restoring map tile
+                char oldTile = DungeonMap.getTile(prevPlayerX, prevPlayerY);
+                GridRenderer.drawCell(oldTile, prevPlayerX, prevPlayerY);
+                // Draw Player at new position
+                GridRenderer.drawCell('@', currentPlayerX, currentPlayerY);
+                prevPlayerX = currentPlayerX;
+                prevPlayerY = currentPlayerY;
             }
 
             for (int i = 0; i < logic.getCoins().size(); i++) {
@@ -185,7 +198,7 @@ public class GameEngine {
 
                     if (currentX != prevCoinX[i] || currentY != prevCoinY[i]) {
                         GridRenderer.clearCell(prevCoinX[i], prevCoinY[i]);
-                        GridRenderer.drawCell('C', currentX, currentY);
+                        GridRenderer.drawCell(coin.getSymbol(), currentX, currentY);
                         prevCoinX[i] = currentX;
                         prevCoinY[i] = currentY;
                     }
@@ -212,6 +225,9 @@ public class GameEngine {
                 GridRenderer.drawCell(obstacle.getSymbol(), x, y);
                 prevObstaclePositions.put(obstacle, new int[]{x, y});
             }
+
+            // Week 11: Always redraw Player on top to prevent being overwritten
+            GridRenderer.drawCell('@', logic.getPlayerX(), logic.getPlayerY());
         }
 
         // Draw HUD (only on first frame or periodically)
@@ -221,6 +237,9 @@ public class GameEngine {
                 hudUpdateTimer = 0;  // Reset timer
             }
         }
+
+        // Week 11: End frame buffering - flush all updates at once
+        GridRenderer.endFrame();
     }
 
     private void sync(long cycleStart) {

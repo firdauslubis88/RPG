@@ -1,14 +1,14 @@
 package obstacles;
 
-import entities.NPC;
+import entities.Entity;
 import world.DungeonMap;
 
 /**
- * Wolf - Chase obstacle that follows the NPC
+ * Wolf - Chase obstacle that follows the player
  *
- * Week 10 Branch 10-01: Hard-coded spawning demo
+ * Week 11: Now targets Entity (Player or NPC)
  *
- * Behavior: Moves towards NPC if within detection range
+ * Behavior: Moves towards target if within detection range
  * Damage: 25 HP
  * Symbol: 'W' (Wolf)
  * Movement: Chase pattern (moves towards target)
@@ -16,11 +16,11 @@ import world.DungeonMap;
 public class Wolf implements Obstacle {
     private float x;
     private float y;
-    private final float speed = 2.5f;  // Grid units per second
+    private final float speed = 1.0f;  // Week 11: Reduced from 2.5 (too fast)
     private final float detectionRange = 5.0f;  // Grid units
     private final int damage = 25;
     private boolean active = true;
-    private NPC target;  // Reference to NPC to chase
+    private Entity target;  // Week 11: Reference to Entity (Player/NPC) to chase
 
     public Wolf(int x, int y) {
         this.x = (float) x;
@@ -28,10 +28,10 @@ public class Wolf implements Obstacle {
     }
 
     /**
-     * Set the target NPC to chase
-     * @param target NPC to follow
+     * Week 11: Set the target entity to chase
+     * @param target Entity (Player/NPC) to follow
      */
-    public void setTarget(NPC target) {
+    public void setTarget(Entity target) {
         this.target = target;
     }
 

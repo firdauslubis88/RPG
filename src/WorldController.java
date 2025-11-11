@@ -3,7 +3,7 @@ import factories.SpikeFactory;
 import factories.GoblinFactory;
 import factories.WolfFactory;
 import pools.ObstaclePool;
-import entities.NPC;
+import entities.Entity;
 import world.DungeonMap;
 
 import java.util.ArrayList;
@@ -29,17 +29,17 @@ public class WorldController {
     private final List<Obstacle> activeObstacles;
     private final List<ObstaclePool> pools;
     private final Random random;
-    private final NPC npc;
+    private final Entity entity;  // Week 11: Can be Player or NPC
 
-    // Same spawn rate, but NOW with pooling!
+    // Week 11: Reduced spawn rate for better gameplay balance
     private float spawnTimer = 0;
-    private static final float SPAWN_INTERVAL = 0.05f;  // 20 obstacles/second
+    private static final float SPAWN_INTERVAL = 0.5f;  // 2 obstacles/second (reduced from 20)
     private static final int OFF_SCREEN_Y = 25;
 
-    public WorldController(NPC npc) {
+    public WorldController(Entity entity) {
         this.activeObstacles = new ArrayList<>();
         this.random = new Random();
-        this.npc = npc;
+        this.entity = entity;
 
         // ✅ SOLUTION: Create pools instead of factories!
         // Pre-allocate 10 of each type, max 50 per pool
@@ -107,13 +107,40 @@ public class WorldController {
             spawnTimer = 0;
         }
 
-        // Update visible obstacles
+        // Store old positions before update
+        List<int[]> oldPositions = new ArrayList<>();
         for (Obstacle obstacle : activeObstacles) {
+            oldPositions.add(new int[]{obstacle.getX(), obstacle.getY()});
+        }
+
+        // Update visible obstacles
+        for (int i = 0; i < activeObstacles.size(); i++) {
+            Obstacle obstacle = activeObstacles.get(i);
+            int[] oldPos = oldPositions.get(i);
+
             obstacle.update(delta);
 
-            // ⚠️ TEMPORARY: Still using instanceof for Wolf targeting
+            // Week 11: Wolf targets player/entity
             if (obstacle instanceof obstacles.Wolf) {
-                ((obstacles.Wolf) obstacle).setTarget(npc);
+                ((obstacles.Wolf) obstacle).setTarget(entity);
+            }
+
+            // Week 11: Check collision with other obstacles after movement
+            int newX = obstacle.getX();
+            int newY = obstacle.getY();
+
+            // If moved, check for collision with other obstacles
+            if (newX != oldPos[0] || newY != oldPos[1]) {
+                for (int j = 0; j < activeObstacles.size(); j++) {
+                    if (i != j) {  // Don't check self
+                        Obstacle other = activeObstacles.get(j);
+                        if (other.getX() == newX && other.getY() == newY) {
+                            // Collision detected! Revert to old position
+                            obstacle.setPosition(oldPos[0], oldPos[1]);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -185,8 +212,8 @@ public class WorldController {
         // Check 1: Must be walkable floor
         if (!DungeonMap.isWalkable(x, y)) return false;
 
-        // Check 2: Must not be too close to NPC (minimum 3 tiles)
-        int distance = Math.abs(x - npc.getX()) + Math.abs(y - npc.getY());
+        // Check 2: Must not be too close to entity/player (minimum 3 tiles)
+        int distance = Math.abs(x - entity.getX()) + Math.abs(y - entity.getY());
         if (distance < 3) return false;
 
         // Check 3: Must not overlap with existing obstacles

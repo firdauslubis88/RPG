@@ -6,7 +6,7 @@ import world.DungeonMap;
  * Week 10: Player character that can move in dungeon.
  * Movement respects wall boundaries defined in DungeonMap.
  */
-public class NPC {
+public class NPC implements Entity {
     private int x;
     private int y;
 

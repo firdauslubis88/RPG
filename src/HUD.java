@@ -1,4 +1,5 @@
 import entities.GameManager;
+import utils.GridRenderer;
 
 /**
  * ✅ SOLUTION: HUD now uses Singleton - no constructor parameter!
@@ -7,6 +8,8 @@ import entities.GameManager;
  * Now (09-03): Uses getInstance() - guaranteed to be the correct instance
  *
  * This fixes the state inconsistency bug.
+ *
+ * Week 11: HUD now uses GridRenderer buffering to prevent screen jumping
  */
 public class HUD {
     /**
@@ -22,7 +25,7 @@ public class HUD {
     /**
      * ✅ Draws the HUD with game stats from THE instance.
      * Week 10: Added HP display for obstacle damage tracking
-     * Uses ANSI cursor positioning to draw HUD at fixed position (no scrolling)
+     * Week 11: Uses GridRenderer buffering to prevent screen jumping
      * HUD is positioned to the right of the 25x25 map grid
      */
     public void draw() {
@@ -37,31 +40,14 @@ public class HUD {
         int startCol = 28;  // Start HUD at column 28 (right of map)
         int startRow = 2;   // Start from top (row 2)
 
-        // Draw HUD using ANSI cursor positioning (no scrolling!)
-        System.out.print(String.format("\033[%d;%dH", startRow, startCol));
-        System.out.print("╔════════════════════════════╗");
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 1, startCol));
-        System.out.print("║       HUD DISPLAY          ║");
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 2, startCol));
-        System.out.print("╠════════════════════════════╣");
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 3, startCol));
-        System.out.print(String.format("║  Score: %-18d║", score));
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 4, startCol));
-        System.out.print(String.format("║  HP: %d / %-16d║", hp, 100));
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 5, startCol));
-        System.out.print(String.format("║  Time: %-19ds║", (int)time));
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 6, startCol));
-        System.out.print(String.format("║  Level: %-18d║", level));
-
-        System.out.print(String.format("\033[%d;%dH", startRow + 7, startCol));
-        System.out.print("╚════════════════════════════╝");
-
-        System.out.flush();
+        // Week 11: Draw HUD using GridRenderer buffering (prevents jumping!)
+        GridRenderer.drawText("╔════════════════════════════╗", startCol - 1, startRow - 1);
+        GridRenderer.drawText("║       HUD DISPLAY          ║", startCol - 1, startRow);
+        GridRenderer.drawText("╠════════════════════════════╣", startCol - 1, startRow + 1);
+        GridRenderer.drawText(String.format("║  Score: %-18d║", score), startCol - 1, startRow + 2);
+        GridRenderer.drawText(String.format("║  HP: %d / %-16d║", hp, 100), startCol - 1, startRow + 3);
+        GridRenderer.drawText(String.format("║  Time: %-19ds║", (int)time), startCol - 1, startRow + 4);
+        GridRenderer.drawText(String.format("║  Level: %-18d║", level), startCol - 1, startRow + 5);
+        GridRenderer.drawText("╚════════════════════════════╝", startCol - 1, startRow + 6);
     }
 }

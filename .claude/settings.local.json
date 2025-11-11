@@ -16,7 +16,10 @@
       "Bash(echo:*)",
       "Bash(week10-presentation.log)",
       "Bash(biber:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(javac:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []

@@ -38,8 +38,8 @@ public class GameLogic {
     public GameLogic() {
         this.random = new Random();
 
-        // Week 11: Player-controlled character
-        this.player = new Player(12, 12);
+        // Week 11: Player-controlled character (spawn at 10, 10)
+        this.player = new Player(10, 10);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
@@ -48,7 +48,7 @@ public class GameLogic {
         this.coins.add(new Coin(16, 4));
         this.coins.add(new Coin(23, 6));
         this.coins.add(new Coin(7, 10));
-        this.coins.add(new Coin(12, 12));
+        // Coin at (12, 12) removed - was overlapping with old player spawn
         this.coins.add(new Coin(18, 15));
         this.coins.add(new Coin(4, 18));
         this.coins.add(new Coin(15, 21));

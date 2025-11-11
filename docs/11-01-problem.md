@@ -10,6 +10,9 @@ This branch demonstrates the **problem with hardcoded input handling** before in
 - **Keyboard Input**: WASD controls for player movement
 - **Entity Interface**: Common interface for Player and NPC
 - **Player Stats**: Health, score, collision detection
+- **Double Buffering**: Reduces flickering during rendering
+- **Obstacle Collision**: Obstacles cannot overlap each other
+- **Balanced Gameplay**: Wolf speed 1.0, spawn rate 2/sec
 
 ### New Files
 - `src/entities/Player.java` - Player character with health and score
@@ -17,11 +20,19 @@ This branch demonstrates the **problem with hardcoded input handling** before in
 - `src/input/InputHandler.java` - ❌ ANTI-PATTERN: Hardcoded input handling
 
 ### Modified Files
-- `src/GameLogic.java` - Uses Player instead of NPC
-- `src/GameEngine.java` - Handles player input and rendering
-- `src/WorldController.java` - Works with Entity interface
-- `src/obstacles/Wolf.java` - Chases Entity (Player/NPC)
+- `src/GameLogic.java` - Uses Player, collision detection
+- `src/GameEngine.java` - Double buffering, player input
+- `src/WorldController.java` - Obstacle collision detection
+- `src/obstacles/Wolf.java` - Chases Entity (reduced speed 1.0)
 - `src/entities/Coin.java` - Added value and symbol
+- `src/utils/GridRenderer.java` - Double buffering support
+- `src/HUD.java` - Integrated with buffering system
+
+### Windows Console Limitations
+- **Buffered Input**: Requires Enter key after WASD (System.in limitation)
+- **Input Echo**: May be visible depending on terminal
+- **No Raw Input**: Cannot achieve unbuffered input without JNI
+- **Real Games**: Use native libraries or game engines for input
 
 ## The Problem: Hardcoded Input
 
@@ -157,18 +168,24 @@ java Main
 ```
 
 ### Controls
-- **W**: Move up
-- **S**: Move down
-- **A**: Move left
-- **D**: Move right
-- **Q**: Quit
+- **W + Enter**: Move up
+- **S + Enter**: Move down
+- **A + Enter**: Move left
+- **D + Enter**: Move right
+- **Q + Enter**: Quit
+
+**Note**: Windows console requires Enter key after each command.
 
 ### Gameplay
 - Control the player (@)
-- Collect coins ($) for points
-- Avoid obstacles (S=Spike, G=Goblin, W=Wolf)
-- Wolves (W) chase you!
-- Watch health in HUD
+- Collect coins ($) for points (10 points each)
+- Avoid obstacles:
+  - **^** Spike (10 damage, stationary)
+  - **G** Goblin (15 damage, patrols)
+  - **W** Wolf (25 damage, chases player)
+- Wolves chase you within 5-tile detection range!
+- Watch health in HUD (starts at 100 HP)
+- Game over when HP reaches 0
 
 ## Teaching Points
 

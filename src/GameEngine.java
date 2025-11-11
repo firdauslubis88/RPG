@@ -237,8 +237,48 @@ public class GameEngine {
                 prevObstaclePositions.put(obstacle, new int[]{x, y});
             }
 
-            // Week 11: Always redraw Player on top to prevent being overwritten
-            GridRenderer.drawCell('@', logic.getPlayerX(), logic.getPlayerY());
+            // Week 11-01: Redraw 3x3 area around player to cover input echo
+            // Windows console echoes input at cursor position. Combined with cursor
+            // repositioning (GridRenderer.endFrame() moves cursor to row 27), this
+            // ensures any stray echo near player is covered by correct symbols.
+            // This is part of our input echo mitigation strategy
+            int playerX = logic.getPlayerX();
+            int playerY = logic.getPlayerY();
+
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    int x = playerX + dx;
+                    int y = playerY + dy;
+
+                    if (x >= 0 && x < 25 && y >= 0 && y < 25) {
+                        // Get correct symbol for this cell
+                        char symbol = DungeonMap.getTile(x, y);
+
+                        // Check if player is at this position
+                        if (x == playerX && y == playerY) {
+                            symbol = '@';
+                        } else {
+                            // Check for coins
+                            for (Coin coin : logic.getCoins()) {
+                                if (!coin.isCollected() && coin.getX() == x && coin.getY() == y) {
+                                    symbol = coin.getSymbol();
+                                    break;
+                                }
+                            }
+
+                            // Check for obstacles
+                            for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                                if (obstacle.getX() == x && obstacle.getY() == y) {
+                                    symbol = obstacle.getSymbol();
+                                    break;
+                                }
+                            }
+                        }
+
+                        GridRenderer.drawCell(symbol, x, y);
+                    }
+                }
+            }
         }
 
         // Draw HUD (only on first frame or periodically)

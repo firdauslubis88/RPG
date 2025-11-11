@@ -6,19 +6,34 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
- * GameEngine - Main game loop with performance monitoring
+ * GameEngine - Main game loop with player control
  *
- * Week 10 Branch 10-03: GC PERFORMANCE PROBLEM DEMONSTRATION
+ * Week 11 Branch 11-01: HARDCODED INPUT ANTI-PATTERN DEMONSTRATION
  *
- * ❌ PROBLEM: You'll see GC pauses causing frame drops!
- * ❌ PROBLEM: High object creation rate (20/second) triggers frequent GC
- * ❌ PROBLEM: GC pause = stop-the-world = visible lag spikes
+ * ❌ PROBLEM: InputHandler has hardcoded WASD key bindings
+ * ❌ PROBLEM: Cannot remap keys without modifying code
+ * ❌ PROBLEM: Cannot implement undo, macros, or key rebinding
+ * ❌ PROBLEM: Violates Open/Closed Principle
  *
- * Watch the console output for:
- * - "⚠️ SLOW FRAME" messages when FPS drops below 30
- * - "🗑️ GC PAUSE" messages showing how long GC took
+ * Windows Console Limitations:
+ * - Requires Enter key after WASD (buffered input)
+ * - Input echo may be visible (cannot be fully disabled)
+ * - Real games use native libraries (JNI) or game engines for raw input
  *
- * This demonstrates WHY we need Object Pool pattern!
+ * New Features in Week 11:
+ * - Player-controlled movement with WASD + Enter
+ * - Collision detection: Player vs Coins and Obstacles
+ * - Collision detection: Obstacle vs Obstacle (no overlap)
+ * - Double buffering rendering (reduced flickering)
+ * - HUD integrated with buffering (no screen jumping)
+ * - Balanced gameplay (Wolf speed: 1.0, spawn rate: 2/sec)
+ * - Hidden cursor during gameplay
+ *
+ * Teaching Points:
+ * - This is an ANTI-PATTERN - demonstrates WHY we need Command Pattern
+ * - Hardcoded keys are inflexible and hard to maintain
+ * - Tight coupling makes testing and extension difficult
+ * - Next branch (11-02) will show Command Pattern as solution
  */
 public class GameEngine {
     private final GameLogic logic;
@@ -41,10 +56,6 @@ public class GameEngine {
     // HUD rendering control
     private float hudUpdateTimer = 0;
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
-
-    // Week 11: Notification display control (fixed position, no scrolling)
-    private String currentNotification = "";
-    private final int notificationRow = 30;  // Fixed row below map
 
     /**
      * Constructor with performance monitoring
@@ -179,11 +190,11 @@ public class GameEngine {
             int currentPlayerX = logic.getPlayerX();
             int currentPlayerY = logic.getPlayerY();
             if (currentPlayerX != prevPlayerX || currentPlayerY != prevPlayerY) {
-                // Clear old Player position by restoring map tile
+                // Week 11: Cover input echo at old position FIRST
                 char oldTile = DungeonMap.getTile(prevPlayerX, prevPlayerY);
                 GridRenderer.drawCell(oldTile, prevPlayerX, prevPlayerY);
-                // Draw Player at new position
-                GridRenderer.drawCell('@', currentPlayerX, currentPlayerY);
+
+                // Update tracking variables
                 prevPlayerX = currentPlayerX;
                 prevPlayerY = currentPlayerY;
             }
@@ -237,6 +248,17 @@ public class GameEngine {
                 hudUpdateTimer = 0;  // Reset timer
             }
         }
+
+        // Week 11: Force redraw player position multiple times to overwrite input echo
+        // Windows console input echo cannot be fully disabled, so we aggressively
+        // redraw the player character to ensure it stays visible
+        int px = logic.getPlayerX();
+        int py = logic.getPlayerY();
+
+        // Redraw player 3 times to ensure visibility (overwrites any input echo)
+        GridRenderer.drawCell('@', px, py);
+        GridRenderer.drawCell('@', px, py);
+        GridRenderer.drawCell('@', px, py);
 
         // Week 11: End frame buffering - flush all updates at once
         GridRenderer.endFrame();

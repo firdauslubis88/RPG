@@ -104,6 +104,39 @@ Even though it's educational:
 
 ## ⚠️ Critical Guidelines
 
+### ⚠️ CRITICAL: Bin Folder and Branch Management Rules
+
+**RULE 1: Each Branch Has Its Own Bin Folder**
+- Branch `11-01-hardcoded-input` → `bin/11-01-hardcoded-input/`
+- Branch `11-02-with-command` → `bin/11-02-with-command/`
+- **NEVER** let bin folders from different branches interfere with each other
+
+**RULE 2: Git Tracking of Bin Folders**
+- Each branch ONLY tracks its own bin folder in git
+- Branch `11-01` should NOT track `bin/11-02` in git
+- Branch `11-02` should NOT track `bin/11-01` in git
+- This prevents cross-contamination when switching branches
+
+**RULE 3: Compilation Commands**
+- Always compile to the correct bin folder for the current branch
+- Example: `javac -d bin/11-02-with-command -cp bin/11-02-with-command src/*.java src/**/*.java`
+- **NEVER** compile to bin/ root - always use bin/{branch-name}/
+
+**RULE 4: Branch Workflow**
+1. When finishing a branch: Merge to main, push both main and branch
+2. When creating new branch: Create from main (NOT from another feature branch)
+3. Only add the new branch's bin folder to git
+
+**RULE 5: Clean Working Tree**
+- Before switching branches, ensure clean git status
+- Modified .class files in bin/ can prevent branch switching
+- Use `git restore bin/` if needed before switching
+
+**RULE 6: Don't Compile Test Files**
+- Test files in src/test/ should NOT be compiled to bin/
+- Only compile Main.java and game source files
+- Test files are for reference/demonstration only
+
 ### For Problem Branches (XX-XX-without-, hardcoded-)
 **DO**:
 - ✅ Make code obviously problematic

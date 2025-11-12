@@ -106,6 +106,22 @@ Even though it's educational:
 
 ### ⚠️ CRITICAL: Bin Folder and Branch Management Rules
 
+**⚠️⚠️⚠️ MOST IMPORTANT RULE ⚠️⚠️⚠️**
+**WHEN YOU ARE IN BRANCH X, YOU MUST ONLY COMPILE TO bin/X/**
+**NEVER EVER COMPILE TO ANY OTHER BIN FOLDER!**
+
+Example:
+- ✅ In branch `11-02-with-command` → ONLY compile to `bin/11-02-with-command/`
+- ❌ In branch `11-02-with-command` → **NEVER** compile to `bin/11-01-hardcoded-input/`
+- ❌ In branch `11-02-with-command` → **NEVER** compile to `bin/09-00-without-game-loop/`
+- ❌ In branch `11-02-with-command` → **NEVER** compile to `bin/` root
+
+**WHY THIS IS CRITICAL:**
+If you compile branch 11-02 source code (with CommandInputHandler) into bin/11-01/, the .class files will be WRONG for branch 11-01 (which expects InputHandler). This causes:
+- @ character to disappear
+- WASD input to be echoed on map
+- Game to break completely
+
 **RULE 1: Each Branch Has Its Own Bin Folder**
 - Branch `11-01-hardcoded-input` → `bin/11-01-hardcoded-input/`
 - Branch `11-02-with-command` → `bin/11-02-with-command/`
@@ -117,22 +133,34 @@ Even though it's educational:
 - Branch `11-02` should NOT track `bin/11-01` in git
 - This prevents cross-contamination when switching branches
 
-**RULE 3: Compilation Commands**
-- Always compile to the correct bin folder for the current branch
-- Example: `javac -d bin/11-02-with-command -cp bin/11-02-with-command src/*.java src/**/*.java`
-- **NEVER** compile to bin/ root - always use bin/{branch-name}/
+**RULE 3: Compilation Commands - READ CAREFULLY**
+- **ALWAYS** check current branch BEFORE compiling: `git branch --show-current`
+- **ALWAYS** compile to the correct bin folder for the current branch
+- Example in branch 11-02: `javac -d bin/11-02-with-command -cp bin/11-02-with-command src/*.java src/**/*.java`
+- **NEVER EVER** compile to bin/ root - always use bin/{current-branch-name}/
+- **NEVER EVER** compile to another branch's bin folder
 
-**RULE 4: Branch Workflow**
+**RULE 4: If You Need to Recompile Another Branch's Bin Folder**
+1. Switch to that branch first: `git checkout <branch-name>`
+2. Then compile to that branch's bin folder
+3. Example to fix bin/11-01:
+   ```bash
+   git checkout 11-01-hardcoded-input
+   javac -d bin/11-01-hardcoded-input -cp bin/11-01-hardcoded-input src/*.java src/**/*.java
+   ```
+4. **DO NOT** try to fix bin/11-01 while you are in branch 11-02!
+
+**RULE 5: Branch Workflow**
 1. When finishing a branch: Merge to main, push both main and branch
 2. When creating new branch: Create from main (NOT from another feature branch)
 3. Only add the new branch's bin folder to git
 
-**RULE 5: Clean Working Tree**
+**RULE 6: Clean Working Tree**
 - Before switching branches, ensure clean git status
 - Modified .class files in bin/ can prevent branch switching
 - Use `git restore bin/` if needed before switching
 
-**RULE 6: Don't Compile Test Files**
+**RULE 7: Don't Compile Test Files**
 - Test files in src/test/ should NOT be compiled to bin/
 - Only compile Main.java and game source files
 - Test files are for reference/demonstration only

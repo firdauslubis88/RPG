@@ -6,25 +6,21 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
- * GameEngine - Main game loop with Command Pattern
+ * GameEngine - Main game loop with player control
  *
- * Week 11 Branch 11-02: COMMAND PATTERN SOLUTION
+ * Week 11 Branch 11-01: HARDCODED INPUT ANTI-PATTERN DEMONSTRATION
  *
- * ✅ SOLUTION: Using Command Pattern for flexible input handling!
- * ✅ SOLUTION: Actions are objects, can be remapped easily
- * ✅ SOLUTION: Supports undo, macros, and key rebinding
- * ✅ SOLUTION: Follows Open/Closed Principle
- *
- * Compare with 11-01 (ANTI-PATTERN):
- * ❌ Before: Hardcoded if-else chain in InputHandler
- * ✅ Now: HashMap<Character, Command> for flexible binding
+ * ❌ PROBLEM: InputHandler has hardcoded WASD key bindings
+ * ❌ PROBLEM: Cannot remap keys without modifying code
+ * ❌ PROBLEM: Cannot implement undo, macros, or key rebinding
+ * ❌ PROBLEM: Violates Open/Closed Principle
  *
  * Windows Console Limitations:
  * - Requires Enter key after WASD (buffered input)
  * - Input echo may be visible (cannot be fully disabled)
  * - Real games use native libraries (JNI) or game engines for raw input
  *
- * Features in Week 11:
+ * New Features in Week 11:
  * - Player-controlled movement with WASD + Enter
  * - Collision detection: Player vs Coins and Obstacles
  * - Collision detection: Obstacle vs Obstacle (no overlap)
@@ -83,7 +79,7 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 11-02: Command Pattern (SOLUTION)");
+        System.out.println("  Week 11-01: Hardcoded Input (ANTI-PATTERN)");
         System.out.println("=================================");
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
@@ -138,7 +134,7 @@ public class GameEngine {
     }
 
     private void update(float delta) {
-        // Week 11-02: Handle player input (SOLUTION: Command Pattern)
+        // Week 11-01: Handle player input (ANTI-PATTERN: hardcoded keys)
         logic.handleInput();
 
         logic.updateWorldController(delta);  // Update obstacles
@@ -241,8 +237,48 @@ public class GameEngine {
                 prevObstaclePositions.put(obstacle, new int[]{x, y});
             }
 
-            // Week 11: Always redraw Player on top to prevent being overwritten
-            GridRenderer.drawCell('@', logic.getPlayerX(), logic.getPlayerY());
+            // Week 11-01: Redraw 3x3 area around player to cover input echo
+            // Windows console echoes input at cursor position. Combined with cursor
+            // repositioning (GridRenderer.endFrame() moves cursor to row 27), this
+            // ensures any stray echo near player is covered by correct symbols.
+            // This is part of our input echo mitigation strategy
+            int playerX = logic.getPlayerX();
+            int playerY = logic.getPlayerY();
+
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    int x = playerX + dx;
+                    int y = playerY + dy;
+
+                    if (x >= 0 && x < 25 && y >= 0 && y < 25) {
+                        // Get correct symbol for this cell
+                        char symbol = DungeonMap.getTile(x, y);
+
+                        // Check if player is at this position
+                        if (x == playerX && y == playerY) {
+                            symbol = '@';
+                        } else {
+                            // Check for coins
+                            for (Coin coin : logic.getCoins()) {
+                                if (!coin.isCollected() && coin.getX() == x && coin.getY() == y) {
+                                    symbol = coin.getSymbol();
+                                    break;
+                                }
+                            }
+
+                            // Check for obstacles
+                            for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
+                                if (obstacle.getX() == x && obstacle.getY() == y) {
+                                    symbol = obstacle.getSymbol();
+                                    break;
+                                }
+                            }
+                        }
+
+                        GridRenderer.drawCell(symbol, x, y);
+                    }
+                }
+            }
         }
 
         // Draw HUD (only on first frame or periodically)

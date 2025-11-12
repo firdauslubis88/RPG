@@ -2,47 +2,35 @@ package input;
 
 import commands.Command;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Week 11-02: Command Pattern Input Handler
  *
- * ✅ SOLUTION: Flexible key binding with Command Pattern!
- *
- * Compare with InputHandler (11-01):
- * ❌ Before: Giant if-else chain, hardcoded keys
- * ✅ Now: HashMap<Character, Command>, easy remapping
+ * ✅ SOLUTION: Uses Command Pattern for flexible key bindings
  *
  * Benefits:
- * - Easy to remap keys: just change HashMap entries
- * - Easy to add new commands: no code modification needed
- * - Commands can be reused (same command for multiple keys)
- * - Loose coupling: doesn't know Player or action details
- *
- * Example key remapping (Week 11-03 will show this):
- *   keyBindings.put('w', moveUpCommand);    // Default
- *   keyBindings.put('i', moveUpCommand);    // Also map I to up
- *   keyBindings.put(' ', jumpCommand);      // Space for jump
+ * - Want to remap W to Arrow Up? Just change the HashMap!
+ * - Want to add new action? Just create new Command and add to map!
+ * - Want different key layouts (WASD vs IJKL)? Create different maps!
+ * - InputHandler decoupled from Player - works with any Command
+ * - Easy to implement undo, macros, key rebinding
  */
 public class CommandInputHandler {
     private Map<Character, Command> keyBindings;
 
-    /**
-     * ✅ Constructor takes pre-configured key bindings
-     *
-     * This allows external configuration (e.g., from config file)
-     * Compare with InputHandler (11-01): hardcoded in method!
-     */
     public CommandInputHandler(Map<Character, Command> keyBindings) {
         this.keyBindings = keyBindings;
     }
 
     /**
-     * Handle input using Command Pattern
+     * ✅ Command Pattern: Clean lookup-based input handling
      *
-     * ✅ Clean: Just lookup and execute!
-     * ❌ Before (11-01): 50+ lines of if-else
+     * Advantages:
+     * - No if-else chain needed!
+     * - Adding new action? Just add to keyBindings map
+     * - Remapping keys? Just change the map configuration
+     * - Same handler works for WASD, IJKL, or any key layout
      */
     public void handleInput() {
         try {
@@ -56,14 +44,11 @@ public class CommandInputHandler {
                     return;
                 }
 
-                // ✅ SOLUTION: Simple lookup and execute!
-                // Convert to lowercase for lookup
+                // ✅ COMMAND PATTERN: Lookup and execute
+                // Convert to lowercase for case-insensitive lookup
                 Command command = keyBindings.get(Character.toLowerCase(key));
                 if (command != null) {
                     command.execute();
-                } else {
-                    // Unknown key - could log or ignore
-                    // System.err.println("Unknown key: " + key);
                 }
 
                 // Clear remaining input buffer after processing command
@@ -72,44 +57,19 @@ public class CommandInputHandler {
                 }
             }
         } catch (IOException e) {
-            // Ignore IO exceptions for now
+            // Ignore
         }
     }
 
     /**
-     * ✅ NEW: Easy key remapping!
-     *
-     * Week 11-01: Impossible to do without modifying source code
-     * Week 11-02: Just call this method!
+     * ✅ Easy to implement now with Command Pattern!
      */
-    public void remapKey(char key, Command command) {
-        keyBindings.put(Character.toLowerCase(key), command);
+    public void remapKey(char oldKey, char newKey) {
+        Command command = keyBindings.remove(Character.toLowerCase(oldKey));
+        if (command != null) {
+            keyBindings.put(Character.toLowerCase(newKey), command);
+        }
     }
 
-    /**
-     * ✅ NEW: Get current key binding
-     *
-     * Useful for displaying controls to player
-     */
-    public Command getBinding(char key) {
-        return keyBindings.get(Character.toLowerCase(key));
-    }
-
-    /**
-     * ✅ NEW: Clear all bindings
-     *
-     * Useful for switching between control schemes
-     */
-    public void clearBindings() {
-        keyBindings.clear();
-    }
-
-    /**
-     * ✅ NEW: Get all bindings
-     *
-     * Useful for displaying controls screen
-     */
-    public Map<Character, Command> getAllBindings() {
-        return new HashMap<>(keyBindings);  // Return copy for safety
-    }
+    // Can add undo, macro recording, etc. easily with Command Pattern
 }

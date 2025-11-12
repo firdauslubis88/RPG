@@ -15,11 +15,10 @@ import java.util.Random;
 /**
  * Week 11-02: GameLogic with Command Pattern
  *
- * ✅ SOLUTION: Using Command Pattern for flexible input handling
- *
- * Compare with Week 11-01:
- * ❌ Before: InputHandler with hardcoded if-else chain
- * ✅ Now: CommandInputHandler with HashMap<Character, Command>
+ * ✅ SOLUTION: Uses Command Pattern for flexible input handling
+ * Player-controlled character with keyboard input
+ * Command objects for each action (MoveUp, MoveDown, etc.)
+ * Easy to remap keys - just change the HashMap!
  */
 public class GameLogic {
     private Player player;
@@ -35,21 +34,17 @@ public class GameLogic {
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 11-02: Constructor initializes Player and CommandInputHandler
+     * Week 11-02: Constructor initializes Player and Command Pattern Input Handler
      *
-     * ✅ SOLUTION: Commands are created as objects and bound to keys
-     *
-     * This allows:
-     * - Easy remapping (just change HashMap)
-     * - Adding new commands without modifying handler
-     * - Reusing commands for multiple keys
-     * - Loading key bindings from config file
+     * ✅ SOLUTION: Creates Command objects and configures key bindings
+     * Player starts at (10, 10)
+     * InputHandler uses Command Pattern - easy to remap keys!
      */
     public GameLogic() {
         this.random = new Random();
 
-        // Week 11: Player-controlled character
-        this.player = new Player(12, 12);
+        // Week 11: Player-controlled character (spawn at 10, 10)
+        this.player = new Player(10, 10);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
@@ -58,20 +53,26 @@ public class GameLogic {
         this.coins.add(new Coin(16, 4));
         this.coins.add(new Coin(23, 6));
         this.coins.add(new Coin(7, 10));
-        this.coins.add(new Coin(12, 12));
+        // Coin at (12, 12) removed - was overlapping with old player spawn
         this.coins.add(new Coin(18, 15));
         this.coins.add(new Coin(4, 18));
         this.coins.add(new Coin(15, 21));
         this.coins.add(new Coin(23, 22));
 
-        // Week 11-02: Create Command objects
+        // Week 11-02: ✅ COMMAND PATTERN - Create command objects
         Command moveUpCmd = new MoveUpCommand(player);
         Command moveDownCmd = new MoveDownCommand(player);
         Command moveLeftCmd = new MoveLeftCommand(player);
         Command moveRightCmd = new MoveRightCommand(player);
         Command quitCmd = new QuitCommand();
 
-        // Week 11-02: Configure key bindings (easily changeable!)
+        // Week 11-02: ✅ COMMAND PATTERN - Configure key bindings
+        // Want to remap keys? Just change this HashMap!
+        // Want IJKL instead of WASD? Easy:
+        //   keyBindings.put('i', moveUpCmd);
+        //   keyBindings.put('k', moveDownCmd);
+        //   keyBindings.put('j', moveLeftCmd);
+        //   keyBindings.put('l', moveRightCmd);
         Map<Character, Command> keyBindings = new HashMap<>();
         keyBindings.put('w', moveUpCmd);
         keyBindings.put('s', moveDownCmd);
@@ -79,7 +80,7 @@ public class GameLogic {
         keyBindings.put('d', moveRightCmd);
         keyBindings.put('q', quitCmd);
 
-        // Week 11-02: CommandInputHandler with flexible bindings
+        // Week 11-02: InputHandler with Command Pattern
         this.inputHandler = new CommandInputHandler(keyBindings);
 
         // Week 11: WorldController tracks Player instead of NPC
@@ -89,12 +90,10 @@ public class GameLogic {
     }
 
     /**
-     * Week 11-02: Handle keyboard input with Command Pattern
+     * Week 11-02: Handle keyboard input
      *
-     * ✅ SOLUTION: Just delegate to CommandInputHandler
-     *
-     * The handler looks up the command and executes it.
-     * No if-else chain needed here!
+     * ✅ COMMAND PATTERN: Input handler uses command lookup
+     * No hardcoded keys - all configured in HashMap!
      */
     public void handleInput() {
         inputHandler.handleInput();

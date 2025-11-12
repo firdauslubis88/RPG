@@ -53,12 +53,26 @@ public class GridRenderer {
     }
 
     /**
-     * Week 11: Flushes buffer to screen - reduces flickering
+     * Week 11-01: Flushes buffer to screen and positions cursor safely
+     *
+     * This implements our input echo mitigation strategy:
+     * 1. Hide cursor with ANSI escape code \033[?25l
+     * 2. Position cursor at row 27, col 1 (below the 25-row map)
+     * 3. Windows console echoes input at cursor position, so this ensures
+     *    echo appears below visible game area
+     * 4. Combined with 3x3 player area redraw (GameEngine.java), this
+     *    fully solves the input echo problem
      */
     public static void endFrame() {
         if (bufferingEnabled && renderBuffer.length() > 0) {
-            // Week 11: Hide cursor to prevent input echo from appearing on screen
+            // Week 11-01: Hide cursor to prevent it from being visible on screen
             renderBuffer.append("\033[?25l");  // Hide cursor
+
+            // Week 11-01: INPUT ECHO SOLUTION - Move cursor below map
+            // Row 27 is 2 rows below the 25-row map, stays within terminal bounds
+            // Windows console echoes WASD input at cursor position, so this redirects
+            // echo to invisible area below the game
+            renderBuffer.append("\033[27;1H");
 
             System.out.print(renderBuffer.toString());
             System.out.flush();

@@ -1,35 +1,50 @@
 package input;
 
-import entities.Player;
+import commands.Command;
 import java.io.IOException;
+import java.util.Map;
 
 /**
- * Week 11-01: ANTI-PATTERN - Hardcoded Input Handler
+ * Week 11-02: InputHandler with Command Pattern
  *
- * ❌ PROBLEMS:
- * 1. Tight coupling - InputHandler knows ALL about Player methods
- * 2. Cannot remap keys - Keys hardcoded to specific actions
- * 3. Cannot undo/redo - No command history
- * 4. Cannot test actions independently - Must test through InputHandler
- * 5. God class - InputHandler must know every possible action
+ * ✅ SOLUTION: Uses Command Pattern for flexible key bindings
  *
- * Try to add key remapping and you'll see the problem!
+ * Evolution from Week 11-01:
+ * ❌ Before (11-01): Hardcoded if-else chain, tight coupling to Player
+ * ✅ Now (11-02): HashMap-based lookup, decoupled from Player
+ *
+ * Benefits:
+ * - Want to remap W to Arrow Up? Just change the HashMap!
+ * - Want to add new action? Just create new Command and add to map!
+ * - Want different key layouts (WASD vs IJKL)? Create different maps!
+ * - InputHandler decoupled from Player - works with any Command
+ * - Easy to implement undo, macros, key rebinding
  */
 public class InputHandler {
-    private Player player;
+    private Map<Character, Command> keyBindings;
 
-    public InputHandler(Player player) {
-        this.player = player;
+    /**
+     * Week 11-02: Constructor now accepts Map of key bindings
+     *
+     * Before: InputHandler(Player player) - tight coupling!
+     * Now: InputHandler(Map<Character, Command> keyBindings) - flexible!
+     */
+    public InputHandler(Map<Character, Command> keyBindings) {
+        this.keyBindings = keyBindings;
     }
 
     /**
-     * ❌ ANTI-PATTERN: Giant if-else chain with hardcoded keys
+     * Week 11-02: ✅ Command Pattern - Clean lookup-based input handling
      *
-     * Problems:
-     * - Want to remap W to Arrow Up? Must modify this method!
-     * - Want to add new action? Must modify this method!
-     * - Want different key layouts (WASD vs IJKL)? Duplicate code!
-     * - InputHandler tightly coupled to Player
+     * Evolution from Week 11-01:
+     * ❌ Before: Giant if-else chain (52 lines!)
+     * ✅ Now: Simple HashMap lookup (5 lines!)
+     *
+     * Advantages:
+     * - No if-else chain needed!
+     * - Adding new action? Just add to keyBindings map
+     * - Remapping keys? Just change the map configuration
+     * - Same handler works for WASD, IJKL, or any key layout
      *
      * Note: Windows console requires Enter key for input (buffered).
      * This is a limitation of System.in on Windows - real games use
@@ -47,23 +62,12 @@ public class InputHandler {
                     return;
                 }
 
-                // ❌ HARDCODED KEY BINDINGS
-                // Try to make this remappable and you'll see why this is bad!
-                if (key == 'w' || key == 'W') {
-                    player.moveUp();        // W hardcoded to moveUp
-                }
-                else if (key == 's' || key == 'S') {
-                    player.moveDown();      // S hardcoded to moveDown
-                }
-                else if (key == 'a' || key == 'A') {
-                    player.moveLeft();      // A hardcoded to moveLeft
-                }
-                else if (key == 'd' || key == 'D') {
-                    player.moveRight();     // D hardcoded to moveRight
-                }
-                else if (key == 'q' || key == 'Q') {
-                    System.out.println("\n\nGame ended by player");
-                    System.exit(0);
+                // ✅ COMMAND PATTERN: Lookup and execute
+                // Compare with 11-01: No more giant if-else chain!
+                // Convert to lowercase for case-insensitive lookup
+                Command command = keyBindings.get(Character.toLowerCase(key));
+                if (command != null) {
+                    command.execute();
                 }
 
                 // Clear remaining input buffer after processing command
@@ -71,12 +75,12 @@ public class InputHandler {
                     System.in.read();
                 }
 
-                // Future features will make this even worse:
-                // - Space for attack?
-                // - E for interact?
-                // - I for inventory?
-                // - M for map?
-                // Each new action = modify this method!
+                // Future features are now EASY:
+                // - Space for attack? keyBindings.put(' ', new AttackCommand(player));
+                // - E for interact? keyBindings.put('e', new InteractCommand(player));
+                // - I for inventory? keyBindings.put('i', new InventoryCommand());
+                // - M for map? keyBindings.put('m', new MapCommand());
+                // Each new action = just add to map, NO modification to this method!
             }
         } catch (IOException e) {
             // Ignore
@@ -84,17 +88,18 @@ public class InputHandler {
     }
 
     /**
-     * ❌ Problem: Want to remap keys?
-     * You'd need to add configuration and MORE if-else!
+     * Week 11-02: ✅ Easy to implement now with Command Pattern!
      *
-     * Example of what you'd have to do:
-     * - Store key mappings in config
-     * - Check config in EVERY if statement
-     * - Exponential complexity with number of actions
+     * In 11-01, this was impossible without major refactoring.
+     * Now it's trivial!
      */
+    public void remapKey(char oldKey, char newKey) {
+        Command command = keyBindings.remove(Character.toLowerCase(oldKey));
+        if (command != null) {
+            keyBindings.put(Character.toLowerCase(newKey), command);
+        }
+    }
 
-    // ❌ Can't implement these easily with current design:
-    // public void remapKey(char oldKey, char newKey) { ??? }
-    // public void undo() { ??? }
-    // public void recordMacro() { ??? }
+    // Can add undo, macro recording, etc. easily with Command Pattern
+    // These were impossible in 11-01's hardcoded design!
 }

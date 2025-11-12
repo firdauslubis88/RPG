@@ -4,7 +4,7 @@ import entities.Player;
 import entities.GameManager;
 import entities.Coin;
 import obstacles.Obstacle;
-import input.CommandInputHandler;
+import input.InputHandler;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class GameLogic {
     private Player player;
     private List<Coin> coins;
     private WorldController worldController;
-    private CommandInputHandler inputHandler;
+    private InputHandler inputHandler;
     private int frameCount;
     private Random random;
 
@@ -81,7 +81,7 @@ public class GameLogic {
         keyBindings.put('q', quitCmd);
 
         // Week 11-02: InputHandler with Command Pattern
-        this.inputHandler = new CommandInputHandler(keyBindings);
+        this.inputHandler = new InputHandler(keyBindings);
 
         // Week 11: WorldController tracks Player instead of NPC
         this.worldController = new WorldController(player);

@@ -46,17 +46,19 @@ public class CommandInputHandler {
      */
     public void handleInput() {
         try {
+            // Check if input is available (non-blocking)
             if (System.in.available() > 0) {
                 int input = System.in.read();
-                char key = Character.toLowerCase((char) input);
+                char key = (char) input;
 
-                // Skip newline/carriage return
+                // Skip newline/carriage return characters
                 if (key == '\n' || key == '\r') {
                     return;
                 }
 
                 // ✅ SOLUTION: Simple lookup and execute!
-                Command command = keyBindings.get(key);
+                // Convert to lowercase for lookup
+                Command command = keyBindings.get(Character.toLowerCase(key));
                 if (command != null) {
                     command.execute();
                 } else {
@@ -64,7 +66,7 @@ public class CommandInputHandler {
                     // System.err.println("Unknown key: " + key);
                 }
 
-                // Clear remaining input buffer
+                // Clear remaining input buffer after processing command
                 while (System.in.available() > 0) {
                     System.in.read();
                 }

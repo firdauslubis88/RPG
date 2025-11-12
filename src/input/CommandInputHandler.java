@@ -52,6 +52,10 @@ public class CommandInputHandler {
 
                 // Skip newline/carriage return
                 if (key == '\n' || key == '\r') {
+                    // Clear buffer even for newline/return
+                    while (System.in.available() > 0) {
+                        System.in.read();
+                    }
                     return;
                 }
 

@@ -6,21 +6,25 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
- * GameEngine - Main game loop with player control
+ * GameEngine - Main game loop with Command Pattern
  *
- * Week 11 Branch 11-01: HARDCODED INPUT ANTI-PATTERN DEMONSTRATION
+ * Week 11 Branch 11-02: COMMAND PATTERN SOLUTION
  *
- * ❌ PROBLEM: InputHandler has hardcoded WASD key bindings
- * ❌ PROBLEM: Cannot remap keys without modifying code
- * ❌ PROBLEM: Cannot implement undo, macros, or key rebinding
- * ❌ PROBLEM: Violates Open/Closed Principle
+ * ✅ SOLUTION: Using Command Pattern for flexible input handling!
+ * ✅ SOLUTION: Actions are objects, can be remapped easily
+ * ✅ SOLUTION: Supports undo, macros, and key rebinding
+ * ✅ SOLUTION: Follows Open/Closed Principle
+ *
+ * Compare with 11-01 (ANTI-PATTERN):
+ * ❌ Before: Hardcoded if-else chain in InputHandler
+ * ✅ Now: HashMap<Character, Command> for flexible binding
  *
  * Windows Console Limitations:
  * - Requires Enter key after WASD (buffered input)
  * - Input echo may be visible (cannot be fully disabled)
  * - Real games use native libraries (JNI) or game engines for raw input
  *
- * New Features in Week 11:
+ * Features in Week 11:
  * - Player-controlled movement with WASD + Enter
  * - Collision detection: Player vs Coins and Obstacles
  * - Collision detection: Obstacle vs Obstacle (no overlap)
@@ -79,7 +83,7 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 11-01: Hardcoded Input (ANTI-PATTERN)");
+        System.out.println("  Week 11-02: Command Pattern (SOLUTION)");
         System.out.println("=================================");
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
@@ -134,7 +138,7 @@ public class GameEngine {
     }
 
     private void update(float delta) {
-        // Week 11-01: Handle player input (ANTI-PATTERN: hardcoded keys)
+        // Week 11-02: Handle player input (SOLUTION: Command Pattern)
         logic.handleInput();
 
         logic.updateWorldController(delta);  // Update obstacles

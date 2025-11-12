@@ -70,6 +70,12 @@ public class Player implements Entity {
         score += value;
     }
 
+    // Week 11-02: For Command Pattern undo functionality
+    public void setPosition(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
+    }
+
     // Getters
     public int getX() { return x; }
     public int getY() { return y; }

@@ -4,23 +4,28 @@ import entities.Player;
 import entities.GameManager;
 import entities.Coin;
 import obstacles.Obstacle;
-import input.InputHandler;
+import input.CommandInputHandler;
+import commands.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 11-01: GameLogic with Player Control
+ * Week 11-02: GameLogic with Command Pattern
  *
- * NEW: Player-controlled character with keyboard input
- * NPC removed, replaced by Player (@)
- * Collision detection for Player vs Coins and Obstacles
+ * ✅ SOLUTION: Using Command Pattern for flexible input handling
+ *
+ * Compare with Week 11-01:
+ * ❌ Before: InputHandler with hardcoded if-else chain
+ * ✅ Now: CommandInputHandler with HashMap<Character, Command>
  */
 public class GameLogic {
     private Player player;
     private List<Coin> coins;
     private WorldController worldController;
-    private InputHandler inputHandler;
+    private CommandInputHandler inputHandler;
     private int frameCount;
     private Random random;
 
@@ -30,10 +35,15 @@ public class GameLogic {
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 11-01: Constructor initializes Player and InputHandler
+     * Week 11-02: Constructor initializes Player and CommandInputHandler
      *
-     * Player starts at center of map (12, 12)
-     * InputHandler created with hardcoded key bindings (ANTI-PATTERN)
+     * ✅ SOLUTION: Commands are created as objects and bound to keys
+     *
+     * This allows:
+     * - Easy remapping (just change HashMap)
+     * - Adding new commands without modifying handler
+     * - Reusing commands for multiple keys
+     * - Loading key bindings from config file
      */
     public GameLogic() {
         this.random = new Random();
@@ -54,8 +64,23 @@ public class GameLogic {
         this.coins.add(new Coin(15, 21));
         this.coins.add(new Coin(23, 22));
 
-        // Week 11-01: Hardcoded input handler (ANTI-PATTERN)
-        this.inputHandler = new InputHandler(player);
+        // Week 11-02: Create Command objects
+        Command moveUpCmd = new MoveUpCommand(player);
+        Command moveDownCmd = new MoveDownCommand(player);
+        Command moveLeftCmd = new MoveLeftCommand(player);
+        Command moveRightCmd = new MoveRightCommand(player);
+        Command quitCmd = new QuitCommand();
+
+        // Week 11-02: Configure key bindings (easily changeable!)
+        Map<Character, Command> keyBindings = new HashMap<>();
+        keyBindings.put('w', moveUpCmd);
+        keyBindings.put('s', moveDownCmd);
+        keyBindings.put('a', moveLeftCmd);
+        keyBindings.put('d', moveRightCmd);
+        keyBindings.put('q', quitCmd);
+
+        // Week 11-02: CommandInputHandler with flexible bindings
+        this.inputHandler = new CommandInputHandler(keyBindings);
 
         // Week 11: WorldController tracks Player instead of NPC
         this.worldController = new WorldController(player);
@@ -64,9 +89,12 @@ public class GameLogic {
     }
 
     /**
-     * Week 11-01: Handle keyboard input
+     * Week 11-02: Handle keyboard input with Command Pattern
      *
-     * ❌ ANTI-PATTERN: Input handling with hardcoded keys
+     * ✅ SOLUTION: Just delegate to CommandInputHandler
+     *
+     * The handler looks up the command and executes it.
+     * No if-else chain needed here!
      */
     public void handleInput() {
         inputHandler.handleInput();

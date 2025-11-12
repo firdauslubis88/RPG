@@ -8,32 +8,28 @@ import utils.GridRenderer;
 /**
  * GameEngine - Main game loop with player control
  *
- * Week 11 Branch 11-01: HARDCODED INPUT ANTI-PATTERN DEMONSTRATION
+ * Week 11-03: TIGHT COUPLING FOR EVENT SYSTEMS (ANTI-PATTERN)
  *
- * ❌ PROBLEM: InputHandler has hardcoded WASD key bindings
- * ❌ PROBLEM: Cannot remap keys without modifying code
- * ❌ PROBLEM: Cannot implement undo, macros, or key rebinding
- * ❌ PROBLEM: Violates Open/Closed Principle
+ * ✅ KEPT: Command Pattern for input handling (from 11-02)
+ * ❌ NEW PROBLEM: Object drilling for SoundSystem, AchievementSystem!
  *
- * Windows Console Limitations:
- * - Requires Enter key after WASD (buffered input)
- * - Input echo may be visible (cannot be fully disabled)
- * - Real games use native libraries (JNI) or game engines for raw input
+ * This branch demonstrates tight coupling between:
+ * - GameLogic creates all systems (SoundSystem, AchievementSystem)
+ * - Player is tightly coupled to both systems
+ * - HUD is tightly coupled to AchievementSystem
+ * - Complex initialization dependencies
  *
- * New Features in Week 11:
- * - Player-controlled movement with WASD + Enter
- * - Collision detection: Player vs Coins and Obstacles
- * - Collision detection: Obstacle vs Obstacle (no overlap)
- * - Double buffering rendering (reduced flickering)
- * - HUD integrated with buffering (no screen jumping)
- * - Balanced gameplay (Wolf speed: 1.0, spawn rate: 2/sec)
- * - Hidden cursor during gameplay
+ * New Features in Week 11-03:
+ * - SoundSystem: Console bell sounds for damage, coins, achievements
+ * - AchievementSystem: Track "First Blood", "Coin Collector", "Survivor"
+ * - HUD displays unlocked achievements
+ * - Player manually notifies all systems on events (ANTI-PATTERN)
  *
  * Teaching Points:
- * - This is an ANTI-PATTERN - demonstrates WHY we need Command Pattern
- * - Hardcoded keys are inflexible and hard to maintain
- * - Tight coupling makes testing and extension difficult
- * - Next branch (11-02) will show Command Pattern as solution
+ * - This is an ANTI-PATTERN for event handling
+ * - Player violates Single Responsibility Principle
+ * - Hard to add new systems (must modify Player)
+ * - Next branch (11-04) will show Observer Pattern as solution
  */
 public class GameEngine {
     private final GameLogic logic;
@@ -58,11 +54,14 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
 
     /**
-     * Constructor with performance monitoring
+     * Week 11-03: Constructor with object drilling
+     *
+     * GameLogic creates all systems and HUD.
+     * GameEngine must get HUD from GameLogic.
      */
     public GameEngine() {
         this.logic = new GameLogic();
-        this.hud = new HUD();
+        this.hud = logic.getHUD();  // Week 11-03: Get HUD from GameLogic (already has AchievementSystem)
         this.perfMonitor = new PerformanceMonitor();  // ❌ Monitor GC impact!
 
         this.running = false;
@@ -79,11 +78,12 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 11-01: Hardcoded Input (ANTI-PATTERN)");
+        System.out.println("  Week 11-03: Tight Coupling Events (ANTI-PATTERN)");
         System.out.println("=================================");
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
         System.out.println("Note: Windows requires Enter after each key");
+        System.out.println("Features: Sound effects, Achievements");
         System.out.println("=================================\n");
 
         // Week 11: Hide cursor before game starts
@@ -134,12 +134,17 @@ public class GameEngine {
     }
 
     private void update(float delta) {
-        // Week 11-01: Handle player input (ANTI-PATTERN: hardcoded keys)
+        // Week 11-02: Handle player input (Command Pattern)
         logic.handleInput();
 
         logic.updateWorldController(delta);  // Update obstacles
         logic.checkCollisions();  // Check Player vs Coins and Obstacles
         logic.incrementFrame();
+
+        // Week 11-03: ❌ TIGHT COUPLING - GameEngine must call AchievementSystem directly
+        // Check time-based achievements (Survivor achievement at 30 seconds)
+        float elapsedTime = GameManager.getInstance().getGameTime();
+        logic.getAchievementSystem().checkSurvivor(elapsedTime);
 
         // Update HUD timer
         hudUpdateTimer += delta;

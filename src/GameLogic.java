@@ -5,6 +5,8 @@ import entities.GameManager;
 import entities.Coin;
 import obstacles.Obstacle;
 import input.InputHandler;
+import systems.SoundSystem;
+import systems.AchievementSystem;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +15,17 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 11-02: GameLogic with Command Pattern
+ * Week 11-03: GameLogic with Tight Coupling (ANTI-PATTERN)
  *
- * ✅ SOLUTION: Uses Command Pattern for flexible input handling
- * Player-controlled character with keyboard input
- * Command objects for each action (MoveUp, MoveDown, etc.)
- * Easy to remap keys - just change the HashMap!
+ * ✅ KEPT: Command Pattern for input handling (from 11-02)
+ * ❌ NEW PROBLEM: Object Drilling for event systems!
+ *
+ * Issues demonstrated:
+ * 1. Must create SoundSystem, AchievementSystem, HUD here
+ * 2. Must pass all systems to Player (object drilling)
+ * 3. Must pass AchievementSystem to HUD
+ * 4. Complex initialization chain
+ * 5. Hard to add new systems (must modify this constructor)
  */
 public class GameLogic {
     private Player player;
@@ -28,23 +35,38 @@ public class GameLogic {
     private int frameCount;
     private Random random;
 
+    // Week 11-03: ❌ TIGHT COUPLING - GameLogic must manage all systems
+    private SoundSystem soundSystem;
+    private AchievementSystem achievementSystem;
+    private HUD hud;
+
     // Week 11: Track last collision for notification
     private String lastCollisionMessage = "";
 
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 11-02: Constructor initializes Player and Command Pattern Input Handler
+     * Week 11-03: ❌ ANTI-PATTERN - Constructor with Object Drilling
      *
-     * ✅ SOLUTION: Creates Command objects and configures key bindings
-     * Player starts at (10, 10)
-     * InputHandler uses Command Pattern - easy to remap keys!
+     * Problems demonstrated:
+     * 1. Must create ALL systems here (SoundSystem, AchievementSystem)
+     * 2. Must pass systems to Player (object drilling)
+     * 3. Must pass systems to HUD (more object drilling)
+     * 4. Complex initialization order dependencies
+     * 5. Want to add ParticleSystem? Modify this constructor again!
      */
     public GameLogic() {
         this.random = new Random();
 
-        // Week 11: Player-controlled character (spawn at 10, 10)
-        this.player = new Player(10, 10);
+        // Week 11-03: ❌ OBJECT DRILLING - Create all systems first
+        this.soundSystem = new SoundSystem();
+        this.achievementSystem = new AchievementSystem(soundSystem);  // AchievementSystem needs SoundSystem!
+        this.hud = new HUD(achievementSystem);  // HUD needs AchievementSystem!
+
+        // Week 11-03: ❌ OBJECT DRILLING - Pass all systems to Player
+        // Before: new Player(10, 10) - simple!
+        // Now: new Player(10, 10, soundSystem, achievementSystem) - complex!
+        this.player = new Player(10, 10, soundSystem, achievementSystem);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
@@ -191,6 +213,20 @@ public class GameLogic {
      */
     public void clearCollisionMessage() {
         lastCollisionMessage = "";
+    }
+
+    /**
+     * Week 11-03: Get HUD (for GameEngine)
+     */
+    public HUD getHUD() {
+        return hud;
+    }
+
+    /**
+     * Week 11-03: Get AchievementSystem (for GameEngine to check time-based achievements)
+     */
+    public AchievementSystem getAchievementSystem() {
+        return achievementSystem;
     }
 
     /**

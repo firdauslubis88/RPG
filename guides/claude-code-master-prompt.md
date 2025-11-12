@@ -52,6 +52,52 @@ main
     └── (similar structure)
 ```
 
+### ⚠️ CRITICAL: Bin Folder and Branch Management Rules
+
+**RULE 1: Each Branch Has Its Own Bin Folder**
+- Branch `11-01-hardcoded-input` → `bin/11-01-hardcoded-input/`
+- Branch `11-02-with-command` → `bin/11-02-with-command/`
+- **NEVER** let bin folders from different branches interfere with each other
+
+**RULE 2: Git Tracking of Bin Folders**
+- Each branch ONLY tracks its own bin folder
+- Branch `11-01` should NOT track `bin/11-02` in git
+- This prevents cross-contamination when switching branches
+
+**RULE 3: Branch Workflow**
+1. When finishing a branch (e.g., `11-01`):
+   - Merge `11-01` into `main`
+   - Push both branches to remote
+2. When creating a new branch (e.g., `11-02`):
+   - Create from `main` (NOT from previous branch)
+   - Only add its own `bin/11-02-xxx/` to git tracking
+
+**RULE 4: Clean Working Tree**
+- Before switching branches, ensure:
+  - All changes are committed
+  - No untracked files in bin/
+  - No modified .class files
+  - Clean `git status`
+
+**Example Workflow:**
+```bash
+# Finish branch 11-01
+git checkout 11-01-hardcoded-input
+git add . && git commit -m "Complete 11-01"
+git push origin 11-01-hardcoded-input
+
+# Merge to main
+git checkout main
+git merge 11-01-hardcoded-input
+git push origin main
+
+# Create new branch 11-02 from main
+git checkout main
+git checkout -b 11-02-with-command
+# Now implement 11-02, create bin/11-02-with-command/
+# IMPORTANT: Do NOT track bin/11-01-hardcoded-input in this branch!
+```
+
 ---
 
 ## 📋 What I Need From You

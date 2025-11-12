@@ -1,36 +1,57 @@
 import entities.GameManager;
-import systems.AchievementSystem;
+import events.GameEvent;
+import events.GameEventListener;
+import events.AchievementUnlockedEvent;
 import utils.GridRenderer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Week 11-03: HUD with Achievement Display (TIGHT COUPLING DEMO)
+ * Week 11-04: HUD with Observer Pattern (SOLUTION)
  *
- * ❌ PROBLEM: HUD now needs AchievementSystem!
- * - HUD constructor needs AchievementSystem parameter
- * - This creates tight coupling between HUD and AchievementSystem
- * - Want to add another system? Modify HUD constructor again!
+ * ✅ SOLUTION: HUD implements GameEventListener
  *
- * This demonstrates the tight coupling problem.
+ * Benefits:
+ * - No dependency on AchievementSystem!
+ * - Listens to AchievementUnlockedEvent
+ * - Stores achievements locally for display
+ * - Simple constructor with no parameters
+ *
+ * Evolution from Week 11-03:
+ * ❌ Before: HUD(achievementSystem) - tight coupling!
+ * ✅ Now: HUD() - no dependencies, listens to events!
  */
-public class HUD {
-    private AchievementSystem achievementSystem;
+public class HUD implements GameEventListener {
+    private List<String> achievements;
 
     /**
-     * Week 11-03: ❌ ANTI-PATTERN - Constructor now needs AchievementSystem!
+     * Week 11-04: ✅ OBSERVER PATTERN - Simple constructor!
      *
-     * Before: No parameters (used Singleton only)
-     * Now: Needs AchievementSystem parameter - tight coupling!
+     * Before (11-03): HUD(achievementSystem) - needs parameter!
+     * Now (11-04): HUD() - no parameters needed!
      */
-    public HUD(AchievementSystem achievementSystem) {
-        this.achievementSystem = achievementSystem;
+    public HUD() {
+        this.achievements = new ArrayList<>();
     }
 
     /**
-     * Week 11-03: Draws the HUD with game stats AND achievements
+     * Week 11-04: ✅ OBSERVER PATTERN - Listen to achievement events
      *
-     * ❌ PROBLEM: HUD must query AchievementSystem directly
-     * This creates tight coupling - HUD depends on AchievementSystem
+     * HUD listens to AchievementUnlockedEvent and stores achievements locally
+     */
+    @Override
+    public void onEvent(GameEvent event) {
+        if (event instanceof AchievementUnlockedEvent) {
+            AchievementUnlockedEvent achievementEvent = (AchievementUnlockedEvent) event;
+            achievements.add(achievementEvent.getAchievementName());
+        }
+    }
+
+    /**
+     * Week 11-04: Draws the HUD with game stats AND achievements
+     *
+     * ✅ SOLUTION: HUD uses locally stored achievements (from events)
+     * No need to query AchievementSystem!
      */
     public void draw() {
         // Read from THE instance!
@@ -54,13 +75,13 @@ public class HUD {
         GridRenderer.drawText(String.format("║  Level: %-18d║", level), startCol - 1, startRow + 5);
         GridRenderer.drawText("╚════════════════════════════╝", startCol - 1, startRow + 6);
 
-        // Week 11-03: Draw achievements section
+        // Week 11-04: Draw achievements section (from locally stored achievements)
         int achievementRow = startRow + 8;
         GridRenderer.drawText("╔════════════════════════════╗", startCol - 1, achievementRow);
         GridRenderer.drawText("║      ACHIEVEMENTS          ║", startCol - 1, achievementRow + 1);
         GridRenderer.drawText("╠════════════════════════════╣", startCol - 1, achievementRow + 2);
 
-        List<String> achievements = achievementSystem.getUnlockedAchievements();
+        // ✅ OBSERVER PATTERN: Use locally stored achievements (updated via events)
         if (achievements.isEmpty()) {
             GridRenderer.drawText("║  No achievements yet...    ║", startCol - 1, achievementRow + 3);
             GridRenderer.drawText("╚════════════════════════════╝", startCol - 1, achievementRow + 4);

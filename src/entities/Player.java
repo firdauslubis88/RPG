@@ -1,23 +1,25 @@
 package entities;
 
 import world.DungeonMap;
-import systems.SoundSystem;
-import systems.AchievementSystem;
+import events.EventBus;
+import events.DamageTakenEvent;
+import events.CoinCollectedEvent;
 
 /**
- * Week 11-03: Player with Tight Coupling (ANTI-PATTERN)
+ * Week 11-04: Player with Observer Pattern (SOLUTION)
  *
- * ❌ PROBLEM: Player is tightly coupled to multiple systems!
+ * ✅ SOLUTION: Player publishes events instead of calling systems directly
  *
- * Issues demonstrated:
- * 1. Constructor Nightmare: Player needs HUD, SoundSystem, AchievementSystem
- * 2. Object Drilling: All these systems must be passed from GameLogic
- * 3. Violates SRP: Player manages state + notifies UI + plays sounds + tracks achievements
- * 4. Hard to Test: Must mock SoundSystem, AchievementSystem to test Player
- * 5. Hard to Extend: Want to add ParticleSystem? Modify Player constructor & methods!
+ * Benefits:
+ * 1. Simple Constructor: Player(x, y) - no system dependencies!
+ * 2. No Object Drilling: No need to pass systems through constructors
+ * 3. Follows SRP: Player only manages its own state
+ * 4. Easy to Test: No need to mock systems
+ * 5. Easy to Extend: Want ParticleSystem? Just make it listen to events!
  *
- * This is the ANTI-PATTERN we want to avoid!
- * Branch 11-04 will show the solution using Observer Pattern.
+ * Evolution from Week 11-03:
+ * ❌ Before: Player manually calls soundSystem.play() and achievementSystem.on()
+ * ✅ Now: Player publishes events, observers react automatically
  */
 public class Player implements Entity {
     private int x;
@@ -27,29 +29,21 @@ public class Player implements Entity {
     private int score;
     private char symbol;
 
-    // Week 11-03: ❌ TIGHT COUPLING - Player knows about all these systems!
-    private SoundSystem soundSystem;
-    private AchievementSystem achievementSystem;
-
     /**
-     * Week 11-03: ❌ ANTI-PATTERN - Constructor Nightmare!
+     * Week 11-04: ✅ OBSERVER PATTERN - Simple constructor!
      *
-     * Before: Player(x, y) - simple!
-     * Now: Player(x, y, soundSystem, achievementSystem) - complex!
+     * Before (11-03): Player(x, y, soundSystem, achievementSystem) - complex!
+     * Now (11-04): Player(x, y) - simple!
      *
-     * This demonstrates object drilling and constructor explosion.
+     * No system dependencies needed!
      */
-    public Player(int startX, int startY, SoundSystem soundSystem, AchievementSystem achievementSystem) {
+    public Player(int startX, int startY) {
         this.x = startX;
         this.y = startY;
         this.maxHealth = 100;
         this.health = maxHealth;
         this.score = 0;
         this.symbol = '@';  // Player symbol
-
-        // ❌ TIGHT COUPLING: Player must store references to all systems
-        this.soundSystem = soundSystem;
-        this.achievementSystem = achievementSystem;
     }
 
     // Movement methods
@@ -81,18 +75,19 @@ public class Player implements Entity {
         }
     }
 
-    // Week 11-03: Damage and scoring with TIGHT COUPLING
+    // Week 11-04: Damage and scoring with OBSERVER PATTERN
 
     /**
-     * Week 11-03: ❌ ANTI-PATTERN - takeDamage manually notifies all systems!
+     * Week 11-04: ✅ OBSERVER PATTERN - takeDamage publishes event!
      *
-     * Problems:
-     * - Player must call soundSystem.playHurtSound()
-     * - Player must call achievementSystem.onDamageTaken()
-     * - Want to add ParticleSystem? Must modify this method!
-     * - Violates Single Responsibility Principle
+     * Benefits:
+     * - Player just publishes DamageTakenEvent
+     * - SoundSystem listens and plays hurt sound
+     * - AchievementSystem listens and checks achievements
+     * - Want ParticleSystem? Just make it listen to the event!
+     * - No need to modify Player code!
      *
-     * This is tight coupling!
+     * This is loose coupling via Observer Pattern!
      */
     public void takeDamage(int amount) {
         health -= amount;
@@ -100,9 +95,8 @@ public class Player implements Entity {
             health = 0;
         }
 
-        // ❌ TIGHT COUPLING: Player manually notifies all systems
-        soundSystem.playHurtSound();
-        achievementSystem.onDamageTaken(amount);
+        // ✅ OBSERVER PATTERN: Publish event, let observers react
+        EventBus.getInstance().publish(new DamageTakenEvent(amount, health));
     }
 
     public void addScore(int points) {
@@ -110,22 +104,22 @@ public class Player implements Entity {
     }
 
     /**
-     * Week 11-03: ❌ ANTI-PATTERN - collectCoin manually notifies all systems!
+     * Week 11-04: ✅ OBSERVER PATTERN - collectCoin publishes event!
      *
-     * Problems:
-     * - Player must call soundSystem.playCoinSound()
-     * - Player must call achievementSystem.onCoinCollected()
-     * - Want to add UI notification? Must modify this method!
-     * - Violates Single Responsibility Principle
+     * Benefits:
+     * - Player just publishes CoinCollectedEvent
+     * - SoundSystem listens and plays coin sound
+     * - AchievementSystem listens and tracks coin count
+     * - Want UI notification? Just make UI listen to the event!
+     * - No need to modify Player code!
      *
-     * This is tight coupling!
+     * This is loose coupling via Observer Pattern!
      */
     public void collectCoin(int value) {
         score += value;
 
-        // ❌ TIGHT COUPLING: Player manually notifies all systems
-        soundSystem.playCoinSound();
-        achievementSystem.onCoinCollected();
+        // ✅ OBSERVER PATTERN: Publish event, let observers react
+        EventBus.getInstance().publish(new CoinCollectedEvent(value, score));
     }
 
     // Week 11-02: For Command Pattern undo functionality

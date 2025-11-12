@@ -7,6 +7,7 @@ import obstacles.Obstacle;
 import input.InputHandler;
 import systems.SoundSystem;
 import systems.AchievementSystem;
+import events.EventBus;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,17 +16,20 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 11-03: GameLogic with Tight Coupling (ANTI-PATTERN)
+ * Week 11-04: GameLogic with Observer Pattern (SOLUTION)
  *
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ❌ NEW PROBLEM: Object Drilling for event systems!
+ * ✅ SOLUTION: Observer Pattern for event systems!
  *
- * Issues demonstrated:
- * 1. Must create SoundSystem, AchievementSystem, HUD here
- * 2. Must pass all systems to Player (object drilling)
- * 3. Must pass AchievementSystem to HUD
- * 4. Complex initialization chain
- * 5. Hard to add new systems (must modify this constructor)
+ * Benefits:
+ * 1. Create systems independently - no dependencies!
+ * 2. Register all observers with EventBus - automatic notifications
+ * 3. No object drilling - simple constructors
+ * 4. Want to add ParticleSystem? Just create it and register with EventBus!
+ *
+ * Evolution from Week 11-03:
+ * ❌ Before: Complex dependency chain, object drilling
+ * ✅ Now: Simple independent systems, EventBus coordination
  */
 public class GameLogic {
     private Player player;
@@ -35,7 +39,7 @@ public class GameLogic {
     private int frameCount;
     private Random random;
 
-    // Week 11-03: ❌ TIGHT COUPLING - GameLogic must manage all systems
+    // Week 11-04: ✅ OBSERVER PATTERN - Systems are independent observers
     private SoundSystem soundSystem;
     private AchievementSystem achievementSystem;
     private HUD hud;
@@ -46,27 +50,32 @@ public class GameLogic {
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 11-03: ❌ ANTI-PATTERN - Constructor with Object Drilling
+     * Week 11-04: ✅ OBSERVER PATTERN - Simple, decoupled initialization!
      *
-     * Problems demonstrated:
-     * 1. Must create ALL systems here (SoundSystem, AchievementSystem)
-     * 2. Must pass systems to Player (object drilling)
-     * 3. Must pass systems to HUD (more object drilling)
-     * 4. Complex initialization order dependencies
-     * 5. Want to add ParticleSystem? Modify this constructor again!
+     * Benefits:
+     * 1. Create ALL systems independently - no dependencies!
+     * 2. Simple constructors - no parameters needed
+     * 3. Register observers with EventBus - automatic coordination
+     * 4. Want to add ParticleSystem? Just create and register!
      */
     public GameLogic() {
         this.random = new Random();
 
-        // Week 11-03: ❌ OBJECT DRILLING - Create all systems first
+        // Week 11-04: ✅ OBSERVER PATTERN - Create systems independently (no dependencies!)
         this.soundSystem = new SoundSystem();
-        this.achievementSystem = new AchievementSystem(soundSystem);  // AchievementSystem needs SoundSystem!
-        this.hud = new HUD(achievementSystem);  // HUD needs AchievementSystem!
+        this.achievementSystem = new AchievementSystem();  // No SoundSystem needed!
+        this.hud = new HUD();  // No AchievementSystem needed!
 
-        // Week 11-03: ❌ OBJECT DRILLING - Pass all systems to Player
-        // Before: new Player(10, 10) - simple!
-        // Now: new Player(10, 10, soundSystem, achievementSystem) - complex!
-        this.player = new Player(10, 10, soundSystem, achievementSystem);
+        // Week 11-04: ✅ OBSERVER PATTERN - Register all observers with EventBus
+        EventBus eventBus = EventBus.getInstance();
+        eventBus.subscribe(soundSystem);      // Listen to all events (DamageTaken, CoinCollected, AchievementUnlocked)
+        eventBus.subscribe(achievementSystem); // Listen to all events (DamageTaken, CoinCollected, GameTime)
+        eventBus.subscribe(hud);              // Listen to AchievementUnlocked events
+
+        // Week 11-04: ✅ OBSERVER PATTERN - Simple Player constructor!
+        // Before (11-03): new Player(10, 10, soundSystem, achievementSystem) - complex!
+        // Now (11-04): new Player(10, 10) - simple!
+        this.player = new Player(10, 10);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
         this.coins = new ArrayList<>();
@@ -216,17 +225,12 @@ public class GameLogic {
     }
 
     /**
-     * Week 11-03: Get HUD (for GameEngine)
+     * Week 11-04: Get HUD (for GameEngine)
+     *
+     * Note: HUD is still managed by GameLogic for rendering purposes
      */
     public HUD getHUD() {
         return hud;
-    }
-
-    /**
-     * Week 11-03: Get AchievementSystem (for GameEngine to check time-based achievements)
-     */
-    public AchievementSystem getAchievementSystem() {
-        return achievementSystem;
     }
 
     /**

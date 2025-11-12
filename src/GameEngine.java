@@ -8,28 +8,28 @@ import utils.GridRenderer;
 /**
  * GameEngine - Main game loop with player control
  *
- * Week 11-03: TIGHT COUPLING FOR EVENT SYSTEMS (ANTI-PATTERN)
+ * Week 11-04: OBSERVER PATTERN FOR EVENT SYSTEMS (SOLUTION)
  *
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ❌ NEW PROBLEM: Object drilling for SoundSystem, AchievementSystem!
+ * ✅ SOLUTION: Observer Pattern via EventBus for all game systems!
  *
- * This branch demonstrates tight coupling between:
- * - GameLogic creates all systems (SoundSystem, AchievementSystem)
- * - Player is tightly coupled to both systems
- * - HUD is tightly coupled to AchievementSystem
- * - Complex initialization dependencies
+ * This branch demonstrates loose coupling through Observer Pattern:
+ * - GameLogic creates independent systems
+ * - All systems register with EventBus as observers
+ * - Player publishes events, observers react automatically
+ * - Simple, decoupled initialization
  *
- * New Features in Week 11-03:
- * - SoundSystem: Console bell sounds for damage, coins, achievements
- * - AchievementSystem: Track "First Blood", "Coin Collector", "Survivor"
- * - HUD displays unlocked achievements
- * - Player manually notifies all systems on events (ANTI-PATTERN)
+ * Features Working with Observer Pattern:
+ * - SoundSystem: Listens to damage, coin, achievement events
+ * - AchievementSystem: Listens to damage, coin, time events
+ * - HUD: Listens to achievement unlock events
+ * - Player: Just publishes events, no system dependencies
  *
  * Teaching Points:
- * - This is an ANTI-PATTERN for event handling
- * - Player violates Single Responsibility Principle
- * - Hard to add new systems (must modify Player)
- * - Next branch (11-04) will show Observer Pattern as solution
+ * - Observer Pattern decouples publishers from subscribers
+ * - Easy to add new systems (just implement GameEventListener)
+ * - Systems are independent and testable
+ * - Follows Open/Closed Principle
  */
 public class GameEngine {
     private final GameLogic logic;
@@ -54,15 +54,15 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
 
     /**
-     * Week 11-03: Constructor with object drilling
+     * Week 11-04: Simple constructor with Observer Pattern
      *
-     * GameLogic creates all systems and HUD.
-     * GameEngine must get HUD from GameLogic.
+     * GameLogic creates all systems and registers them with EventBus.
+     * GameEngine just gets HUD for rendering.
      */
     public GameEngine() {
         this.logic = new GameLogic();
-        this.hud = logic.getHUD();  // Week 11-03: Get HUD from GameLogic (already has AchievementSystem)
-        this.perfMonitor = new PerformanceMonitor();  // ❌ Monitor GC impact!
+        this.hud = logic.getHUD();  // Week 11-04: Get HUD from GameLogic for rendering
+        this.perfMonitor = new PerformanceMonitor();
 
         this.running = false;
     }
@@ -78,12 +78,13 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 11-03: Tight Coupling Events (ANTI-PATTERN)");
+        System.out.println("  Week 11-04: Observer Pattern (SOLUTION)");
         System.out.println("=================================");
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
         System.out.println("Note: Windows requires Enter after each key");
         System.out.println("Features: Sound effects, Achievements");
+        System.out.println("          (Decoupled via Observer Pattern)");
         System.out.println("=================================\n");
 
         // Week 11: Hide cursor before game starts
@@ -141,10 +142,11 @@ public class GameEngine {
         logic.checkCollisions();  // Check Player vs Coins and Obstacles
         logic.incrementFrame();
 
-        // Week 11-03: ❌ TIGHT COUPLING - GameEngine must call AchievementSystem directly
-        // Check time-based achievements (Survivor achievement at 30 seconds)
+        // Week 11-04: ✅ OBSERVER PATTERN - Publish GameTimeEvent for time-based systems
+        // Before (11-03): logic.getAchievementSystem().checkSurvivor(elapsedTime) - tight coupling!
+        // Now (11-04): Publish event, AchievementSystem listens automatically!
         float elapsedTime = GameManager.getInstance().getGameTime();
-        logic.getAchievementSystem().checkSurvivor(elapsedTime);
+        events.EventBus.getInstance().publish(new events.GameTimeEvent(elapsedTime));
 
         // Update HUD timer
         hudUpdateTimer += delta;

@@ -4,27 +4,27 @@ import entities.Coin;
 import entities.GameManager;
 import obstacles.Obstacle;
 import utils.GridRenderer;
+import difficulty.DifficultyStrategy;
 
 /**
  * GameEngine - Main game loop with difficulty system
  *
- * Week 12-01: HARDCODED DIFFICULTY (ANTI-PATTERN)
+ * Week 12-02: STRATEGY PATTERN (SOLUTION)
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ❌ ANTI-PATTERN: Passes difficulty string to GameLogic
+ * ✅ SOLUTION: Strategy Pattern for flexible difficulty!
  *
- * New Features:
- * - Main Menu system
- * - Difficulty selection (Easy/Normal/Hard)
- * - Dungeon Exit entity
+ * Evolution from Week 12-01:
+ * ❌ Before: Passes String difficulty to GameLogic
+ * ✅ Now: Passes DifficultyStrategy object to GameLogic
  */
 public class GameEngine {
     private final GameLogic logic;
     private final HUD hud;
     private final PerformanceMonitor perfMonitor;  // Week 10: Track GC impact
     private boolean running;
-    private final String difficulty;  // Week 12-01: Store difficulty for display
+    private final DifficultyStrategy strategy;  // Week 12-02: Store strategy for display
 
     // Frame rate control
     private static final int TARGET_FPS = 60;
@@ -43,13 +43,15 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
 
     /**
-     * Week 12-01: Constructor with difficulty parameter
+     * Week 12-02: Constructor with Strategy Pattern
      *
-     * @param difficulty "EASY", "NORMAL", or "HARD"
+     * ✅ SOLUTION: Accept DifficultyStrategy instead of string!
+     *
+     * @param strategy The difficulty strategy to use
      */
-    public GameEngine(String difficulty) {
-        this.difficulty = difficulty;
-        this.logic = new GameLogic(difficulty);  // Week 12-01: Pass difficulty to GameLogic
+    public GameEngine(DifficultyStrategy strategy) {
+        this.strategy = strategy;
+        this.logic = new GameLogic(strategy);  // Week 12-02: Pass strategy to GameLogic
         this.hud = logic.getHUD();  // Week 11-04: Get HUD from GameLogic for rendering
         this.perfMonitor = new PerformanceMonitor();
 
@@ -67,13 +69,13 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 12-01: Difficulty System");
+        System.out.println("  Week 12-02: Strategy Pattern");
         System.out.println("=================================");
-        System.out.println("Difficulty: " + difficulty);
+        System.out.println("Difficulty: " + strategy.getName());
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
         System.out.println("Note: Windows requires Enter after each key");
-        System.out.println("Features: Sound, Achievements, Difficulty");
+        System.out.println("Features: Sound, Achievements, Strategy Pattern");
         System.out.println("Legend: D = Dungeon Exit (for boss battle)");
         System.out.println("=================================\n");
 

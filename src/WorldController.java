@@ -5,6 +5,7 @@ import factories.WolfFactory;
 import pools.ObstaclePool;
 import entities.Entity;
 import world.DungeonMap;
+import difficulty.DifficultyStrategy;  // Week 12-02: Strategy Pattern!
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +13,22 @@ import java.util.Random;
 import java.util.Arrays;
 
 /**
- * WorldController - Manages obstacle spawning with HARDCODED DIFFICULTY (ANTI-PATTERN)
+ * WorldController - Manages obstacle spawning with STRATEGY PATTERN (SOLUTION)
  *
- * Week 12-01: HARDCODED DIFFICULTY (ANTI-PATTERN)
+ * Week 12-02: STRATEGY PATTERN (SOLUTION)
  *
  * ✅ KEPT: Object Pool Pattern (from 10-04)
- * ❌ ANTI-PATTERN: Hardcoded switch-case for difficulty!
+ * ✅ SOLUTION: Strategy Pattern for flexible difficulty!
  *
- * Problems Demonstrated:
- * - Spawn logic tightly coupled to difficulty string
- * - Switch-case in multiple methods
- * - Hard to add new difficulties
- * - Violates Open/Closed Principle
+ * Benefits:
+ * - Open/Closed Principle: Add new difficulties WITHOUT modifying this class
+ * - Single Responsibility: Difficulty logic in strategy classes
+ * - Easy to Test: Can inject different strategies
+ * - Compile-time Safety: No string comparisons!
+ *
+ * Evolution from Week 12-01:
+ * ❌ Before: switch (difficulty) { case "EASY": ... }
+ * ✅ Now: strategy.getInitialSpikeCount()
  */
 public class WorldController {
     private final List<Obstacle> activeObstacles;
@@ -31,37 +36,26 @@ public class WorldController {
     private final Random random;
     private final Entity entity;  // Week 11: Can be Player or NPC
 
-    // Week 12-01: ❌ ANTI-PATTERN - Hardcoded difficulty string!
-    private final String difficulty;
+    // Week 12-02: ✅ STRATEGY PATTERN - Depend on interface, not concrete class!
+    private final DifficultyStrategy strategy;
 
     // Week 11: Reduced spawn rate for better gameplay balance
     private float spawnTimer = 0;
     private static final int OFF_SCREEN_Y = 25;
 
-    // Week 12-01: ❌ ANTI-PATTERN - Different intervals per difficulty!
-    private float spawnInterval;  // Set based on difficulty
-
-    public WorldController(Entity entity, String difficulty) {
+    /**
+     * Week 12-02: Constructor with Strategy Pattern
+     *
+     * ✅ SOLUTION: Accept DifficultyStrategy interface instead of string!
+     *
+     * @param entity The player or NPC entity
+     * @param strategy The difficulty strategy to use
+     */
+    public WorldController(Entity entity, DifficultyStrategy strategy) {
         this.activeObstacles = new ArrayList<>();
         this.random = new Random();
         this.entity = entity;
-        this.difficulty = difficulty;
-
-        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for spawn interval!
-        switch (difficulty) {
-            case "EASY":
-                this.spawnInterval = 1.0f;  // 1 obstacle/second
-                break;
-            case "NORMAL":
-                this.spawnInterval = 0.5f;  // 2 obstacles/second
-                break;
-            case "HARD":
-                this.spawnInterval = 0.3f;  // 3.3 obstacles/second
-                break;
-            default:
-                this.spawnInterval = 0.5f;  // Default to NORMAL
-                break;
-        }
+        this.strategy = strategy;  // ✅ Store strategy (polymorphism!)
 
         // ✅ SOLUTION: Create pools instead of factories!
         // Pre-allocate 10 of each type, max 50 per pool
@@ -76,9 +70,9 @@ public class WorldController {
     }
 
     /**
-     * Spawn initial set of obstacles from POOL based on DIFFICULTY
+     * Spawn initial set of obstacles from POOL based on STRATEGY
      *
-     * Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for initial enemies!
+     * Week 12-02: ✅ STRATEGY PATTERN - No more switch-case!
      * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     private void spawnInitialObstacles() {
@@ -86,68 +80,28 @@ public class WorldController {
         ObstaclePool goblinPool = pools.get(1);
         ObstaclePool wolfPool = pools.get(2);
 
-        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for initial spawns!
-        switch (difficulty) {
-            case "EASY":
-                // EASY: Only Spikes and Goblins
-                // Spawn 3 Spikes
-                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
-                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
-                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
+        // Week 12-02: ✅ STRATEGY PATTERN - Ask strategy how many of each!
+        // No more switch-case! Strategy encapsulates difficulty logic.
 
-                // Spawn 3 Goblins
-                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
-                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
-                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
-                // No Wolves in EASY!
-                break;
+        // Spawn Spikes
+        int spikeCount = strategy.getInitialSpikeCount();
+        int[][] spikePositions = {{6, 6}, {12, 8}, {18, 12}, {8, 19}};
+        for (int i = 0; i < Math.min(spikeCount, spikePositions.length); i++) {
+            addIfNotNull(activeObstacles, spikePool.acquire(spikePositions[i][0], spikePositions[i][1]));
+        }
 
-            case "NORMAL":
-                // NORMAL: Balanced mix
-                // Spawn 3 Spikes
-                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
-                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
-                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
+        // Spawn Goblins
+        int goblinCount = strategy.getInitialGoblinCount();
+        int[][] goblinPositions = {{8, 4}, {15, 10}, {10, 17}, {20, 20}};
+        for (int i = 0; i < Math.min(goblinCount, goblinPositions.length); i++) {
+            addIfNotNull(activeObstacles, goblinPool.acquire(goblinPositions[i][0], goblinPositions[i][1]));
+        }
 
-                // Spawn 3 Goblins
-                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
-                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
-                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
-
-                // Spawn 2 Wolves
-                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
-                addIfNotNull(activeObstacles, wolfPool.acquire(17, 7));
-                break;
-
-            case "HARD":
-                // HARD: More enemies, more wolves
-                // Spawn 4 Spikes
-                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
-                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
-                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
-                addIfNotNull(activeObstacles, spikePool.acquire(8, 19));
-
-                // Spawn 4 Goblins
-                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
-                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
-                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
-                addIfNotNull(activeObstacles, goblinPool.acquire(20, 20));
-
-                // Spawn 4 Wolves (more aggressive!)
-                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
-                addIfNotNull(activeObstacles, wolfPool.acquire(17, 7));
-                addIfNotNull(activeObstacles, wolfPool.acquire(12, 18));
-                addIfNotNull(activeObstacles, wolfPool.acquire(4, 14));
-                break;
-
-            default:
-                // Default to NORMAL
-                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
-                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
-                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
-                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
-                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
-                break;
+        // Spawn Wolves
+        int wolfCount = strategy.getInitialWolfCount();
+        int[][] wolfPositions = {{7, 12}, {17, 7}, {12, 18}, {4, 14}};
+        for (int i = 0; i < Math.min(wolfCount, wolfPositions.length); i++) {
+            addIfNotNull(activeObstacles, wolfPool.acquire(wolfPositions[i][0], wolfPositions[i][1]));
         }
     }
 
@@ -163,19 +117,18 @@ public class WorldController {
     /**
      * Update all obstacles
      *
-     * Week 12-01: ❌ ANTI-PATTERN - Only HARD difficulty has continuous spawning
+     * Week 12-02: ✅ STRATEGY PATTERN - Ask strategy if continuous spawning!
      * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     public void update(float delta) {
-        // Week 12-01: ❌ ANTI-PATTERN - Only spawn continuously on HARD difficulty!
-        if (difficulty.equals("HARD")) {
+        // Week 12-02: ✅ STRATEGY PATTERN - No more hardcoded "HARD" check!
+        if (strategy.hasContinuousSpawning()) {
             spawnTimer += delta;
-            if (spawnTimer >= spawnInterval) {
+            if (spawnTimer >= strategy.getSpawnInterval()) {
                 spawnRandomObstacle();  // Now uses pool.acquire()!
                 spawnTimer = 0;
             }
         }
-        // EASY and NORMAL: No continuous spawning, only initial obstacles
 
         // Store old positions before update
         List<int[]> oldPositions = new ArrayList<>();
@@ -229,39 +182,17 @@ public class WorldController {
     }
 
     /**
-     * Spawn random obstacle from POOL with DIFFICULTY-BASED TYPE SELECTION
+     * Spawn random obstacle from POOL with STRATEGY-BASED TYPE SELECTION
      *
-     * Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for enemy types!
+     * Week 12-02: ✅ STRATEGY PATTERN - No more switch-case!
      * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     private void spawnRandomObstacle() {
-        ObstaclePool pool;
+        // Week 12-02: ✅ STRATEGY PATTERN - Ask strategy which enemy type!
+        int randomValue = random.nextInt(10);
+        int enemyType = strategy.getEnemyTypeToSpawn(randomValue);
 
-        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch based on difficulty!
-        switch (difficulty) {
-            case "EASY":
-                // EASY: Only Spikes and Goblins (no Wolves!)
-                pool = pools.get(random.nextInt(2));  // 0 or 1 (Spike or Goblin)
-                break;
-            case "NORMAL":
-                // NORMAL: All enemy types (Spikes, Goblins, Wolves)
-                pool = pools.get(random.nextInt(3));  // 0, 1, or 2
-                break;
-            case "HARD":
-                // HARD: All enemy types with emphasis on Goblins and Wolves
-                int type = random.nextInt(10);
-                if (type < 3) {
-                    pool = pools.get(0);  // 30% Spike
-                } else if (type < 6) {
-                    pool = pools.get(1);  // 30% Goblin
-                } else {
-                    pool = pools.get(2);  // 40% Wolf (more aggressive!)
-                }
-                break;
-            default:
-                pool = pools.get(random.nextInt(3));  // Default to NORMAL
-                break;
-        }
+        ObstaclePool pool = pools.get(enemyType);
 
         // Try to find safe spawn position (max 10 attempts)
         int x = -1, y = -1;

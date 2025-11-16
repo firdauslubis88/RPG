@@ -9,6 +9,7 @@ import input.InputHandler;
 import systems.SoundSystem;
 import systems.AchievementSystem;
 import events.EventBus;
+import difficulty.DifficultyStrategy;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,23 +18,20 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 12-01: GameLogic with HARDCODED DIFFICULTY (ANTI-PATTERN)
+ * Week 12-02: GameLogic with STRATEGY PATTERN (SOLUTION)
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ❌ ANTI-PATTERN: Hardcoded difficulty logic with switch-case!
+ * ✅ SOLUTION: Strategy Pattern for flexible difficulty!
  *
- * New Features:
- * - Main Menu for difficulty selection
- * - Dungeon Exit entity (for future boss battle)
- * - Difficulty-based spawning (Easy/Normal/Hard)
+ * Evolution from Week 12-01:
+ * ❌ Before: Accepts String difficulty ("EASY", "NORMAL", "HARD")
+ * ✅ Now: Accepts DifficultyStrategy interface (polymorphism!)
  *
- * Problems Demonstrated:
- * 1. Hardcoded switch-case for difficulty logic
- * 2. Spawn logic tightly coupled to difficulty string
- * 3. Hard to add new difficulty levels
- * 4. Hard to test different difficulties
- * 5. Violates Open/Closed Principle
+ * Benefits:
+ * - Open/Closed Principle: Can add new difficulties without modifying this class
+ * - Single Responsibility: Difficulty logic in strategy classes
+ * - Dependency Inversion: Depends on interface, not concrete classes
  */
 public class GameLogic {
     private Player player;
@@ -52,25 +50,24 @@ public class GameLogic {
     // Week 11: Track last collision for notification
     private String lastCollisionMessage = "";
 
-    // Week 12-01: ❌ ANTI-PATTERN - Hardcoded difficulty!
-    private String difficulty;  // "EASY", "NORMAL", or "HARD"
-    private float autoSpawnTimer = 0;  // For HARD difficulty auto-spawn
+    // Week 12-02: ✅ STRATEGY PATTERN - Store strategy object!
+    private DifficultyStrategy strategy;
 
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 12-01: GameLogic with HARDCODED DIFFICULTY (ANTI-PATTERN)
+     * Week 12-02: GameLogic with STRATEGY PATTERN (SOLUTION)
      *
      * ✅ KEPT: Observer Pattern for systems (from 11-04)
-     * ❌ ANTI-PATTERN: Hardcoded difficulty string!
+     * ✅ SOLUTION: Strategy Pattern for difficulty!
      *
-     * @param difficulty "EASY", "NORMAL", or "HARD"
+     * @param strategy The difficulty strategy to use
      */
-    public GameLogic(String difficulty) {
+    public GameLogic(DifficultyStrategy strategy) {
         this.random = new Random();
 
-        // Week 12-01: ❌ ANTI-PATTERN - Store difficulty as string!
-        this.difficulty = difficulty;
+        // Week 12-02: ✅ STRATEGY PATTERN - Store strategy object!
+        this.strategy = strategy;
 
         // Week 11-04: ✅ OBSERVER PATTERN - Create systems independently (no dependencies!)
         this.soundSystem = new SoundSystem();
@@ -128,8 +125,8 @@ public class GameLogic {
         // Week 11-02: InputHandler with Command Pattern
         this.inputHandler = new InputHandler(keyBindings);
 
-        // Week 12-01: WorldController with difficulty-based spawning
-        this.worldController = new WorldController(player, difficulty);
+        // Week 12-02: ✅ STRATEGY PATTERN - Pass strategy to WorldController!
+        this.worldController = new WorldController(player, strategy);
 
         this.frameCount = 0;
     }

@@ -133,14 +133,16 @@ public class ObstaclePool {
 
     /**
      * Print pool statistics (for debugging)
+     *
+     * Week 12-01: Enhanced to show "Actually Spawned" instead of just "Total Created"
      */
     public void printStats(String poolName) {
         System.out.println(String.format("%s Pool Stats:", poolName));
-        System.out.println(String.format("  Total Created: %d", createCount));
-        System.out.println(String.format("  Acquire Calls: %d", acquireCount));
-        System.out.println(String.format("  Release Calls: %d", releaseCount));
-        System.out.println(String.format("  Total Size: %d", getTotalSize()));
+        System.out.println(String.format("  Pre-allocated: %d (initial pool size)", createCount));
+        System.out.println(String.format("  Actually Spawned: %d (acquire calls)", acquireCount));
+        System.out.println(String.format("  Returned to Pool: %d (release calls)", releaseCount));
+        System.out.println(String.format("  Total Pool Size: %d", getTotalSize()));
         System.out.println(String.format("  Available: %d", getAvailableCount()));
-        System.out.println(String.format("  In Use: %d", getInUseCount()));
+        System.out.println(String.format("  Still In Use: %d", getInUseCount()));
     }
 }

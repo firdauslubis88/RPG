@@ -306,7 +306,10 @@ public class WorldController {
         // Check 1: Must be walkable floor
         if (!DungeonMap.isWalkable(x, y)) return false;
 
-        // Check 2: Must not be too close to entity/player (minimum 3 tiles)
+        // Week 12-01: Check 2: Must not be dungeon exit position (23, 23)
+        if (x == 23 && y == 23) return false;
+
+        // Check 3: Must not be too close to entity/player (minimum 3 tiles)
         int distance = Math.abs(x - entity.getX()) + Math.abs(y - entity.getY());
         if (distance < 3) return false;
 

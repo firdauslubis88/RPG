@@ -161,17 +161,17 @@ public class GameEngine {
                 }
             }
 
-            // Week 12-01: Draw dungeon exit
-            if (logic.getDungeonExit() != null) {
-                grid[logic.getDungeonExit().getY()][logic.getDungeonExit().getX()] = logic.getDungeonExit().getSymbol();
-            }
-
             // Week 10: Draw obstacles
             for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
                 grid[obstacle.getY()][obstacle.getX()] = obstacle.getSymbol();
             }
 
-            // Draw Player last (on top)
+            // Week 12-01: Draw dungeon exit (after obstacles so it's always visible)
+            if (logic.getDungeonExit() != null) {
+                grid[logic.getDungeonExit().getY()][logic.getDungeonExit().getX()] = logic.getDungeonExit().getSymbol();
+            }
+
+            // Draw Player last (on top of everything)
             grid[logic.getPlayerY()][logic.getPlayerX()] = '@';
 
             GridRenderer.drawGrid(grid);

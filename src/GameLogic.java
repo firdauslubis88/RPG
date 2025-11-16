@@ -10,6 +10,7 @@ import systems.SoundSystem;
 import systems.AchievementSystem;
 import events.EventBus;
 import difficulty.DifficultyStrategy;
+import battle.BattleSystem;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,20 +19,17 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 12-02: GameLogic with STRATEGY PATTERN (SOLUTION)
+ * Week 12-03: GameLogic with HARDCODED BOSS AI (ANTI-PATTERN)
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ✅ SOLUTION: Strategy Pattern for flexible difficulty!
+ * ✅ KEPT: Strategy Pattern for difficulty (from 12-02)
+ * ➕ NEW: Turn-based boss battle when reaching exit
  *
- * Evolution from Week 12-01:
- * ❌ Before: Accepts String difficulty ("EASY", "NORMAL", "HARD")
- * ✅ Now: Accepts DifficultyStrategy interface (polymorphism!)
- *
- * Benefits:
- * - Open/Closed Principle: Can add new difficulties without modifying this class
- * - Single Responsibility: Difficulty logic in strategy classes
- * - Dependency Inversion: Depends on interface, not concrete classes
+ * Evolution from Week 12-02:
+ * - Added BattleSystem for turn-based boss fights
+ * - Battle triggered when player reaches DungeonExit (23, 23)
+ * - Boss AI uses HARDCODED if/else chains (ANTI-PATTERN!)
  */
 public class GameLogic {
     private Player player;
@@ -149,11 +147,37 @@ public class GameLogic {
     }
 
     /**
-     * Week 11-01: Check collisions - Player vs Coins and Obstacles
+     * Week 12-03: Check collisions - Player vs Coins, Obstacles, and Dungeon Exit
      */
     public void checkCollisions() {
         int playerX = player.getX();
         int playerY = player.getY();
+
+        // Week 12-03: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
+        if (playerX == dungeonExit.getX() && playerY == dungeonExit.getY()) {
+            // Start turn-based boss battle
+            BattleSystem battleSystem = new BattleSystem(player);
+            boolean playerWon = battleSystem.startBattle();
+
+            if (playerWon) {
+                // Player defeated the boss - VICTORY!
+                System.out.println("\n🎊 CONGRATULATIONS! You escaped the dungeon!");
+                System.out.println("Final Score: " + GameManager.getInstance().getScore());
+                System.exit(0);
+            } else {
+                // Player lost or ran away
+                if (GameManager.getInstance().getHp() <= 0) {
+                    // Player died in battle
+                    System.out.println("\n💀 GAME OVER - Defeated by the boss");
+                    System.exit(0);
+                } else {
+                    // Player ran away - moved back from exit
+                    System.out.println("\n💨 You fled back into the dungeon...");
+                    // Move player away from exit (to prevent re-triggering immediately)
+                    player.moveUp();
+                }
+            }
+        }
 
         // Check coin collisions
         for (Coin coin : coins) {

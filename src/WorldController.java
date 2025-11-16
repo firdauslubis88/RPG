@@ -163,16 +163,19 @@ public class WorldController {
     /**
      * Update all obstacles
      *
-     * Week 12-01: ❌ ANTI-PATTERN - Uses spawnInterval based on difficulty
+     * Week 12-01: ❌ ANTI-PATTERN - Only HARD difficulty has continuous spawning
      * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     public void update(float delta) {
-        // Week 12-01: ❌ ANTI-PATTERN - Spawn rate depends on difficulty!
-        spawnTimer += delta;
-        if (spawnTimer >= spawnInterval) {
-            spawnRandomObstacle();  // Now uses pool.acquire()!
-            spawnTimer = 0;
+        // Week 12-01: ❌ ANTI-PATTERN - Only spawn continuously on HARD difficulty!
+        if (difficulty.equals("HARD")) {
+            spawnTimer += delta;
+            if (spawnTimer >= spawnInterval) {
+                spawnRandomObstacle();  // Now uses pool.acquire()!
+                spawnTimer = 0;
+            }
         }
+        // EASY and NORMAL: No continuous spawning, only initial obstacles
 
         // Store old positions before update
         List<int[]> oldPositions = new ArrayList<>();

@@ -275,6 +275,13 @@ public class GameEngine {
                                     break;
                                 }
                             }
+
+                            // Week 12-01: Check for dungeon exit
+                            if (logic.getDungeonExit() != null &&
+                                logic.getDungeonExit().getX() == x &&
+                                logic.getDungeonExit().getY() == y) {
+                                symbol = logic.getDungeonExit().getSymbol();
+                            }
                         }
 
                         GridRenderer.drawCell(symbol, x, y);

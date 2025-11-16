@@ -3,12 +3,8 @@ import world.DungeonMap;
 import entities.Player;
 import entities.GameManager;
 import entities.Coin;
-import entities.DungeonExit;
 import obstacles.Obstacle;
 import input.InputHandler;
-import systems.SoundSystem;
-import systems.AchievementSystem;
-import events.EventBus;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,75 +13,37 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 12-01: GameLogic with HARDCODED DIFFICULTY (ANTI-PATTERN)
+ * Week 11-02: GameLogic with Command Pattern
  *
- * ✅ KEPT: Observer Pattern for event systems (from 11-04)
- * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ❌ ANTI-PATTERN: Hardcoded difficulty logic with switch-case!
- *
- * New Features:
- * - Main Menu for difficulty selection
- * - Dungeon Exit entity (for future boss battle)
- * - Difficulty-based spawning (Easy/Normal/Hard)
- *
- * Problems Demonstrated:
- * 1. Hardcoded switch-case for difficulty logic
- * 2. Spawn logic tightly coupled to difficulty string
- * 3. Hard to add new difficulty levels
- * 4. Hard to test different difficulties
- * 5. Violates Open/Closed Principle
+ * ✅ SOLUTION: Uses Command Pattern for flexible input handling
+ * Player-controlled character with keyboard input
+ * Command objects for each action (MoveUp, MoveDown, etc.)
+ * Easy to remap keys - just change the HashMap!
  */
 public class GameLogic {
     private Player player;
     private List<Coin> coins;
-    private DungeonExit dungeonExit;  // Week 12: Exit point for boss battle
     private WorldController worldController;
     private InputHandler inputHandler;
     private int frameCount;
     private Random random;
 
-    // Week 11-04: ✅ OBSERVER PATTERN - Systems are independent observers
-    private SoundSystem soundSystem;
-    private AchievementSystem achievementSystem;
-    private HUD hud;
-
     // Week 11: Track last collision for notification
     private String lastCollisionMessage = "";
-
-    // Week 12-01: ❌ ANTI-PATTERN - Hardcoded difficulty!
-    private String difficulty;  // "EASY", "NORMAL", or "HARD"
-    private float autoSpawnTimer = 0;  // For HARD difficulty auto-spawn
 
     // Removed: Use DungeonMap.getWidth() and DungeonMap.getHeight() instead
 
     /**
-     * Week 12-01: GameLogic with HARDCODED DIFFICULTY (ANTI-PATTERN)
+     * Week 11-02: Constructor initializes Player and Command Pattern Input Handler
      *
-     * ✅ KEPT: Observer Pattern for systems (from 11-04)
-     * ❌ ANTI-PATTERN: Hardcoded difficulty string!
-     *
-     * @param difficulty "EASY", "NORMAL", or "HARD"
+     * ✅ SOLUTION: Creates Command objects and configures key bindings
+     * Player starts at (10, 10)
+     * InputHandler uses Command Pattern - easy to remap keys!
      */
-    public GameLogic(String difficulty) {
+    public GameLogic() {
         this.random = new Random();
 
-        // Week 12-01: ❌ ANTI-PATTERN - Store difficulty as string!
-        this.difficulty = difficulty;
-
-        // Week 11-04: ✅ OBSERVER PATTERN - Create systems independently (no dependencies!)
-        this.soundSystem = new SoundSystem();
-        this.achievementSystem = new AchievementSystem();  // No SoundSystem needed!
-        this.hud = new HUD();  // No AchievementSystem needed!
-
-        // Week 11-04: ✅ OBSERVER PATTERN - Register all observers with EventBus
-        EventBus eventBus = EventBus.getInstance();
-        eventBus.subscribe(soundSystem);      // Listen to all events (DamageTaken, CoinCollected, AchievementUnlocked)
-        eventBus.subscribe(achievementSystem); // Listen to all events (DamageTaken, CoinCollected, GameTime)
-        eventBus.subscribe(hud);              // Listen to AchievementUnlocked events
-
-        // Week 11-04: ✅ OBSERVER PATTERN - Simple Player constructor!
-        // Before (11-03): new Player(10, 10, soundSystem, achievementSystem) - complex!
-        // Now (11-04): new Player(10, 10) - simple!
+        // Week 11: Player-controlled character (spawn at 10, 10)
         this.player = new Player(10, 10);
 
         // Week 10: Static coins placed in dungeon (25x25 map)
@@ -100,9 +58,6 @@ public class GameLogic {
         this.coins.add(new Coin(4, 18));
         this.coins.add(new Coin(15, 21));
         this.coins.add(new Coin(23, 22));
-
-        // Week 12-01: Add dungeon exit (for future boss battle)
-        this.dungeonExit = new DungeonExit(23, 23);  // Bottom-right corner
 
         // Week 11-02: ✅ COMMAND PATTERN - Create command objects
         Command moveUpCmd = new MoveUpCommand(player);
@@ -128,8 +83,8 @@ public class GameLogic {
         // Week 11-02: InputHandler with Command Pattern
         this.inputHandler = new InputHandler(keyBindings);
 
-        // Week 12-01: WorldController with difficulty-based spawning
-        this.worldController = new WorldController(player, difficulty);
+        // Week 11: WorldController tracks Player instead of NPC
+        this.worldController = new WorldController(player);
 
         this.frameCount = 0;
     }
@@ -236,22 +191,6 @@ public class GameLogic {
      */
     public void clearCollisionMessage() {
         lastCollisionMessage = "";
-    }
-
-    /**
-     * Week 11-04: Get HUD (for GameEngine)
-     *
-     * Note: HUD is still managed by GameLogic for rendering purposes
-     */
-    public HUD getHUD() {
-        return hud;
-    }
-
-    /**
-     * Week 12-01: Get dungeon exit (for rendering)
-     */
-    public entities.DungeonExit getDungeonExit() {
-        return dungeonExit;
     }
 
     /**

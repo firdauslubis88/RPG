@@ -19,7 +19,17 @@
       "Bash(tree:*)",
       "Bash(javac:*)",
       "Bash(git add:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(src/GameLogic.java)",
+      "Bash(for file in Main.java GameEngine.java HUD.java PerformanceMonitor.java WorldController.java)",
+      "Bash(do git show 11-01-hardcoded-input:src/$file)",
+      "Bash(src/$file)",
+      "Bash(done)",
+      "Bash(src/utils/GridRenderer.java)",
+      "Bash(timeout 5 java:*)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

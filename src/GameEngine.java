@@ -6,36 +6,25 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 
 /**
- * GameEngine - Main game loop with player control
+ * GameEngine - Main game loop with difficulty system
  *
- * Week 11-04: OBSERVER PATTERN FOR EVENT SYSTEMS (SOLUTION)
+ * Week 12-01: HARDCODED DIFFICULTY (ANTI-PATTERN)
  *
+ * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ✅ SOLUTION: Observer Pattern via EventBus for all game systems!
+ * ❌ ANTI-PATTERN: Passes difficulty string to GameLogic
  *
- * This branch demonstrates loose coupling through Observer Pattern:
- * - GameLogic creates independent systems
- * - All systems register with EventBus as observers
- * - Player publishes events, observers react automatically
- * - Simple, decoupled initialization
- *
- * Features Working with Observer Pattern:
- * - SoundSystem: Listens to damage, coin, achievement events
- * - AchievementSystem: Listens to damage, coin, time events
- * - HUD: Listens to achievement unlock events
- * - Player: Just publishes events, no system dependencies
- *
- * Teaching Points:
- * - Observer Pattern decouples publishers from subscribers
- * - Easy to add new systems (just implement GameEventListener)
- * - Systems are independent and testable
- * - Follows Open/Closed Principle
+ * New Features:
+ * - Main Menu system
+ * - Difficulty selection (Easy/Normal/Hard)
+ * - Dungeon Exit entity
  */
 public class GameEngine {
     private final GameLogic logic;
     private final HUD hud;
-    private final PerformanceMonitor perfMonitor;  // Week 10: Track GC impact (not needed in Week 11)
+    private final PerformanceMonitor perfMonitor;  // Week 10: Track GC impact
     private boolean running;
+    private final String difficulty;  // Week 12-01: Store difficulty for display
 
     // Frame rate control
     private static final int TARGET_FPS = 60;
@@ -54,13 +43,13 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
 
     /**
-     * Week 11-04: Simple constructor with Observer Pattern
+     * Week 12-01: Constructor with difficulty parameter
      *
-     * GameLogic creates all systems and registers them with EventBus.
-     * GameEngine just gets HUD for rendering.
+     * @param difficulty "EASY", "NORMAL", or "HARD"
      */
-    public GameEngine() {
-        this.logic = new GameLogic();
+    public GameEngine(String difficulty) {
+        this.difficulty = difficulty;
+        this.logic = new GameLogic(difficulty);  // Week 12-01: Pass difficulty to GameLogic
         this.hud = logic.getHUD();  // Week 11-04: Get HUD from GameLogic for rendering
         this.perfMonitor = new PerformanceMonitor();
 
@@ -78,13 +67,14 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 11-04: Observer Pattern (SOLUTION)");
+        System.out.println("  Week 12-01: Difficulty System");
         System.out.println("=================================");
+        System.out.println("Difficulty: " + difficulty);
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
         System.out.println("Note: Windows requires Enter after each key");
-        System.out.println("Features: Sound effects, Achievements");
-        System.out.println("          (Decoupled via Observer Pattern)");
+        System.out.println("Features: Sound, Achievements, Difficulty");
+        System.out.println("Legend: D = Dungeon Exit (for boss battle)");
         System.out.println("=================================\n");
 
         // Week 11: Hide cursor before game starts
@@ -171,12 +161,17 @@ public class GameEngine {
                 }
             }
 
+            // Week 12-01: Draw dungeon exit
+            if (logic.getDungeonExit() != null) {
+                grid[logic.getDungeonExit().getY()][logic.getDungeonExit().getX()] = logic.getDungeonExit().getSymbol();
+            }
+
             // Week 10: Draw obstacles
             for (Obstacle obstacle : logic.getWorldController().getActiveObstacles()) {
                 grid[obstacle.getY()][obstacle.getX()] = obstacle.getSymbol();
             }
 
-            // Draw NPC last (on top)
+            // Draw Player last (on top)
             grid[logic.getPlayerY()][logic.getPlayerX()] = '@';
 
             GridRenderer.drawGrid(grid);

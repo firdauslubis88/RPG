@@ -1,21 +1,20 @@
+import ui.MainMenu;
+
 /**
- * ✅ SOLUTION: Clean main with no object drilling!
+ * Week 12-01: Main with Menu System
  *
- * Before (09-02): Had to create and pass GameManager
- * Now (09-03): GameEngine handles everything via Singleton
- *
- * This is how it should be - simple, clean, no parameter pollution!
+ * New Features:
+ * - Main Menu for difficulty selection
+ * - Pass difficulty to GameEngine
  */
 public class Main {
     public static void main(String[] args) {
-        // ✅ SOLUTION: No GameManager creation/passing needed!
-        // GameEngine will access it via getInstance()
-        GameEngine engine = new GameEngine();
-        engine.start();
+        // Week 12-01: Show main menu and get difficulty selection
+        MainMenu menu = new MainMenu();
+        String difficulty = menu.show();
 
-        // ✅ Clean! No object drilling!
-        // Compare with 09-02:
-        //   GameManager manager = new GameManager();
-        //   GameEngine engine = new GameEngine(manager);
+        // Create game engine with selected difficulty
+        GameEngine engine = new GameEngine(difficulty);
+        engine.start();
     }
 }

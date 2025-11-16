@@ -12,18 +12,18 @@ import java.util.Random;
 import java.util.Arrays;
 
 /**
- * WorldController - Manages obstacle spawning using OBJECT POOL PATTERN
+ * WorldController - Manages obstacle spawning with HARDCODED DIFFICULTY (ANTI-PATTERN)
  *
- * Week 10 Branch 10-04: OBJECT POOL PATTERN SOLUTION
+ * Week 12-01: HARDCODED DIFFICULTY (ANTI-PATTERN)
  *
- * ✅ SOLUTION: Reuse obstacles instead of creating/destroying!
- * ✅ SOLUTION: Pre-allocated pools eliminate GC pressure
- * ✅ SOLUTION: Stable 60 FPS performance
+ * ✅ KEPT: Object Pool Pattern (from 10-04)
+ * ❌ ANTI-PATTERN: Hardcoded switch-case for difficulty!
  *
- * Teaching Points:
- * - Object pooling eliminates allocation/deallocation overhead
- * - Trade memory (keep objects) for performance (no GC)
- * - Essential pattern for real-time applications
+ * Problems Demonstrated:
+ * - Spawn logic tightly coupled to difficulty string
+ * - Switch-case in multiple methods
+ * - Hard to add new difficulties
+ * - Violates Open/Closed Principle
  */
 public class WorldController {
     private final List<Obstacle> activeObstacles;
@@ -31,15 +31,37 @@ public class WorldController {
     private final Random random;
     private final Entity entity;  // Week 11: Can be Player or NPC
 
+    // Week 12-01: ❌ ANTI-PATTERN - Hardcoded difficulty string!
+    private final String difficulty;
+
     // Week 11: Reduced spawn rate for better gameplay balance
     private float spawnTimer = 0;
-    private static final float SPAWN_INTERVAL = 0.5f;  // 2 obstacles/second (reduced from 20)
     private static final int OFF_SCREEN_Y = 25;
 
-    public WorldController(Entity entity) {
+    // Week 12-01: ❌ ANTI-PATTERN - Different intervals per difficulty!
+    private float spawnInterval;  // Set based on difficulty
+
+    public WorldController(Entity entity, String difficulty) {
         this.activeObstacles = new ArrayList<>();
         this.random = new Random();
         this.entity = entity;
+        this.difficulty = difficulty;
+
+        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for spawn interval!
+        switch (difficulty) {
+            case "EASY":
+                this.spawnInterval = 1.0f;  // 1 obstacle/second
+                break;
+            case "NORMAL":
+                this.spawnInterval = 0.5f;  // 2 obstacles/second
+                break;
+            case "HARD":
+                this.spawnInterval = 0.3f;  // 3.3 obstacles/second
+                break;
+            default:
+                this.spawnInterval = 0.5f;  // Default to NORMAL
+                break;
+        }
 
         // ✅ SOLUTION: Create pools instead of factories!
         // Pre-allocate 10 of each type, max 50 per pool
@@ -54,55 +76,100 @@ public class WorldController {
     }
 
     /**
-     * Spawn initial set of obstacles from POOL
+     * Spawn initial set of obstacles from POOL based on DIFFICULTY
      *
-     * ✅ SOLUTION: Borrows from pool instead of creating new objects
+     * Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for initial enemies!
+     * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     private void spawnInitialObstacles() {
         ObstaclePool spikePool = pools.get(0);
         ObstaclePool goblinPool = pools.get(1);
         ObstaclePool wolfPool = pools.get(2);
 
-        // Spawn 4 Spikes at strategic positions (25x25 map)
-        Obstacle spike1 = spikePool.acquire(6, 6);
-        Obstacle spike2 = spikePool.acquire(12, 8);
-        Obstacle spike3 = spikePool.acquire(18, 12);
-        Obstacle spike4 = spikePool.acquire(8, 19);
-        if (spike1 != null) activeObstacles.add(spike1);
-        if (spike2 != null) activeObstacles.add(spike2);
-        if (spike3 != null) activeObstacles.add(spike3);
-        if (spike4 != null) activeObstacles.add(spike4);
+        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for initial spawns!
+        switch (difficulty) {
+            case "EASY":
+                // EASY: Only Spikes and Goblins
+                // Spawn 3 Spikes
+                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
+                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
+                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
 
-        // Spawn 4 Goblins that patrol corridors
-        Obstacle goblin1 = goblinPool.acquire(8, 4);
-        Obstacle goblin2 = goblinPool.acquire(15, 10);
-        Obstacle goblin3 = goblinPool.acquire(10, 17);
-        Obstacle goblin4 = goblinPool.acquire(20, 20);
-        if (goblin1 != null) activeObstacles.add(goblin1);
-        if (goblin2 != null) activeObstacles.add(goblin2);
-        if (goblin3 != null) activeObstacles.add(goblin3);
-        if (goblin4 != null) activeObstacles.add(goblin4);
+                // Spawn 3 Goblins
+                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
+                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
+                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
+                // No Wolves in EASY!
+                break;
 
-        // Spawn 3 Wolves that chase
-        Obstacle wolf1 = wolfPool.acquire(7, 12);
-        Obstacle wolf2 = wolfPool.acquire(17, 7);
-        Obstacle wolf3 = wolfPool.acquire(12, 18);
-        if (wolf1 != null) activeObstacles.add(wolf1);
-        if (wolf2 != null) activeObstacles.add(wolf2);
-        if (wolf3 != null) activeObstacles.add(wolf3);
+            case "NORMAL":
+                // NORMAL: Balanced mix
+                // Spawn 3 Spikes
+                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
+                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
+                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
+
+                // Spawn 3 Goblins
+                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
+                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
+                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
+
+                // Spawn 2 Wolves
+                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
+                addIfNotNull(activeObstacles, wolfPool.acquire(17, 7));
+                break;
+
+            case "HARD":
+                // HARD: More enemies, more wolves
+                // Spawn 4 Spikes
+                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
+                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
+                addIfNotNull(activeObstacles, spikePool.acquire(18, 12));
+                addIfNotNull(activeObstacles, spikePool.acquire(8, 19));
+
+                // Spawn 4 Goblins
+                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
+                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
+                addIfNotNull(activeObstacles, goblinPool.acquire(10, 17));
+                addIfNotNull(activeObstacles, goblinPool.acquire(20, 20));
+
+                // Spawn 4 Wolves (more aggressive!)
+                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
+                addIfNotNull(activeObstacles, wolfPool.acquire(17, 7));
+                addIfNotNull(activeObstacles, wolfPool.acquire(12, 18));
+                addIfNotNull(activeObstacles, wolfPool.acquire(4, 14));
+                break;
+
+            default:
+                // Default to NORMAL
+                addIfNotNull(activeObstacles, spikePool.acquire(6, 6));
+                addIfNotNull(activeObstacles, spikePool.acquire(12, 8));
+                addIfNotNull(activeObstacles, goblinPool.acquire(8, 4));
+                addIfNotNull(activeObstacles, goblinPool.acquire(15, 10));
+                addIfNotNull(activeObstacles, wolfPool.acquire(7, 12));
+                break;
+        }
+    }
+
+    /**
+     * Helper method to add obstacle if not null
+     */
+    private void addIfNotNull(List<Obstacle> list, Obstacle obstacle) {
+        if (obstacle != null) {
+            list.add(obstacle);
+        }
     }
 
     /**
      * Update all obstacles
      *
-     * ✅ SOLUTION: Same spawn rate, but using pool!
-     * ✅ SOLUTION: No new objects created
-     * ✅ SOLUTION: No GC pressure!
+     * Week 12-01: ❌ ANTI-PATTERN - Uses spawnInterval based on difficulty
+     * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     public void update(float delta) {
-        // ✅ Spawn obstacles at same rate (20/second) but from POOL
+        // Week 12-01: ❌ ANTI-PATTERN - Spawn rate depends on difficulty!
         spawnTimer += delta;
-        if (spawnTimer >= SPAWN_INTERVAL) {
+        if (spawnTimer >= spawnInterval) {
             spawnRandomObstacle();  // Now uses pool.acquire()!
             spawnTimer = 0;
         }
@@ -159,12 +226,39 @@ public class WorldController {
     }
 
     /**
-     * Spawn random obstacle from POOL
+     * Spawn random obstacle from POOL with DIFFICULTY-BASED TYPE SELECTION
      *
-     * ✅ SOLUTION: Borrows from pool (reuse!) instead of new object
+     * Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch for enemy types!
+     * ✅ KEPT: Object Pool Pattern (from 10-04)
      */
     private void spawnRandomObstacle() {
-        ObstaclePool pool = pools.get(random.nextInt(pools.size()));
+        ObstaclePool pool;
+
+        // Week 12-01: ❌ ANTI-PATTERN - Hardcoded switch based on difficulty!
+        switch (difficulty) {
+            case "EASY":
+                // EASY: Only Spikes and Goblins (no Wolves!)
+                pool = pools.get(random.nextInt(2));  // 0 or 1 (Spike or Goblin)
+                break;
+            case "NORMAL":
+                // NORMAL: All enemy types (Spikes, Goblins, Wolves)
+                pool = pools.get(random.nextInt(3));  // 0, 1, or 2
+                break;
+            case "HARD":
+                // HARD: All enemy types with emphasis on Goblins and Wolves
+                int type = random.nextInt(10);
+                if (type < 3) {
+                    pool = pools.get(0);  // 30% Spike
+                } else if (type < 6) {
+                    pool = pools.get(1);  // 30% Goblin
+                } else {
+                    pool = pools.get(2);  // 40% Wolf (more aggressive!)
+                }
+                break;
+            default:
+                pool = pools.get(random.nextInt(3));  // Default to NORMAL
+                break;
+        }
 
         // Try to find safe spawn position (max 10 attempts)
         int x = -1, y = -1;

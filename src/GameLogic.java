@@ -19,17 +19,17 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 12-03: GameLogic with HARDCODED BOSS AI (ANTI-PATTERN)
+ * Week 12-04: GameLogic with STATE PATTERN for Boss AI (SOLUTION)
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
  * ✅ KEPT: Strategy Pattern for difficulty (from 12-02)
- * ➕ NEW: Turn-based boss battle when reaching exit
+ * ✅ SOLUTION: State Pattern for boss behavior (refactored from 12-03)
  *
- * Evolution from Week 12-02:
- * - Added BattleSystem for turn-based boss fights
- * - Battle triggered when player reaches DungeonExit (23, 23)
- * - Boss AI uses HARDCODED if/else chains (ANTI-PATTERN!)
+ * Evolution from Week 12-03:
+ * - BattleSystem now uses State Pattern instead of hardcoded if/else chains
+ * - Boss states: NormalState, AngryState, DefensiveState, EnragedState
+ * - Each state encapsulates both AI decision and counter relationship rules
  */
 public class GameLogic {
     private Player player;
@@ -153,7 +153,7 @@ public class GameLogic {
         int playerX = player.getX();
         int playerY = player.getY();
 
-        // Week 12-03: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
+        // Week 12-04: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
         if (playerX == dungeonExit.getX() && playerY == dungeonExit.getY()) {
             // Start turn-based boss battle
             // Check if demo mode (boss only defends)

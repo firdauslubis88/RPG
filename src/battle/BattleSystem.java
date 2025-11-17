@@ -30,6 +30,7 @@ public class BattleSystem {
     private int bossMaxHp;
     private Scanner scanner;
     private Random random;
+    private boolean isDemoMode;  // Demo mode: boss only defends
 
     // Boss stats
     private static final int BOSS_MAX_HP = 200;
@@ -43,11 +44,16 @@ public class BattleSystem {
     private static final String RUN = "RUN";
 
     public BattleSystem(Player player) {
+        this(player, false);  // Default: not demo mode
+    }
+
+    public BattleSystem(Player player, boolean isDemoMode) {
         this.player = player;
         this.bossHp = BOSS_MAX_HP;
         this.bossMaxHp = BOSS_MAX_HP;
         this.scanner = new Scanner(System.in);
         this.random = new Random();
+        this.isDemoMode = isDemoMode;
     }
 
     /**
@@ -231,6 +237,11 @@ public class BattleSystem {
      * This is the ANTI-PATTERN we'll refactor in Week 12-04!
      */
     private String bossTurn() {
+        // Demo mode: Boss always defends (guaranteed to lose)
+        if (isDemoMode) {
+            return DEFEND;
+        }
+
         float hpPercent = (float) bossHp / bossMaxHp;
 
         // ❌ ANTI-PATTERN: Giant if-else based on HP percentage!

@@ -156,7 +156,9 @@ public class GameLogic {
         // Week 12-03: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
         if (playerX == dungeonExit.getX() && playerY == dungeonExit.getY()) {
             // Start turn-based boss battle
-            BattleSystem battleSystem = new BattleSystem(player);
+            // Check if demo mode (boss only defends)
+            boolean isDemoMode = strategy.getName().equals("DEMO");
+            BattleSystem battleSystem = new BattleSystem(player, isDemoMode);
             boolean playerWon = battleSystem.startBattle();
 
             if (playerWon) {

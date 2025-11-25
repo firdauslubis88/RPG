@@ -1,56 +1,70 @@
 package level;
 
 /**
- * Week 13-01: Hardcoded Level Loading (ANTI-PATTERN)
+ * Week 13-02: Template Method Pattern (SOLUTION)
  *
- * PROBLEM: INCONSISTENT algorithm order and MISSING steps!
+ * Concrete implementation for Boss Arena.
  *
- * This class demonstrates what happens when there's no enforced structure:
- * - Steps are in WRONG ORDER (spawning before loading assets!)
- * - Step 4 (music) is MISSING entirely!
+ * NOW FIXED! The Template Method Pattern GUARANTEES:
+ * - Correct step order (can't spawn before loading assets!)
+ * - All steps are executed (music won't be forgotten!)
  *
- * Without a template method enforcing the algorithm, developers can
- * accidentally create inconsistent or buggy implementations.
+ * Also demonstrates HOOK METHOD: disables music during loading,
+ * because the epic boss music should start when battle begins.
  */
-public class BossArenaLoader {
+public class BossArenaLoader extends LevelLoader {
 
-    public void loadLevel() {
-        System.out.println("\n╔════════════════════════════════════════╗");
-        System.out.println("║       LOADING: BOSS ARENA              ║");
-        System.out.println("║       ⚠️  WARNING: BUGGY LOADER!        ║");
-        System.out.println("╚════════════════════════════════════════╝\n");
+    @Override
+    protected String getLevelName() {
+        return "BOSS ARENA";
+    }
 
-        // BUG: WRONG ORDER! Spawning enemies BEFORE loading assets!
-        System.out.println("[Step ???] Spawning boss FIRST (BUG: Wrong order!)...");
-        System.out.println("  → Attempting to spawn Ancient Dragon...");
-        System.out.println("  ⚠️  WARNING: Dragon texture not loaded yet!");
-        System.out.println("  ⚠️  WARNING: Dragon appears as pink square!");
-        System.out.println("  ✗ Enemies spawned with missing textures");
-
-        // Assets loaded TOO LATE
-        System.out.println("\n[Step ???] Loading assets (TOO LATE!)...");
-        System.out.println("  → Loading dragon sprite (should have been first!)");
+    @Override
+    protected void loadAssets() {
+        System.out.println("  → Loading Ancient Dragon sprite");
         System.out.println("  → Loading arena textures");
-        System.out.println("  → Loading fire effect animations");
-        System.out.println("  ⚠️  Assets loaded but enemies already spawned wrong");
+        System.out.println("  → Loading fire breath animations");
+        System.out.println("  → Loading epic boss music track");
+    }
 
-        // World building
-        System.out.println("\n[Step ???] Building arena...");
+    @Override
+    protected void buildWorld() {
         System.out.println("  → Creating circular battle arena");
         System.out.println("  → Adding pillars for cover");
         System.out.println("  → Setting up dramatic lighting");
-        System.out.println("  ✓ Arena built");
+        System.out.println("  → Placing health potions in corners");
+    }
 
-        // BUG: FORGOT to play music!
-        // (Developer forgot to add Step 4!)
-        System.out.println("\n[Step 4] MISSING! (Developer forgot to add music!)");
-        System.out.println("  ⚠️  No background music playing...");
-        System.out.println("  ⚠️  Boss fight feels awkwardly silent!");
+    @Override
+    protected void spawnEnemies() {
+        System.out.println("  → Summoning ANCIENT DRAGON!");
+        System.out.println("  → Dragon HP: 500");
+        System.out.println("  → Dragon Level: LEGENDARY");
+        System.out.println("  → Total enemies: 1 (but it's a BIG one!)");
+    }
 
-        System.out.println("\n════════════════════════════════════════");
-        System.out.println("⚠️  Boss Arena loaded with ISSUES:");
-        System.out.println("   - Wrong step order caused texture bugs");
-        System.out.println("   - Missing background music");
-        System.out.println("════════════════════════════════════════\n");
+    @Override
+    protected void playBackgroundMusic() {
+        System.out.println("  → Music will start when battle begins...");
+    }
+
+    /**
+     * HOOK METHOD: Override to disable music during loading
+     * Epic boss music should only play when the battle starts!
+     */
+    @Override
+    protected boolean shouldPlayMusic() {
+        return false;  // Music disabled during loading
+    }
+
+    /**
+     * HOOK METHOD: Custom post-load setup for boss arena
+     */
+    @Override
+    protected void afterLoad() {
+        System.out.println("\n[Boss Arena Special Setup]");
+        System.out.println("  → Initializing boss health bar UI");
+        System.out.println("  → Preparing dramatic entrance cutscene");
+        System.out.println("  → Epic music ready to play on battle start");
     }
 }

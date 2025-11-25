@@ -1,155 +1,142 @@
 import level.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Week 13-01: Hardcoded Level Loading (ANTI-PATTERN) - Demo
+ * Week 13-02: Template Method Pattern (SOLUTION) - Demo
  *
- * This demo shows the problems with hardcoded level loading:
- * 1. Code duplication across loaders (same algorithm, copy-pasted)
- * 2. Inconsistent algorithm order (BossArena has wrong order)
- * 3. Missing steps (BossArena forgot music)
- * 4. No polymorphism (can't use common base type)
- * 5. Hard to modify algorithm (must edit ALL loaders)
+ * This demo shows the SOLUTION using Template Method Pattern:
+ * 1. NO code duplication - algorithm defined ONCE in LevelLoader
+ * 2. CONSISTENT order - template method guarantees step sequence
+ * 3. NO missing steps - abstract methods FORCE implementation
+ * 4. POLYMORPHISM enabled - can use LevelLoader as base type
+ * 5. EASY to extend - just create new subclass
  *
- * SOLUTION: Template Method Pattern (see branch 13-02-template-method)
+ * Compare to branch 13-01-hardcoded-level to see the problems solved!
  */
 public class LevelDemo {
 
     public static void main(String[] args) {
         System.out.println("╔══════════════════════════════════════════════════════╗");
         System.out.println("║                                                      ║");
-        System.out.println("║   WEEK 13-01: HARDCODED LEVEL LOADING                ║");
-        System.out.println("║   (ANTI-PATTERN DEMONSTRATION)                       ║");
+        System.out.println("║   WEEK 13-02: TEMPLATE METHOD PATTERN                ║");
+        System.out.println("║   (SOLUTION DEMONSTRATION)                           ║");
         System.out.println("║                                                      ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
 
-        System.out.println("\nThis demo shows PROBLEMS with hardcoded level loading:\n");
-        System.out.println("  1. Code duplication - same algorithm in every loader");
-        System.out.println("  2. Inconsistent order - BossArena has bugs!");
-        System.out.println("  3. Missing steps - BossArena forgot music!");
-        System.out.println("  4. No polymorphism - can't use common type");
-        System.out.println("  5. Hard to modify - must edit ALL loaders");
+        System.out.println("\nTemplate Method Pattern SOLVES all previous problems:\n");
+        System.out.println("  ✓ NO code duplication - algorithm in LevelLoader");
+        System.out.println("  ✓ CONSISTENT order - guaranteed by template method");
+        System.out.println("  ✓ NO missing steps - abstract methods enforce it");
+        System.out.println("  ✓ POLYMORPHISM - use LevelLoader as base type");
+        System.out.println("  ✓ EASY to extend - just create new subclass");
 
         // ════════════════════════════════════════════════════════════
-        // Load Dungeon (correct implementation)
-        // ════════════════════════════════════════════════════════════
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println(" LOADING LEVEL 1: Dark Dungeon (Correct Implementation)");
-        System.out.println("═".repeat(60));
-
-        DungeonLevelLoader dungeonLoader = new DungeonLevelLoader();
-        dungeonLoader.loadLevel();
-
-        // ════════════════════════════════════════════════════════════
-        // Load Forest (correct, but duplicated code!)
+        // Demonstrate POLYMORPHISM - using base type!
         // ════════════════════════════════════════════════════════════
         System.out.println("\n" + "═".repeat(60));
-        System.out.println(" LOADING LEVEL 2: Enchanted Forest (Duplicated Code!)");
+        System.out.println(" BENEFIT: Polymorphism with LevelLoader base type");
         System.out.println("═".repeat(60));
 
-        ForestLevelLoader forestLoader = new ForestLevelLoader();
-        forestLoader.loadLevel();
+        // Create a registry of level loaders - using base type!
+        Map<String, LevelLoader> levelRegistry = new HashMap<>();
+        levelRegistry.put("dungeon", new DungeonLevelLoader());
+        levelRegistry.put("forest", new ForestLevelLoader());
+        levelRegistry.put("castle", new CastleLevelLoader());
+        levelRegistry.put("boss", new BossArenaLoader());
 
-        // ════════════════════════════════════════════════════════════
-        // Load Castle (correct, but MORE duplicated code!)
-        // ════════════════════════════════════════════════════════════
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println(" LOADING LEVEL 3: Royal Castle (More Duplicated Code!)");
-        System.out.println("═".repeat(60));
+        System.out.println("\nLevel Registry created with 4 levels.");
+        System.out.println("All stored as LevelLoader base type - POLYMORPHISM!\n");
 
-        CastleLevelLoader castleLoader = new CastleLevelLoader();
-        castleLoader.loadLevel();
+        // Load levels by name using polymorphism
+        String[] levelsToLoad = {"dungeon", "forest", "boss"};
 
-        // ════════════════════════════════════════════════════════════
-        // Load Boss Arena (BUGGY implementation!)
-        // ════════════════════════════════════════════════════════════
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println(" LOADING LEVEL 4: Boss Arena (⚠️  BUGGY IMPLEMENTATION!)");
-        System.out.println("═".repeat(60));
+        for (String levelName : levelsToLoad) {
+            System.out.println("═".repeat(60));
+            System.out.println(" Loading: \"" + levelName + "\" via polymorphism");
+            System.out.println("═".repeat(60));
 
-        BossArenaLoader bossLoader = new BossArenaLoader();
-        bossLoader.loadLevel();
-
-        // ════════════════════════════════════════════════════════════
-        // Show the polymorphism problem
-        // ════════════════════════════════════════════════════════════
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println(" PROBLEM: No Polymorphism!");
-        System.out.println("═".repeat(60));
-
-        System.out.println("\nWithout a common base class, we can't do this:\n");
-        System.out.println("  // ✗ This doesn't work!");
-        System.out.println("  // LevelLoader loader = getLevelByName(\"dungeon\");");
-        System.out.println("  // loader.loadLevel();");
-        System.out.println("\nInstead we need ugly if-else chains:\n");
-        System.out.println("  if (name.equals(\"dungeon\")) {");
-        System.out.println("      new DungeonLevelLoader().loadLevel();");
-        System.out.println("  } else if (name.equals(\"forest\")) {");
-        System.out.println("      new ForestLevelLoader().loadLevel();");
-        System.out.println("  } else if (name.equals(\"castle\")) {");
-        System.out.println("      new CastleLevelLoader().loadLevel();");
-        System.out.println("  } else if (name.equals(\"boss\")) {");
-        System.out.println("      new BossArenaLoader().loadLevel();");
-        System.out.println("  }");
-        System.out.println("\n  // Adding new level = adding more if-else!");
-
-        // Demonstrate the if-else chain
-        System.out.println("\n" + "═".repeat(60));
-        System.out.println(" Demo: Loading by name (ugly if-else)");
-        System.out.println("═".repeat(60));
-
-        String[] levelNames = {"dungeon", "forest"};
-        for (String name : levelNames) {
-            System.out.println("\nLoading level by name: \"" + name + "\"");
-            loadLevelByName(name);
+            LevelLoader loader = levelRegistry.get(levelName);
+            if (loader != null) {
+                loader.loadLevel();  // Template method handles everything!
+            }
         }
+
+        // ════════════════════════════════════════════════════════════
+        // Show code comparison
+        // ════════════════════════════════════════════════════════════
+        System.out.println("\n" + "═".repeat(60));
+        System.out.println(" CODE COMPARISON: Before vs After");
+        System.out.println("═".repeat(60));
+
+        System.out.println("\n┌─────────────────────────────────────────────────────┐");
+        System.out.println("│ BEFORE (13-01): Hardcoded Level Loading             │");
+        System.out.println("├─────────────────────────────────────────────────────┤");
+        System.out.println("│ • Each loader: ~50 lines with full algorithm        │");
+        System.out.println("│ • 4 loaders × 50 lines = 200 lines (duplicated!)    │");
+        System.out.println("│ • BossArena had wrong order and missing music       │");
+        System.out.println("│ • No common base type                               │");
+        System.out.println("└─────────────────────────────────────────────────────┘");
+
+        System.out.println("\n┌─────────────────────────────────────────────────────┐");
+        System.out.println("│ AFTER (13-02): Template Method Pattern              │");
+        System.out.println("├─────────────────────────────────────────────────────┤");
+        System.out.println("│ • LevelLoader: ~60 lines (algorithm defined ONCE)   │");
+        System.out.println("│ • Each concrete loader: ~30 lines (only specifics)  │");
+        System.out.println("│ • Total: 60 + (4 × 30) = 180 lines (less code!)     │");
+        System.out.println("│ • Correct order GUARANTEED                          │");
+        System.out.println("│ • Polymorphism ENABLED                              │");
+        System.out.println("│ • Hook methods for customization                    │");
+        System.out.println("└─────────────────────────────────────────────────────┘");
+
+        // ════════════════════════════════════════════════════════════
+        // Hollywood Principle
+        // ════════════════════════════════════════════════════════════
+        System.out.println("\n" + "═".repeat(60));
+        System.out.println(" Hollywood Principle: \"Don't call us, we'll call you!\"");
+        System.out.println("═".repeat(60));
+
+        System.out.println("\n  LevelLoader (parent) CALLS subclass methods:");
+        System.out.println("  ┌───────────────────────────────────┐");
+        System.out.println("  │  loadLevel() {                    │");
+        System.out.println("  │      loadAssets();    ←── calls   │");
+        System.out.println("  │      buildWorld();    ←── calls   │");
+        System.out.println("  │      spawnEnemies();  ←── calls   │");
+        System.out.println("  │      if (shouldPlayMusic())       │");
+        System.out.println("  │          playBackgroundMusic();   │");
+        System.out.println("  │  }                                │");
+        System.out.println("  └───────────────────────────────────┘");
+        System.out.println("\n  Subclasses DON'T call parent - they WAIT to be called!");
 
         // ════════════════════════════════════════════════════════════
         // Summary
         // ════════════════════════════════════════════════════════════
         System.out.println("\n╔══════════════════════════════════════════════════════╗");
-        System.out.println("║                  PROBLEMS IDENTIFIED                 ║");
+        System.out.println("║              PROBLEMS SOLVED                         ║");
         System.out.println("╠══════════════════════════════════════════════════════╣");
         System.out.println("║                                                      ║");
-        System.out.println("║  ✗ Code Duplication                                  ║");
-        System.out.println("║    Same 4-step algorithm copy-pasted 4 times!        ║");
+        System.out.println("║  ✓ Code Reuse                                        ║");
+        System.out.println("║    Algorithm defined ONCE in abstract class          ║");
         System.out.println("║                                                      ║");
-        System.out.println("║  ✗ Inconsistent Order (BossArena)                    ║");
-        System.out.println("║    Spawned enemies before loading textures!          ║");
+        System.out.println("║  ✓ Consistent Order                                  ║");
+        System.out.println("║    Template method GUARANTEES step sequence          ║");
         System.out.println("║                                                      ║");
-        System.out.println("║  ✗ Missing Steps (BossArena)                         ║");
-        System.out.println("║    Developer forgot to add background music!         ║");
+        System.out.println("║  ✓ No Missing Steps                                  ║");
+        System.out.println("║    Abstract methods FORCE implementation             ║");
         System.out.println("║                                                      ║");
-        System.out.println("║  ✗ No Polymorphism                                   ║");
-        System.out.println("║    Can't use common base type for all loaders!       ║");
+        System.out.println("║  ✓ Polymorphism                                      ║");
+        System.out.println("║    Can use LevelLoader as common base type           ║");
         System.out.println("║                                                      ║");
-        System.out.println("║  ✗ Hard to Modify                                    ║");
-        System.out.println("║    Adding Step 5 requires editing ALL 4 loaders!     ║");
+        System.out.println("║  ✓ Easy Extension                                    ║");
+        System.out.println("║    Add new level = create new subclass               ║");
+        System.out.println("║                                                      ║");
+        System.out.println("║  ✓ Hook Methods                                      ║");
+        System.out.println("║    Optional customization (e.g., disable music)      ║");
         System.out.println("║                                                      ║");
         System.out.println("╠══════════════════════════════════════════════════════╣");
         System.out.println("║                                                      ║");
-        System.out.println("║  SOLUTION: Template Method Pattern                   ║");
-        System.out.println("║  See branch: 13-02-template-method                   ║");
+        System.out.println("║  Compare: branch 13-01-hardcoded-level (PROBLEM)     ║");
         System.out.println("║                                                      ║");
         System.out.println("╚══════════════════════════════════════════════════════╝");
-    }
-
-    /**
-     * Ugly if-else chain required without polymorphism
-     */
-    private static void loadLevelByName(String name) {
-        // This is what we're forced to do without a common base class!
-        if (name.equals("dungeon")) {
-            System.out.println("  → Using DungeonLevelLoader");
-            // Not actually loading to keep output clean
-        } else if (name.equals("forest")) {
-            System.out.println("  → Using ForestLevelLoader");
-        } else if (name.equals("castle")) {
-            System.out.println("  → Using CastleLevelLoader");
-        } else if (name.equals("boss")) {
-            System.out.println("  → Using BossArenaLoader");
-        } else {
-            System.out.println("  ✗ Unknown level: " + name);
-        }
-        // Every new level type = another else-if!
     }
 }

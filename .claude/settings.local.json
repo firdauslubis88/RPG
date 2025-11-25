@@ -32,7 +32,11 @@
       "Bash(git merge:*)",
       "Bash(git commit:*)",
       "Bash(git cherry-pick:*)",
-      "Bash(printf:*)"
+      "Bash(printf:*)",
+      "Bash(git branch:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git restore:*)",
+      "Bash(java:*)"
     ],
     "deny": [],
     "ask": []

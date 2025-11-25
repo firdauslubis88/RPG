@@ -6,14 +6,38 @@ Week 13 memperkenalkan dua design pattern penting:
 1. **Template Method Pattern** - Mendefinisikan skeleton algoritma, subclass mengisi detail
 2. **Facade Pattern** - Menyederhanakan interaksi dengan subsystem kompleks
 
+Seperti minggu-minggu sebelumnya, kita akan mendemonstrasikan **masalah** terlebih dahulu (anti-pattern), kemudian **solusi** dengan design pattern.
+
 ---
 
 ## Branch Structure
 
-| Branch | Pattern | Deskripsi |
-|--------|---------|-----------|
-| `13-01-template-method` | Template Method | Skeleton algoritma untuk level loading |
-| `13-02-facade-pattern` | Facade | Menyederhanakan subsystem game engine |
+| Branch | Tipe | Deskripsi |
+|--------|------|-----------|
+| `13-01-hardcoded-level` | PROBLEM | Level loading dengan code duplication |
+| `13-02-template-method` | SOLUTION | Template Method Pattern |
+| `13-03-tightly-coupled` | PROBLEM | Client tightly coupled ke subsystems |
+| `13-04-facade-pattern` | SOLUTION | Facade Pattern |
+
+---
+
+## Learning Flow
+
+```
+Template Method:
+┌─────────────────────┐         ┌─────────────────────┐
+│  13-01: PROBLEM     │         │  13-02: SOLUTION    │
+│  Hardcoded Level    │ ──────► │  Template Method    │
+│  (Code Duplication) │         │  (Code Reuse)       │
+└─────────────────────┘         └─────────────────────┘
+
+Facade:
+┌─────────────────────┐         ┌─────────────────────┐
+│  13-03: PROBLEM     │         │  13-04: SOLUTION    │
+│  Tightly Coupled    │ ──────► │  Facade Pattern     │
+│  (Complex Client)   │         │  (Simple Interface) │
+└─────────────────────┘         └─────────────────────┘
+```
 
 ---
 
@@ -169,8 +193,10 @@ public class GameEngineFacade {
 ## Next Steps
 
 Lihat dokumentasi detail untuk setiap branch:
-- [Week 13-01: Template Method Pattern](./week-13-01-template-method.md)
-- [Week 13-02: Facade Pattern](./week-13-02-facade-pattern.md)
+- [Week 13-01: Hardcoded Level Loading (PROBLEM)](./week-13-01-hardcoded-level.md)
+- [Week 13-02: Template Method Pattern (SOLUTION)](./week-13-02-template-method.md)
+- [Week 13-03: Tightly Coupled Subsystems (PROBLEM)](./week-13-03-tightly-coupled.md)
+- [Week 13-04: Facade Pattern (SOLUTION)](./week-13-04-facade-pattern.md)
 
 ---
 

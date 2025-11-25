@@ -1,10 +1,10 @@
-# Week 13-01: Template Method Pattern
+# Week 13-02: Template Method Pattern (SOLUTION)
 
-**Branch**: `13-01-template-method`
+**Branch**: `13-02-template-method`
 
-**Compilation**: `javac -d bin/13-01-template-method src/*.java src/**/*.java`
+**Compilation**: `javac -d bin/13-02-template-method src/*.java src/**/*.java`
 
-**Run**: `java -cp bin/13-01-template-method Main`
+**Run**: `java -cp bin/13-02-template-method Main`
 
 ---
 
@@ -12,13 +12,17 @@
 
 Template Method Pattern mendefinisikan **skeleton (kerangka) algoritma** dalam method di superclass, membiarkan subclass **mengisi langkah-langkah spesifik** tanpa mengubah struktur algoritma.
 
+Branch ini menyelesaikan masalah **code duplication** yang ditunjukkan di branch `13-01-hardcoded-level`.
+
 ---
 
-## Motivasi
+## Masalah Sebelumnya (Week 13-01)
 
-### Masalah: Code Duplication dalam Algoritma
+Lihat: [Week 13-01: Hardcoded Level Loading](./week-13-01-hardcoded-level.md)
 
-Bayangkan kita memiliki beberapa jenis level loader dengan algoritma serupa:
+### Code Duplication dalam Algoritma
+
+Setiap level loader memiliki algoritma serupa yang di-copy-paste:
 
 ```java
 // DungeonLoader

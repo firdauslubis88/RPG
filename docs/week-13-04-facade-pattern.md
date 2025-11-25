@@ -1,10 +1,10 @@
-# Week 13-02: Facade Pattern
+# Week 13-04: Facade Pattern (SOLUTION)
 
-**Branch**: `13-02-facade-pattern`
+**Branch**: `13-04-facade-pattern`
 
-**Compilation**: `javac -d bin/13-02-facade-pattern src/*.java src/**/*.java`
+**Compilation**: `javac -d bin/13-04-facade-pattern src/*.java src/**/*.java`
 
-**Run**: `java -cp bin/13-02-facade-pattern Main`
+**Run**: `java -cp bin/13-04-facade-pattern Main`
 
 ---
 
@@ -12,13 +12,17 @@
 
 Facade Pattern menyediakan **interface sederhana** (unified interface) untuk sekumpulan interface dalam subsystem yang kompleks. Facade mendefinisikan interface higher-level yang membuat subsystem lebih **mudah digunakan**.
 
+Branch ini menyelesaikan masalah **tight coupling** yang ditunjukkan di branch `13-03-tightly-coupled`.
+
 ---
 
-## Motivasi
+## Masalah Sebelumnya (Week 13-03)
 
-### Masalah: Subsystem yang Kompleks
+Lihat: [Week 13-03: Tightly Coupled Subsystems](./week-13-03-tightly-coupled.md)
 
-Bayangkan game engine dengan banyak subsystem:
+### Client Terikat ke Banyak Subsystem
+
+Client harus mengetahui detail internal setiap subsystem:
 
 ```java
 // Client code tanpa Facade - sangat kompleks!

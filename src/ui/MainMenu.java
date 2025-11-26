@@ -5,48 +5,57 @@ import difficulty.DemoDifficulty;
 import difficulty.EasyDifficulty;
 import difficulty.NormalDifficulty;
 import difficulty.HardDifficulty;
+import level.LevelLoader;
+import level.DungeonLevelLoader;
+import level.ForestLevelLoader;
+import level.CastleLevelLoader;
+import level.BossArenaLoader;
 
 import java.util.Scanner;
 
 /**
- * MainMenu - Simple text-based menu for difficulty selection
+ * MainMenu - Menu for difficulty and level selection
  *
- * Week 12-02: STRATEGY PATTERN (SOLUTION)
+ * Week 13: Template Method + Facade Pattern Integration
  *
- * ✅ SOLUTION: Returns DifficultyStrategy objects instead of strings!
+ * ✅ KEPT: Strategy Pattern for difficulty (from 12-02)
+ * ✅ NEW: Template Method Pattern for level loading (13-02)
  *
- * Evolution from Week 12-01:
- * ❌ Before: return "EASY", "NORMAL", or "HARD" strings
- * ✅ Now: return new EasyDifficulty(), new NormalDifficulty(), or new HardDifficulty()
- *
- * Benefits:
- * - Compile-time safety (no string typos!)
- * - Each difficulty is a proper strategy object
- * - Can be easily extended with new difficulties
+ * Features:
+ * - Difficulty selection (Strategy Pattern)
+ * - Level selection (Template Method Pattern)
+ * - Level loading uses abstract LevelLoader
  */
 public class MainMenu {
     private Scanner scanner;
     private DifficultyStrategy selectedStrategy;
+    private LevelLoader selectedLevel;
 
     public MainMenu() {
         this.scanner = new Scanner(System.in);
         this.selectedStrategy = null;
+        this.selectedLevel = null;
     }
 
     /**
      * Display menu and get difficulty selection
      *
-     * Week 12-02: ✅ STRATEGY PATTERN - Returns strategy object!
+     * Week 13: Template Method + Facade Pattern
+     * ✅ STRATEGY PATTERN - Returns strategy object!
+     * ✅ TEMPLATE METHOD - Returns level loader!
      *
      * @return Selected difficulty strategy object
      */
     public DifficultyStrategy show() {
         clearScreen();
 
+        // ════════════════════════════════════════════════════════════
+        // STEP 1: Select Difficulty (Strategy Pattern)
+        // ════════════════════════════════════════════════════════════
         System.out.println("\n╔════════════════════════════════════════╗");
         System.out.println("║                                        ║");
         System.out.println("║         DUNGEON ESCAPE                 ║");
-        System.out.println("║     Week 12-02: Strategy Pattern       ║");
+        System.out.println("║   Week 13: Template + Facade Pattern   ║");
         System.out.println("║                                        ║");
         System.out.println("╠════════════════════════════════════════╣");
         System.out.println("║                                        ║");
@@ -71,10 +80,10 @@ public class MainMenu {
         System.out.println("╚════════════════════════════════════════╝");
         System.out.print("\nEnter your choice (0-3): ");
 
-        String choice = scanner.nextLine().trim();
+        String difficultyChoice = scanner.nextLine().trim();
 
-        // Week 12-02: ✅ STRATEGY PATTERN - Create strategy objects instead of strings!
-        switch (choice) {
+        // Week 12-02: ✅ STRATEGY PATTERN - Create strategy objects!
+        switch (difficultyChoice) {
             case "0":
                 selectedStrategy = new DemoDifficulty();
                 break;
@@ -94,10 +103,68 @@ public class MainMenu {
         }
 
         System.out.println("\nDifficulty set to: " + selectedStrategy.getName());
-        System.out.println("Press Enter to start...");
+
+        // ════════════════════════════════════════════════════════════
+        // STEP 2: Select Level (Template Method Pattern)
+        // ════════════════════════════════════════════════════════════
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║                                        ║");
+        System.out.println("║  SELECT LEVEL:                         ║");
+        System.out.println("║  (Template Method Pattern Demo)        ║");
+        System.out.println("║                                        ║");
+        System.out.println("║  1. DARK DUNGEON                       ║");
+        System.out.println("║     - Stone walls, torches             ║");
+        System.out.println("║     - Skeletons & Goblins              ║");
+        System.out.println("║                                        ║");
+        System.out.println("║  2. ENCHANTED FOREST                   ║");
+        System.out.println("║     - Trees, mystical fog              ║");
+        System.out.println("║     - Wolves & Forest Spirits          ║");
+        System.out.println("║                                        ║");
+        System.out.println("║  3. HAUNTED CASTLE                     ║");
+        System.out.println("║     - Gothic architecture              ║");
+        System.out.println("║     - Knights & Ghosts                 ║");
+        System.out.println("║                                        ║");
+        System.out.println("║  4. BOSS ARENA                         ║");
+        System.out.println("║     - Final showdown arena             ║");
+        System.out.println("║     - Direct boss battle!              ║");
+        System.out.println("║                                        ║");
+        System.out.println("╚════════════════════════════════════════╝");
+        System.out.print("\nEnter your choice (1-4): ");
+
+        String levelChoice = scanner.nextLine().trim();
+
+        // Week 13-02: ✅ TEMPLATE METHOD PATTERN - Create level loader!
+        switch (levelChoice) {
+            case "1":
+                selectedLevel = new DungeonLevelLoader();
+                break;
+            case "2":
+                selectedLevel = new ForestLevelLoader();
+                break;
+            case "3":
+                selectedLevel = new CastleLevelLoader();
+                break;
+            case "4":
+                selectedLevel = new BossArenaLoader();
+                break;
+            default:
+                System.out.println("Invalid choice! Defaulting to DARK DUNGEON.");
+                selectedLevel = new DungeonLevelLoader();
+                break;
+        }
+
+        System.out.println("\nPress Enter to start loading level...");
         scanner.nextLine();
 
         return selectedStrategy;
+    }
+
+    /**
+     * Get the selected level loader
+     * @return Selected LevelLoader (uses Template Method Pattern)
+     */
+    public LevelLoader getSelectedLevel() {
+        return selectedLevel;
     }
 
     public DifficultyStrategy getSelectedStrategy() {

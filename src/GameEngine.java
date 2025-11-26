@@ -6,20 +6,17 @@ import obstacles.Obstacle;
 import utils.GridRenderer;
 import difficulty.DifficultyStrategy;
 import level.LevelLoader;
-import level.DungeonLevelLoader;
 
 /**
  * GameEngine - Main game loop with difficulty system
  *
- * Week 12-02: STRATEGY PATTERN (SOLUTION)
+ * Week 13: Template Method + Facade Pattern Integration
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
- * ✅ SOLUTION: Strategy Pattern for flexible difficulty!
- *
- * Evolution from Week 12-01:
- * ❌ Before: Passes String difficulty to GameLogic
- * ✅ Now: Passes DifficultyStrategy object to GameLogic
+ * ✅ KEPT: Strategy Pattern for difficulty (from 12-02)
+ * ✅ NEW: Template Method Pattern for level loading (13-02)
+ * ✅ NEW: Facade Pattern for battle system (13-04)
  */
 public class GameEngine {
     private final GameLogic logic;
@@ -27,6 +24,7 @@ public class GameEngine {
     private final PerformanceMonitor perfMonitor;  // Week 10: Track GC impact
     private boolean running;
     private final DifficultyStrategy strategy;  // Week 12-02: Store strategy for display
+    private final LevelLoader levelLoader;  // Week 13-02: Template Method for level loading
 
     // Frame rate control
     private static final int TARGET_FPS = 60;
@@ -45,14 +43,17 @@ public class GameEngine {
     private final float hudUpdateInterval = 0.1f;  // Update HUD every 0.1 seconds (more responsive)
 
     /**
-     * Week 12-02: Constructor with Strategy Pattern
+     * Week 13: Constructor with Strategy + Template Method Pattern
      *
-     * ✅ SOLUTION: Accept DifficultyStrategy instead of string!
+     * ✅ KEPT: Strategy Pattern for difficulty
+     * ✅ NEW: Template Method Pattern for level loading
      *
      * @param strategy The difficulty strategy to use
+     * @param levelLoader The level loader (uses Template Method Pattern)
      */
-    public GameEngine(DifficultyStrategy strategy) {
+    public GameEngine(DifficultyStrategy strategy, LevelLoader levelLoader) {
         this.strategy = strategy;
+        this.levelLoader = levelLoader;
         this.logic = new GameLogic(strategy);  // Week 12-02: Pass strategy to GameLogic
         this.hud = logic.getHUD();  // Week 11-04: Get HUD from GameLogic for rendering
         this.perfMonitor = new PerformanceMonitor();
@@ -79,7 +80,7 @@ public class GameEngine {
         // Week 13-02: ✅ TEMPLATE METHOD PATTERN - Load level using abstract loader!
         // The loadLevel() template method ensures consistent loading sequence:
         // 1. Load assets → 2. Build world → 3. Spawn enemies → 4. Play music
-        LevelLoader levelLoader = new DungeonLevelLoader();
+        // Note: levelLoader is passed from Main via MainMenu selection
         levelLoader.loadLevel();
 
         System.out.println("Controls: W/A/S/D + Enter to move");

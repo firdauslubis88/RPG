@@ -1,13 +1,15 @@
 package obstacles;
 
+import world.DungeonMap;
+
 /**
  * Spike - Static obstacle that doesn't move
  *
- * Week 10 Branch 10-01: Hard-coded spawning demo
+ * Week 13: Uses DungeonMap.getSpikeChar() for level-specific appearance
  *
  * Behavior: Stays in one position
  * Damage: 20 HP
- * Symbol: '^' (looks like spike pointing up)
+ * Symbol: Dynamic based on level (e.g., '^' dungeon, '*' forest thorns, 'X' castle trap)
  */
 public class Spike implements Obstacle {
     private int x;  // Changed from final for factory pattern support
@@ -48,7 +50,8 @@ public class Spike implements Obstacle {
 
     @Override
     public char getSymbol() {
-        return '^';
+        // Week 13: Dynamic symbol based on active map
+        return DungeonMap.getSpikeChar();
     }
 
     @Override

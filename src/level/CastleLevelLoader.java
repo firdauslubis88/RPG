@@ -1,16 +1,19 @@
 package level;
 
+import world.DungeonMap;
+import world.CastleMapLayout;
+
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
  *
  * Concrete implementation for Castle level.
- * Only implements the SPECIFIC details, algorithm is in LevelLoader.
+ * Week 13: Now sets active map with CastleMapLayout!
  */
 public class CastleLevelLoader extends LevelLoader {
 
     @Override
     protected String getLevelName() {
-        return "ROYAL CASTLE";
+        return "HAUNTED CASTLE";
     }
 
     @Override
@@ -23,22 +26,24 @@ public class CastleLevelLoader extends LevelLoader {
 
     @Override
     protected void buildWorld() {
-        System.out.println("  → Constructing castle walls");
-        System.out.println("  → Building throne room");
-        System.out.println("  → Adding towers and battlements");
-        System.out.println("  → Placing royal decorations");
+        // Week 13: Set the active map layout!
+        DungeonMap.setActiveMap(new CastleMapLayout());
+        System.out.println("  → Constructing castle halls (25x25 grid)");
+        System.out.println("  → Wall char: '|' and '-' (castle walls)");
+        System.out.println("  → Floor char: ':' (stone floor)");
+        System.out.println("  → Adding gothic architecture");
     }
 
     @Override
     protected void spawnEnemies() {
-        System.out.println("  → Spawning castle guards (8 guards)");
-        System.out.println("  → Placing elite knights (4 knights)");
-        System.out.println("  → Summoning the King Boss in throne room");
-        System.out.println("  → Total enemies: 13");
+        System.out.println("  → Goblin char: 'K' (Knight)");
+        System.out.println("  → Wolf char: 'G' (Ghost)");
+        System.out.println("  → Spike char: 'X' (Sword trap)");
+        System.out.println("  → Summoning Castle Boss in throne room");
     }
 
     @Override
     protected void playBackgroundMusic() {
-        System.out.println("  ♪ Now playing: royal_fanfare.mp3");
+        System.out.println("  ♪ Now playing: " + DungeonMap.getMusic());
     }
 }

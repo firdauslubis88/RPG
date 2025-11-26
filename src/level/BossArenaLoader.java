@@ -1,15 +1,15 @@
 package level;
 
+import world.DungeonMap;
+import world.BossArenaLayout;
+
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
  *
  * Concrete implementation for Boss Arena.
+ * Week 13: Now sets active map with BossArenaLayout!
  *
- * NOW FIXED! The Template Method Pattern GUARANTEES:
- * - Correct step order (can't spawn before loading assets!)
- * - All steps are executed (music won't be forgotten!)
- *
- * Also demonstrates HOOK METHOD: disables music during loading,
+ * Demonstrates HOOK METHOD: disables music during loading,
  * because the epic boss music should start when battle begins.
  */
 public class BossArenaLoader extends LevelLoader {
@@ -29,23 +29,25 @@ public class BossArenaLoader extends LevelLoader {
 
     @Override
     protected void buildWorld() {
-        System.out.println("  → Creating circular battle arena");
-        System.out.println("  → Adding pillars for cover");
-        System.out.println("  → Setting up dramatic lighting");
-        System.out.println("  → Placing health potions in corners");
+        // Week 13: Set the active map layout!
+        DungeonMap.setActiveMap(new BossArenaLayout());
+        System.out.println("  → Creating battle arena (25x25 grid)");
+        System.out.println("  → Wall char: '=' (arena barriers)");
+        System.out.println("  → Floor char: ' ' (smooth arena floor)");
+        System.out.println("  → Adding central pillar for cover");
     }
 
     @Override
     protected void spawnEnemies() {
+        System.out.println("  → (Arena has no minion spawns)");
         System.out.println("  → Summoning ANCIENT DRAGON!");
         System.out.println("  → Dragon HP: 500");
         System.out.println("  → Dragon Level: LEGENDARY");
-        System.out.println("  → Total enemies: 1 (but it's a BIG one!)");
     }
 
     @Override
     protected void playBackgroundMusic() {
-        System.out.println("  → Music will start when battle begins...");
+        System.out.println("  → " + DungeonMap.getMusic() + " ready for battle start");
     }
 
     /**

@@ -1,10 +1,13 @@
 package level;
 
+import world.DungeonMap;
+import world.ForestMapLayout;
+
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
  *
  * Concrete implementation for Forest level.
- * Only implements the SPECIFIC details, algorithm is in LevelLoader.
+ * Week 13: Now sets active map with ForestMapLayout!
  */
 public class ForestLevelLoader extends LevelLoader {
 
@@ -23,22 +26,24 @@ public class ForestLevelLoader extends LevelLoader {
 
     @Override
     protected void buildWorld() {
-        System.out.println("  → Generating forest terrain");
-        System.out.println("  → Planting trees and bushes (150 trees)");
-        System.out.println("  → Creating winding paths");
-        System.out.println("  → Adding hidden clearings (3 found)");
+        // Week 13: Set the active map layout!
+        DungeonMap.setActiveMap(new ForestMapLayout());
+        System.out.println("  → Generating forest terrain (25x25 grid)");
+        System.out.println("  → Wall char: 'T' (trees)");
+        System.out.println("  → Floor char: ',' (grass)");
+        System.out.println("  → Adding hidden clearings");
     }
 
     @Override
     protected void spawnEnemies() {
-        System.out.println("  → Spawning wolf pack (4 wolves)");
-        System.out.println("  → Placing bandits near paths (6 bandits)");
-        System.out.println("  → Hiding Forest Spirit in clearing");
-        System.out.println("  → Total enemies: 11");
+        System.out.println("  → Goblin char: 'S' (Forest Spirit)");
+        System.out.println("  → Wolf char: 'W' (Wild Wolf)");
+        System.out.println("  → Spike char: '*' (Thorny bushes)");
+        System.out.println("  → Hiding Forest Boss in clearing");
     }
 
     @Override
     protected void playBackgroundMusic() {
-        System.out.println("  ♪ Now playing: forest_birds_ambience.mp3");
+        System.out.println("  ♪ Now playing: " + DungeonMap.getMusic());
     }
 }

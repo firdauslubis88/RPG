@@ -1,12 +1,15 @@
 package level;
 
+import world.DungeonMap;
+import world.DungeonMapLayout;
+
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
  *
  * Concrete implementation for Dungeon level.
  * Only implements the SPECIFIC details, algorithm is in LevelLoader.
  *
- * Compare to 13-01: No more duplicated algorithm structure!
+ * Week 13: Now sets active map with DungeonMapLayout!
  */
 public class DungeonLevelLoader extends LevelLoader {
 
@@ -25,22 +28,24 @@ public class DungeonLevelLoader extends LevelLoader {
 
     @Override
     protected void buildWorld() {
-        System.out.println("  → Generating dungeon layout (10x10 rooms)");
-        System.out.println("  → Placing wall tiles");
+        // Week 13: Set the active map layout!
+        DungeonMap.setActiveMap(new DungeonMapLayout());
+        System.out.println("  → Generating dungeon layout (25x25 grid)");
+        System.out.println("  → Wall char: '#' (stone blocks)");
+        System.out.println("  → Floor char: '.' (cobblestone)");
         System.out.println("  → Adding torch lighting effects");
-        System.out.println("  → Placing treasure chests (5 found)");
     }
 
     @Override
     protected void spawnEnemies() {
-        System.out.println("  → Spawning 5 Skeletons in corridors");
-        System.out.println("  → Spawning 3 Goblins near treasure");
+        System.out.println("  → Goblin char: 'g' (standard goblin)");
+        System.out.println("  → Wolf char: 'w' (dungeon wolf)");
+        System.out.println("  → Spike char: '^' (floor spikes)");
         System.out.println("  → Placing Dungeon Boss in final room");
-        System.out.println("  → Total enemies: 9");
     }
 
     @Override
     protected void playBackgroundMusic() {
-        System.out.println("  ♪ Now playing: eerie_dungeon_ambience.mp3");
+        System.out.println("  ♪ Now playing: " + DungeonMap.getMusic());
     }
 }

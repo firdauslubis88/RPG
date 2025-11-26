@@ -6,11 +6,11 @@ import world.DungeonMap;
 /**
  * Wolf - Chase obstacle that follows the player
  *
- * Week 11: Now targets Entity (Player or NPC)
+ * Week 13: Uses DungeonMap.getWolfChar() for level-specific appearance
  *
  * Behavior: Moves towards target if within detection range
  * Damage: 25 HP
- * Symbol: 'W' (Wolf)
+ * Symbol: Dynamic based on level (e.g., 'w' dungeon, 'W' forest, 'G' castle ghost)
  * Movement: Chase pattern (moves towards target)
  */
 public class Wolf implements Obstacle {
@@ -106,7 +106,8 @@ public class Wolf implements Obstacle {
 
     @Override
     public char getSymbol() {
-        return 'W';
+        // Week 13: Dynamic symbol based on active map
+        return DungeonMap.getWolfChar();
     }
 
     @Override

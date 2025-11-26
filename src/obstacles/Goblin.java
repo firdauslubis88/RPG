@@ -5,11 +5,11 @@ import world.DungeonMap;
 /**
  * Goblin - Patrol obstacle that moves left-right
  *
- * Week 10 Branch 10-01: Hard-coded spawning demo
+ * Week 13: Uses DungeonMap.getGoblinChar() for level-specific appearance
  *
  * Behavior: Moves horizontally, respects walls
  * Damage: 15 HP
- * Symbol: 'G' (Goblin)
+ * Symbol: Dynamic based on level (e.g., 'g' dungeon, 'S' forest, 'K' castle)
  * Movement: Patrol pattern (horizontal only)
  */
 public class Goblin implements Obstacle {
@@ -70,7 +70,8 @@ public class Goblin implements Obstacle {
 
     @Override
     public char getSymbol() {
-        return 'G';
+        // Week 13: Dynamic symbol based on active map
+        return DungeonMap.getGoblinChar();
     }
 
     @Override

@@ -2,9 +2,9 @@
 
 **Branch**: `13-04-facade-pattern`
 
-**Compilation**: `javac -d bin/13-04-facade-pattern src/*.java src/**/*.java`
+**Compilation**: `javac -d bin/13-04-facade-pattern src/battle/subsystems/*.java src/battle/BattleFacade.java src/SubsystemDemo.java`
 
-**Run**: `java -cp bin/13-04-facade-pattern Main`
+**Run**: `java -cp bin/13-04-facade-pattern SubsystemDemo`
 
 ---
 
@@ -22,57 +22,35 @@ Lihat: [Week 13-03: Tightly Coupled Subsystems](./week-13-03-tightly-coupled.md)
 
 ### Client Terikat ke Banyak Subsystem
 
-Client harus mengetahui detail internal setiap subsystem:
-
 ```java
 // Client code tanpa Facade - sangat kompleks!
-public class GameWithoutFacade {
-    public void startGame() {
-        // Initialize audio system
-        AudioCodec codec = new AudioCodec();
-        codec.initialize();
-        AudioBuffer buffer = new AudioBuffer();
-        buffer.setCodec(codec);
-        AudioPlayer player = new AudioPlayer();
-        player.setBuffer(buffer);
-        player.loadFile("music.mp3");
+BattleAnimationSystem animation = new BattleAnimationSystem();
+BattleSoundSystem sound = new BattleSoundSystem();
+BattleUISystem ui = new BattleUISystem();
 
-        // Initialize physics
-        PhysicsWorld world = new PhysicsWorld();
-        world.setGravity(9.8f);
-        CollisionDetector detector = new CollisionDetector();
-        detector.setWorld(world);
-        RigidBodyManager bodyManager = new RigidBodyManager();
-        bodyManager.setDetector(detector);
+// 7+ initialization calls in specific order!
+animation.init();
+animation.loadBattleSprites();
+sound.init();
+sound.loadBattleSounds();
+sound.playBattleMusic("boss_battle.mp3");
+ui.init();
+ui.createBattleUI();
+ui.showBattleScreen();
 
-        // Initialize video
-        VideoBuffer videoBuffer = new VideoBuffer();
-        Renderer renderer = new Renderer();
-        renderer.setBuffer(videoBuffer);
-        ShaderManager shaderManager = new ShaderManager();
-        shaderManager.loadShaders();
-        renderer.setShaderManager(shaderManager);
-
-        // Start everything
-        player.play();
-        world.start();
-        renderer.begin();
-
-        // Game loop
-        while (running) {
-            world.step(deltaTime);
-            detector.checkCollisions();
-            renderer.render();
-        }
-    }
-}
+// 5+ calls for EACH battle action!
+animation.playAttackAnimation("Player");
+sound.playAttackSound();
+animation.playDamageAnimation("Boss", 45);
+ui.showDamageNumber("Boss", 45);
+ui.updateHealthBars(100, 455);
 ```
 
 **Masalah**:
 - Client harus tahu detail setiap subsystem
-- Banyak dependencies antar class
-- Sulit untuk diubah jika subsystem berubah
-- Code duplication di setiap tempat yang menggunakan subsystems
+- Client harus tahu urutan initialization
+- Client harus koordinasi setiap aksi
+- Perubahan subsystem mempengaruhi client
 
 ---
 
@@ -83,322 +61,159 @@ public class GameWithoutFacade {
 ```
 ┌─────────────────┐
 │     Client      │
-│   (GameMain)    │
+│ (SubsystemDemo) │
 └────────┬────────┘
          │
          │  Simple interface
          ▼
 ┌─────────────────────────────────────┐
-│         GameEngineFacade            │
+│           BattleFacade              │
 │ ───────────────────────────────────│
-│ + startGame()                       │
-│ + updateFrame(deltaTime)            │
-│ + shutdown()                        │
-│ + playSound(name)                   │
-│ + pauseGame()                       │
+│ + startBattle()                     │
+│ + playerAttack()                    │
+│ + playerDefend()                    │
+│ + playerMagic()                     │
+│ + bossTurn()                        │
+│ + endBattle()                       │
 └─────────────────┬───────────────────┘
                   │
                   │  Delegates to subsystems
          ┌────────┼────────┐
          │        │        │
          ▼        ▼        ▼
-┌─────────────┐ ┌──────────────┐ ┌─────────────┐
-│ AudioSystem │ │PhysicsEngine │ │ VideoSystem │
-│ ─────────── │ │ ──────────── │ │ ─────────── │
-│ - codec     │ │ - world      │ │ - buffer    │
-│ - buffer    │ │ - detector   │ │ - renderer  │
-│ - player    │ │ - bodies     │ │ - shaders   │
-│ + init()    │ │ + init()     │ │ + init()    │
-│ + play()    │ │ + step()     │ │ + render()  │
-│ + stop()    │ │ + cleanup()  │ │ + cleanup() │
-└─────────────┘ └──────────────┘ └─────────────┘
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│  Animation   │ │    Sound     │ │      UI      │
+│   System     │ │   System     │ │   System     │
+│ ──────────── │ │ ──────────── │ │ ──────────── │
+│ - sprites    │ │ - sounds     │ │ - healthBars │
+│ + init()     │ │ + init()     │ │ + init()     │
+│ + playAttack │ │ + playAttack │ │ + showDamage │
+│ + cleanup()  │ │ + cleanup()  │ │ + cleanup()  │
+└──────────────┘ └──────────────┘ └──────────────┘
 ```
 
 ---
 
 ## Implementasi
 
-### 1. Subsystems (Sistem yang Kompleks)
+### 1. BattleFacade.java
 
-**`src/engine/audio/AudioSystem.java`**:
 ```java
-package engine.audio;
+package battle;
 
-/**
- * Complex audio subsystem
- * In real game: would have codec, buffer, mixer, etc.
- */
-public class AudioSystem {
-    private boolean initialized = false;
-    private String currentMusic = null;
-
-    public void init() {
-        System.out.println("[AudioSystem] Initializing audio drivers...");
-        System.out.println("[AudioSystem] Loading audio codecs...");
-        System.out.println("[AudioSystem] Setting up audio buffer...");
-        initialized = true;
-        System.out.println("[AudioSystem] Ready!");
-    }
-
-    public void playMusic(String musicFile) {
-        if (!initialized) {
-            throw new IllegalStateException("AudioSystem not initialized!");
-        }
-        currentMusic = musicFile;
-        System.out.println("[AudioSystem] ♪ Playing: " + musicFile);
-    }
-
-    public void playSound(String soundFile) {
-        if (!initialized) {
-            throw new IllegalStateException("AudioSystem not initialized!");
-        }
-        System.out.println("[AudioSystem] Playing SFX: " + soundFile);
-    }
-
-    public void stopMusic() {
-        if (currentMusic != null) {
-            System.out.println("[AudioSystem] Stopping: " + currentMusic);
-            currentMusic = null;
-        }
-    }
-
-    public void setVolume(float volume) {
-        System.out.println("[AudioSystem] Volume set to: " + (volume * 100) + "%");
-    }
-
-    public void cleanup() {
-        stopMusic();
-        System.out.println("[AudioSystem] Releasing audio resources...");
-        initialized = false;
-    }
-}
-```
-
-**`src/engine/physics/PhysicsEngine.java`**:
-```java
-package engine.physics;
-
-/**
- * Complex physics subsystem
- * In real game: would have world, bodies, collision detection, etc.
- */
-public class PhysicsEngine {
-    private boolean initialized = false;
-    private float gravity = 9.8f;
-
-    public void init() {
-        System.out.println("[PhysicsEngine] Creating physics world...");
-        System.out.println("[PhysicsEngine] Setting gravity: " + gravity);
-        System.out.println("[PhysicsEngine] Initializing collision detection...");
-        initialized = true;
-        System.out.println("[PhysicsEngine] Ready!");
-    }
-
-    public void setGravity(float g) {
-        this.gravity = g;
-        System.out.println("[PhysicsEngine] Gravity updated: " + g);
-    }
-
-    public void step(float deltaTime) {
-        if (!initialized) {
-            throw new IllegalStateException("PhysicsEngine not initialized!");
-        }
-        // Simulate physics step
-        System.out.println("[PhysicsEngine] Physics step: " + deltaTime + "s");
-    }
-
-    public void checkCollisions() {
-        System.out.println("[PhysicsEngine] Checking collisions...");
-    }
-
-    public void cleanup() {
-        System.out.println("[PhysicsEngine] Destroying physics world...");
-        initialized = false;
-    }
-}
-```
-
-**`src/engine/video/VideoSystem.java`**:
-```java
-package engine.video;
-
-/**
- * Complex video/rendering subsystem
- * In real game: would have renderer, shaders, framebuffers, etc.
- */
-public class VideoSystem {
-    private boolean initialized = false;
-    private int width = 800;
-    private int height = 600;
-
-    public void init() {
-        System.out.println("[VideoSystem] Creating window: " + width + "x" + height);
-        System.out.println("[VideoSystem] Initializing OpenGL context...");
-        System.out.println("[VideoSystem] Loading shaders...");
-        System.out.println("[VideoSystem] Setting up framebuffers...");
-        initialized = true;
-        System.out.println("[VideoSystem] Ready!");
-    }
-
-    public void setResolution(int w, int h) {
-        this.width = w;
-        this.height = h;
-        System.out.println("[VideoSystem] Resolution: " + w + "x" + h);
-    }
-
-    public void beginFrame() {
-        if (!initialized) {
-            throw new IllegalStateException("VideoSystem not initialized!");
-        }
-        System.out.println("[VideoSystem] Begin frame...");
-    }
-
-    public void render() {
-        System.out.println("[VideoSystem] Rendering scene...");
-    }
-
-    public void endFrame() {
-        System.out.println("[VideoSystem] End frame, swap buffers");
-    }
-
-    public void cleanup() {
-        System.out.println("[VideoSystem] Destroying window...");
-        System.out.println("[VideoSystem] Releasing GPU resources...");
-        initialized = false;
-    }
-}
-```
-
-### 2. Facade Class
-
-**`src/engine/GameEngineFacade.java`**:
-```java
-package engine;
-
-import engine.audio.AudioSystem;
-import engine.physics.PhysicsEngine;
-import engine.video.VideoSystem;
+import battle.subsystems.BattleAnimationSystem;
+import battle.subsystems.BattleSoundSystem;
+import battle.subsystems.BattleUISystem;
 
 /**
  * FACADE PATTERN
  *
  * Provides a simple, unified interface to the complex
- * audio, physics, and video subsystems.
+ * animation, sound, and UI subsystems.
  *
  * Benefits:
- * - Client doesn't need to know about subsystem details
- * - Easy to use: just call startGame(), updateFrame(), shutdown()
+ * - Client doesn't need to know subsystem details
+ * - Easy to use: startBattle(), playerAttack(), endBattle()
  * - Changes to subsystems don't affect client code
  */
-public class GameEngineFacade {
-    // Complex subsystems
-    private AudioSystem audio;
-    private PhysicsEngine physics;
-    private VideoSystem video;
+public class BattleFacade {
+    // Complex subsystems (hidden from client)
+    private BattleAnimationSystem animation;
+    private BattleSoundSystem sound;
+    private BattleUISystem ui;
 
-    private boolean running = false;
+    // Battle state
+    private int playerHp = 100;
+    private int bossHp = 500;
 
-    public GameEngineFacade() {
-        // Create subsystems
-        this.audio = new AudioSystem();
-        this.physics = new PhysicsEngine();
-        this.video = new VideoSystem();
+    public BattleFacade() {
+        this.animation = new BattleAnimationSystem();
+        this.sound = new BattleSoundSystem();
+        this.ui = new BattleUISystem();
     }
 
     /**
-     * Simple method to start the game
-     * Hides all the complex initialization
+     * Start battle - ONE call initializes EVERYTHING!
+     * Facade handles complex initialization order internally.
      */
-    public void startGame() {
-        System.out.println("\n========== STARTING GAME ENGINE ==========\n");
-
-        // Initialize all subsystems in correct order
-        video.init();
-        audio.init();
-        physics.init();
-
-        // Start background music
-        audio.playMusic("main_theme.mp3");
-
-        running = true;
-
-        System.out.println("\n========== GAME ENGINE READY ==========\n");
+    public void startBattle() {
+        // Facade handles initialization ORDER internally
+        animation.init();
+        animation.loadBattleSprites();
+        sound.init();
+        sound.loadBattleSounds();
+        sound.playBattleMusic("boss_battle.mp3");
+        ui.init();
+        ui.createBattleUI();
+        ui.showBattleScreen();
+        ui.updateHealthBars(playerHp, bossHp);
     }
 
     /**
-     * Simple method to update one frame
-     * Hides physics, rendering, and audio coordination
+     * Player attack - ONE call coordinates ALL subsystems!
      */
-    public void updateFrame(float deltaTime) {
-        if (!running) return;
-
-        // Update in correct order
-        physics.step(deltaTime);
-        physics.checkCollisions();
-
-        video.beginFrame();
-        video.render();
-        video.endFrame();
+    public void playerAttack() {
+        animation.playAttackAnimation("Player");
+        sound.playAttackSound();
+        int damage = 45;
+        bossHp -= damage;
+        animation.playDamageAnimation("Boss", damage);
+        ui.showDamageNumber("Boss", damage);
+        ui.updateHealthBars(playerHp, bossHp);
     }
 
     /**
-     * Simple method to play a sound effect
+     * Player defend - ONE call!
      */
-    public void playSound(String soundName) {
-        audio.playSound(soundName);
+    public void playerDefend() {
+        animation.playDefendAnimation("Player");
+        sound.playDefendSound();
     }
 
     /**
-     * Simple method to change background music
+     * Player magic - ONE call!
      */
-    public void changeMusic(String musicFile) {
-        audio.stopMusic();
-        audio.playMusic(musicFile);
+    public void playerMagic() {
+        animation.playMagicAnimation("Player");
+        sound.playMagicSound();
+        int damage = 80;
+        bossHp -= damage;
+        animation.playDamageAnimation("Boss", damage);
+        ui.showDamageNumber("Boss", damage);
+        ui.updateHealthBars(playerHp, bossHp);
     }
 
     /**
-     * Simple method to pause/resume
+     * Boss turn - ONE call!
      */
-    public void pauseGame() {
-        running = false;
-        audio.stopMusic();
-        System.out.println("\n========== GAME PAUSED ==========\n");
-    }
-
-    public void resumeGame() {
-        running = true;
-        audio.playMusic("main_theme.mp3");
-        System.out.println("\n========== GAME RESUMED ==========\n");
+    public void bossTurn() {
+        sound.playBossRoar();
+        animation.playAttackAnimation("Boss");
+        sound.playAttackSound();
+        int damage = 30;
+        playerHp -= damage;
+        animation.playDamageAnimation("Player", damage);
+        ui.showDamageNumber("Player", damage);
+        ui.updateHealthBars(playerHp, bossHp);
     }
 
     /**
-     * Simple method to shut down everything
-     * Hides complex cleanup sequence
+     * End battle - ONE call cleans up EVERYTHING!
+     * Facade handles cleanup order internally.
      */
-    public void shutdown() {
-        System.out.println("\n========== SHUTTING DOWN ==========\n");
-
-        running = false;
-
-        // Cleanup in reverse order
-        physics.cleanup();
-        audio.cleanup();
-        video.cleanup();
-
-        System.out.println("\n========== SHUTDOWN COMPLETE ==========\n");
-    }
-
-    public boolean isRunning() {
-        return running;
+    public void endBattle() {
+        sound.stopMusic();
+        ui.cleanup();
+        sound.cleanup();
+        animation.cleanup();
     }
 }
 ```
 
-### 3. Client Code
+### 2. Client Code (SubsystemDemo.java)
 
-**`src/Main.java`**:
 ```java
-import engine.GameEngineFacade;
+import battle.BattleFacade;
 
 /**
  * Client code using Facade Pattern
@@ -406,31 +221,23 @@ import engine.GameEngineFacade;
  * Notice how simple this is compared to managing
  * all subsystems directly!
  */
-public class Main {
+public class SubsystemDemo {
     public static void main(String[] args) {
         // Create facade - hides all complexity
-        GameEngineFacade engine = new GameEngineFacade();
+        BattleFacade battle = new BattleFacade();
 
-        // Start game - one simple call
-        engine.startGame();
+        // Start battle - ONE simple call
+        battle.startBattle();
 
-        // Game loop - simple update call
-        System.out.println("\n--- Running 3 frame updates ---\n");
-        for (int i = 0; i < 3; i++) {
-            System.out.println("Frame " + (i + 1) + ":");
-            engine.updateFrame(0.016f);  // ~60 FPS
-            System.out.println();
-        }
+        // Battle actions - simple calls
+        battle.showActions();
+        battle.playerAttack();
+        battle.bossTurn();
+        battle.playerMagic();
+        battle.playerDefend();
 
-        // Play a sound effect - simple call
-        engine.playSound("sword_hit.wav");
-
-        // Pause and resume
-        engine.pauseGame();
-        engine.resumeGame();
-
-        // Shutdown - one simple call
-        engine.shutdown();
+        // End battle - ONE simple call
+        battle.endBattle();
     }
 }
 ```
@@ -440,112 +247,130 @@ public class Main {
 ## Output
 
 ```
-========== STARTING GAME ENGINE ==========
+╔══════════════════════════════════════════════════════╗
+║   WEEK 13-04: FACADE PATTERN                         ║
+║   (SOLUTION DEMONSTRATION)                           ║
+╚══════════════════════════════════════════════════════╝
 
-[VideoSystem] Creating window: 800x600
-[VideoSystem] Initializing OpenGL context...
-[VideoSystem] Loading shaders...
-[VideoSystem] Setting up framebuffers...
-[VideoSystem] Ready!
-[AudioSystem] Initializing audio drivers...
-[AudioSystem] Loading audio codecs...
-[AudioSystem] Setting up audio buffer...
-[AudioSystem] Ready!
-[PhysicsEngine] Creating physics world...
-[PhysicsEngine] Setting gravity: 9.8
-[PhysicsEngine] Initializing collision detection...
-[PhysicsEngine] Ready!
-[AudioSystem] ♪ Playing: main_theme.mp3
+Facade Pattern SOLVES all previous problems:
+  ✓ Client only knows ONE class (BattleFacade)
+  ✓ Initialization order handled INTERNALLY
+  ✓ Subsystem coordination handled INTERNALLY
+  ✓ Cleanup handled INTERNALLY
+  ✓ Subsystem changes DON'T affect client!
 
-========== GAME ENGINE READY ==========
+════════════════════════════════════════════════════════════
+ CLIENT ONLY CREATES ONE OBJECT - THE FACADE!
+════════════════════════════════════════════════════════════
 
---- Running 3 frame updates ---
+// Simple client code:
+BattleFacade battle = new BattleFacade();
 
-Frame 1:
-[PhysicsEngine] Physics step: 0.016s
-[PhysicsEngine] Checking collisions...
-[VideoSystem] Begin frame...
-[VideoSystem] Rendering scene...
-[VideoSystem] End frame, swap buffers
+════════════════════════════════════════════════════════════
+ SIMPLE: One call to start battle!
+════════════════════════════════════════════════════════════
 
-Frame 2:
-[PhysicsEngine] Physics step: 0.016s
-[PhysicsEngine] Checking collisions...
-[VideoSystem] Begin frame...
-[VideoSystem] Rendering scene...
-[VideoSystem] End frame, swap buffers
+// Just ONE method call:
+battle.startBattle();
 
-Frame 3:
-[PhysicsEngine] Physics step: 0.016s
-[PhysicsEngine] Checking collisions...
-[VideoSystem] Begin frame...
-[VideoSystem] Rendering scene...
-[VideoSystem] End frame, swap buffers
+[BattleFacade] ═══ Starting Battle ═══
 
-[AudioSystem] Playing SFX: sword_hit.wav
+[AnimationSystem] Initializing...
+[AnimationSystem] Loading battle sprites...
+[SoundSystem] Initializing...
+[SoundSystem] Loading battle sounds...
+[SoundSystem] ♪ Now playing: boss_battle.mp3
+[UISystem] Initializing...
+[UISystem] Creating battle UI...
+[UISystem] Showing battle screen...
 
-========== GAME PAUSED ==========
+[BattleFacade] ═══ Battle Started! ═══
 
-[AudioSystem] Stopping: main_theme.mp3
+════════════════════════════════════════════════════════════
+ SIMPLE: Easy battle actions!
+════════════════════════════════════════════════════════════
 
-========== GAME RESUMED ==========
+[BattleFacade] → Player Attack
 
-[AudioSystem] ♪ Playing: main_theme.mp3
+[AnimationSystem] ⚔ Player attack animation
+[SoundSystem] 🔊 *slash*
+[AnimationSystem] 💥 Boss takes 45 damage!
+[UISystem] Boss: -45 HP
+[UISystem] Health - Player: 100 HP | Boss: 455 HP
 
-========== SHUTTING DOWN ==========
+════════════════════════════════════════════════════════════
+ SIMPLE: One call to end battle!
+════════════════════════════════════════════════════════════
 
-[PhysicsEngine] Destroying physics world...
-[AudioSystem] Releasing audio resources...
-[VideoSystem] Destroying window...
-[VideoSystem] Releasing GPU resources...
+[BattleFacade] ═══ Ending Battle ═══
 
-========== SHUTDOWN COMPLETE ==========
+[SoundSystem] Stopping: boss_battle.mp3
+[UISystem] Cleaning up...
+[SoundSystem] Cleaning up...
+[AnimationSystem] Cleaning up...
+
+[BattleFacade] ═══ Battle Ended ═══
 ```
 
 ---
 
 ## Perbandingan: Tanpa vs Dengan Facade
 
-### Tanpa Facade
+### Tanpa Facade (13-03)
 ```java
-// Client harus tahu semua detail
-AudioSystem audio = new AudioSystem();
-audio.init();
-PhysicsEngine physics = new PhysicsEngine();
-physics.init();
-VideoSystem video = new VideoSystem();
-video.init();
-audio.playMusic("theme.mp3");
+// Client creates 3 subsystems
+BattleAnimationSystem animation = new BattleAnimationSystem();
+BattleSoundSystem sound = new BattleSoundSystem();
+BattleUISystem ui = new BattleUISystem();
 
-// Update loop - client harus koordinasi semua
-while (running) {
-    physics.step(dt);
-    physics.checkCollisions();
-    video.beginFrame();
-    video.render();
-    video.endFrame();
-}
+// 7+ initialization calls in specific order!
+animation.init();
+animation.loadBattleSprites();
+sound.init();
+sound.loadBattleSounds();
+sound.playBattleMusic("boss_battle.mp3");
+ui.init();
+ui.createBattleUI();
+ui.showBattleScreen();
 
-// Cleanup - client harus tahu urutan yang benar
-physics.cleanup();
-audio.cleanup();
-video.cleanup();
+// 5+ calls per battle action!
+animation.playAttackAnimation("Player");
+sound.playAttackSound();
+animation.playDamageAnimation("Boss", 45);
+ui.showDamageNumber("Boss", 45);
+ui.updateHealthBars(100, 455);
+
+// 4 cleanup calls
+sound.stopMusic();
+ui.cleanup();
+sound.cleanup();
+animation.cleanup();
 ```
 
-### Dengan Facade
+### Dengan Facade (13-04)
 ```java
-// Client hanya tahu Facade
-GameEngineFacade engine = new GameEngineFacade();
-engine.startGame();
+// Client creates 1 facade
+BattleFacade battle = new BattleFacade();
 
-// Update loop - simple
-while (engine.isRunning()) {
-    engine.updateFrame(dt);
-}
+// 1 call to start
+battle.startBattle();
 
-// Cleanup - simple
-engine.shutdown();
+// 1 call per action
+battle.playerAttack();
+
+// 1 call to end
+battle.endBattle();
 ```
+
+### Comparison Summary
+
+| Aspect | Without Facade | With Facade |
+|--------|----------------|-------------|
+| Objects to create | 3 subsystems | 1 facade |
+| Initialization calls | 7+ | 1 |
+| Calls per action | 5+ | 1 |
+| Cleanup calls | 4 | 1 |
+| Client knowledge | ALL internals | Simple interface |
 
 ---
 
@@ -556,7 +381,9 @@ Facade Pattern menerapkan **Principle of Least Knowledge**:
 
 ```
 Tanpa Facade:
-Client → AudioCodec → AudioBuffer → AudioPlayer → File
+Client → AnimationSystem → sprites → renderer
+Client → SoundSystem → codec → mixer → player
+Client → UISystem → components → layout
 
 Dengan Facade:
 Client → Facade → (handles everything internally)
@@ -570,76 +397,6 @@ Hanya panggil method pada:
 4. Component objects yang dimiliki
 
 **Jangan**: `object.getX().getY().doSomething()`
-
----
-
-## Aplikasi dalam RPG Game
-
-### Contoh: Battle System Facade
-
-```java
-public class BattleFacade {
-    private BattleSystem battle;
-    private AudioManager audio;
-    private UIManager ui;
-    private AnimationManager animations;
-
-    // Simple interface for starting battle
-    public void startBattle(Player player, Boss boss) {
-        ui.showBattleScreen();
-        audio.playBattleMusic();
-        animations.playIntroAnimation();
-        battle.initialize(player, boss);
-    }
-
-    // Simple interface for player action
-    public void playerAttack() {
-        animations.playAttackAnimation();
-        audio.playSound("sword_swing");
-        battle.processPlayerAttack();
-        ui.updateHealthBars();
-    }
-
-    // Simple interface for ending battle
-    public void endBattle(boolean victory) {
-        if (victory) {
-            audio.playVictoryFanfare();
-            ui.showVictoryScreen();
-        } else {
-            audio.playDefeatMusic();
-            ui.showDefeatScreen();
-        }
-        animations.playOutroAnimation();
-    }
-}
-```
-
-### Contoh: Save/Load Facade
-
-```java
-public class SaveGameFacade {
-    private FileManager files;
-    private Serializer serializer;
-    private Compressor compressor;
-    private Encryptor encryptor;
-
-    // Simple save
-    public void saveGame(GameState state, String slot) {
-        byte[] data = serializer.serialize(state);
-        byte[] compressed = compressor.compress(data);
-        byte[] encrypted = encryptor.encrypt(compressed);
-        files.write("save_" + slot + ".dat", encrypted);
-    }
-
-    // Simple load
-    public GameState loadGame(String slot) {
-        byte[] encrypted = files.read("save_" + slot + ".dat");
-        byte[] compressed = encryptor.decrypt(encrypted);
-        byte[] data = compressor.decompress(compressed);
-        return serializer.deserialize(data);
-    }
-}
-```
 
 ---
 
@@ -683,15 +440,13 @@ public class SaveGameFacade {
 
 ```
 src/
-├── Main.java                    # Client using facade
-└── engine/
-    ├── GameEngineFacade.java    # FACADE
-    ├── audio/
-    │   └── AudioSystem.java     # Subsystem
-    ├── physics/
-    │   └── PhysicsEngine.java   # Subsystem
-    └── video/
-        └── VideoSystem.java     # Subsystem
+├── SubsystemDemo.java           # Client using facade
+└── battle/
+    ├── BattleFacade.java        # FACADE
+    └── subsystems/
+        ├── BattleAnimationSystem.java  # Subsystem
+        ├── BattleSoundSystem.java      # Subsystem
+        └── BattleUISystem.java         # Subsystem
 ```
 
 ---
@@ -700,10 +455,10 @@ src/
 
 ```bash
 # Compile
-javac -d bin/13-02-facade-pattern src/*.java src/**/*.java
+javac -d bin/13-04-facade-pattern src/battle/subsystems/*.java src/battle/BattleFacade.java src/SubsystemDemo.java
 
 # Run demo
-java -cp bin/13-02-facade-pattern Main
+java -cp bin/13-04-facade-pattern SubsystemDemo
 ```
 
 ---

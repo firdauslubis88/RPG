@@ -2,7 +2,7 @@
 
 **Branch**: `13-03-tightly-coupled`
 
-**Compilation**: `javac -d bin/13-03-tightly-coupled src/*.java src/**/*.java`
+**Compilation**: `javac -d bin/13-03-tightly-coupled src/battle/subsystems/*.java src/SubsystemDemo.java`
 
 **Run**: `java -cp bin/13-03-tightly-coupled SubsystemDemo`
 
@@ -19,100 +19,41 @@ Branch ini mendemonstrasikan **masalah** yang terjadi ketika client code berinte
 ### Client Harus Tahu Semua Detail
 
 ```java
-public class GameWithoutFacade {
-    public void startGame() {
-        // ═══════════════════════════════════════════════
-        // Client harus tahu cara initialize AudioSystem
-        // ═══════════════════════════════════════════════
-        AudioCodec codec = new AudioCodec();
-        codec.setSampleRate(44100);
-        codec.setBitDepth(16);
-        codec.initialize();
+public class BattleWithoutFacade {
+    public void startBattle() {
+        // Client harus tahu cara initialize BattleAnimationSystem
+        BattleAnimationSystem animation = new BattleAnimationSystem();
+        animation.init();
+        animation.loadBattleSprites();
 
-        AudioBuffer buffer = new AudioBuffer(1024);
-        buffer.setCodec(codec);
-        buffer.allocate();
+        // Client harus tahu cara initialize BattleSoundSystem
+        BattleSoundSystem sound = new BattleSoundSystem();
+        sound.init();
+        sound.loadBattleSounds();
+        sound.playBattleMusic("boss_battle.mp3");
 
-        AudioMixer mixer = new AudioMixer();
-        mixer.setBuffer(buffer);
-        mixer.setMasterVolume(0.8f);
+        // Client harus tahu cara initialize BattleUISystem
+        BattleUISystem ui = new BattleUISystem();
+        ui.init();
+        ui.createBattleUI();
+        ui.showBattleScreen();
 
-        AudioPlayer player = new AudioPlayer();
-        player.setMixer(mixer);
-        player.loadFile("music.mp3");
+        // ═══════════════════════════════════════════════════
+        // Untuk SETIAP aksi, client harus koordinasi SEMUA subsystems!
+        // ═══════════════════════════════════════════════════
 
-        // ═══════════════════════════════════════════════
-        // Client harus tahu cara initialize PhysicsEngine
-        // ═══════════════════════════════════════════════
-        PhysicsWorld world = new PhysicsWorld();
-        world.setGravity(new Vector2(0, -9.8f));
-        world.setBounds(0, 0, 800, 600);
-
-        CollisionDetector detector = new CollisionDetector();
-        detector.setWorld(world);
-        detector.setCollisionLayers(3);
-
-        RigidBodyManager bodyManager = new RigidBodyManager();
-        bodyManager.setWorld(world);
-        bodyManager.setDetector(detector);
-
-        // ═══════════════════════════════════════════════
-        // Client harus tahu cara initialize VideoSystem
-        // ═══════════════════════════════════════════════
-        Window window = new Window(800, 600, "Game");
-        window.create();
-
-        GLContext context = new GLContext();
-        context.setWindow(window);
-        context.initialize();
-
-        ShaderManager shaders = new ShaderManager();
-        shaders.setContext(context);
-        shaders.loadShader("vertex.glsl");
-        shaders.loadShader("fragment.glsl");
-        shaders.compile();
-
-        FrameBuffer frameBuffer = new FrameBuffer();
-        frameBuffer.setContext(context);
-        frameBuffer.setSize(800, 600);
-
-        Renderer renderer = new Renderer();
-        renderer.setContext(context);
-        renderer.setShaderManager(shaders);
-        renderer.setFrameBuffer(frameBuffer);
-
-        // ═══════════════════════════════════════════════
-        // Client harus koordinasi semua subsystems
-        // ═══════════════════════════════════════════════
-        player.play();
-        world.start();
-        renderer.begin();
-
-        // Game loop
-        while (running) {
-            world.step(deltaTime);
-            detector.checkCollisions();
-            bodyManager.updateBodies();
-
-            renderer.beginFrame();
-            renderer.render();
-            renderer.endFrame();
-
-            mixer.update();
-        }
+        // Player Attack - 5+ method calls!
+        animation.playAttackAnimation("Player");
+        sound.playAttackSound();
+        animation.playDamageAnimation("Boss", 45);
+        ui.showDamageNumber("Boss", 45);
+        ui.updateHealthBars(100, 455);
 
         // Cleanup (harus tahu urutan yang benar!)
-        renderer.cleanup();
-        shaders.cleanup();
-        context.cleanup();
-        window.destroy();
-        bodyManager.cleanup();
-        detector.cleanup();
-        world.cleanup();
-        player.stop();
-        mixer.cleanup();
-        buffer.deallocate();
-        codec.cleanup();
+        sound.stopMusic();
+        ui.cleanup();
+        sound.cleanup();
+        animation.cleanup();
     }
 }
 ```
@@ -124,84 +65,83 @@ public class GameWithoutFacade {
 ### 1. Client Complexity
 ```
 Client harus tahu:
-├── AudioSystem
-│   ├── AudioCodec (sample rate, bit depth)
-│   ├── AudioBuffer (size, allocation)
-│   ├── AudioMixer (volume, channels)
-│   └── AudioPlayer (file loading)
-├── PhysicsEngine
-│   ├── PhysicsWorld (gravity, bounds)
-│   ├── CollisionDetector (layers)
-│   └── RigidBodyManager (bodies)
-└── VideoSystem
-    ├── Window (size, title)
-    ├── GLContext (OpenGL setup)
-    ├── ShaderManager (GLSL files)
-    ├── FrameBuffer (render target)
-    └── Renderer (draw calls)
+├── BattleAnimationSystem
+│   ├── init() - first!
+│   ├── loadBattleSprites() - after init!
+│   ├── playAttackAnimation()
+│   ├── playDefendAnimation()
+│   ├── playMagicAnimation()
+│   └── playDamageAnimation()
+├── BattleSoundSystem
+│   ├── init() - first!
+│   ├── loadBattleSounds() - after init!
+│   ├── playBattleMusic()
+│   ├── playAttackSound()
+│   ├── playMagicSound()
+│   └── playBossRoar()
+└── BattleUISystem
+    ├── init() - first!
+    ├── createBattleUI() - after init!
+    ├── showBattleScreen() - after createBattleUI!
+    ├── updateHealthBars()
+    ├── showActionMenu()
+    └── showDamageNumber()
 
-Total: 12+ classes yang harus dipahami client!
+Total: 3 subsystems dengan 15+ methods yang harus dipahami client!
 ```
 
 ### 2. Tight Coupling
 ```java
 // Client langsung bergantung pada SEMUA subsystem classes
-import audio.AudioCodec;
-import audio.AudioBuffer;
-import audio.AudioMixer;
-import audio.AudioPlayer;
-import physics.PhysicsWorld;
-import physics.CollisionDetector;
-import physics.RigidBodyManager;
-import video.Window;
-import video.GLContext;
-import video.ShaderManager;
-import video.FrameBuffer;
-import video.Renderer;
+import battle.subsystems.BattleAnimationSystem;
+import battle.subsystems.BattleSoundSystem;
+import battle.subsystems.BattleUISystem;
 
 // Perubahan di SATU subsystem = perubahan di client!
 ```
 
-### 3. Code Duplication
+### 3. Coordination Burden
 ```java
-// Setiap tempat yang butuh game engine harus copy-paste initialization!
-class MainMenu {
-    void startGame() {
-        // Copy-paste 50+ lines of initialization...
-    }
-}
-
-class LoadGame {
-    void continueGame() {
-        // Copy-paste 50+ lines of initialization...
-    }
-}
-
-class MultiplayerLobby {
-    void joinGame() {
-        // Copy-paste 50+ lines of initialization...
-    }
+// Untuk SETIAP battle action, client harus:
+void playerAttack() {
+    animation.playAttackAnimation("Player");  // 1. Animation
+    sound.playAttackSound();                  // 2. Sound
+    animation.playDamageAnimation("Boss", 45);// 3. More animation
+    ui.showDamageNumber("Boss", 45);          // 4. UI update
+    ui.updateHealthBars(100, 455);            // 5. More UI
+    // 5+ method calls untuk SATU aksi!
 }
 ```
 
-### 4. Difficult Maintenance
-```java
-// Jika AudioCodec API berubah:
-// - Client di MainMenu harus diubah
-// - Client di LoadGame harus diubah
-// - Client di MultiplayerLobby harus diubah
-// - ... dan semua tempat lain!
-```
-
-### 5. Initialization Order Bugs
+### 4. Initialization Order Bugs
 ```java
 // Urutan initialization penting! Mudah salah:
-renderer.begin();      // ✗ Error! Context belum ready
-context.initialize();  // Seharusnya ini dulu
+BattleUISystem badUI = new BattleUISystem();
+badUI.showBattleScreen();  // ✗ ERROR: UI not created!
+// Client lupa call init() dan createBattleUI() dulu!
 
-// Urutan cleanup juga penting!
-context.cleanup();    // ✗ Error! Renderer masih pakai context
-renderer.cleanup();   // Seharusnya ini dulu
+// Correct order:
+ui.init();
+ui.createBattleUI();
+ui.showBattleScreen();  // ✓ Works
+```
+
+### 5. Code Duplication
+```java
+// Setiap tempat yang butuh battle harus copy-paste coordination!
+class MainGame {
+    void startBossBattle() {
+        // Copy-paste all initialization...
+        // Copy-paste coordination code...
+    }
+}
+
+class ArenaMode {
+    void startArenaBattle() {
+        // Copy-paste all initialization...
+        // Copy-paste coordination code...
+    }
+}
 ```
 
 ---
@@ -210,302 +150,149 @@ renderer.cleanup();   // Seharusnya ini dulu
 
 ```
 src/
-├── SubsystemDemo.java          # Demo client (complex!)
-├── audio/
-│   ├── AudioCodec.java
-│   ├── AudioBuffer.java
-│   ├── AudioMixer.java
-│   └── AudioPlayer.java
-├── physics/
-│   ├── PhysicsWorld.java
-│   ├── CollisionDetector.java
-│   └── RigidBodyManager.java
-└── video/
-    ├── Window.java
-    ├── GLContext.java
-    ├── ShaderManager.java
-    ├── FrameBuffer.java
-    └── Renderer.java
+├── SubsystemDemo.java              # Demo client (complex!)
+└── battle/
+    └── subsystems/
+        ├── BattleAnimationSystem.java  # Sprites, animations
+        ├── BattleSoundSystem.java      # Audio, music, SFX
+        └── BattleUISystem.java         # Health bars, menus
 ```
 
 ---
 
-## Implementasi (Simplified Demo)
+## Implementasi
 
-### AudioSystem.java
+### BattleAnimationSystem.java
 ```java
-package engine.audio;
+package battle.subsystems;
 
-/**
- * Complex audio subsystem (simplified for demo)
- * In real implementation: codec, buffer, mixer, player
- */
-public class AudioSystem {
-    private boolean codecInitialized = false;
-    private boolean bufferAllocated = false;
-    private boolean mixerReady = false;
+public class BattleAnimationSystem {
+    private boolean initialized = false;
+    private boolean spritesLoaded = false;
 
-    // Client must know to call these in order!
-    public void initCodec(int sampleRate, int bitDepth) {
-        System.out.println("[AudioCodec] Initializing: " + sampleRate + "Hz, " + bitDepth + "bit");
-        codecInitialized = true;
+    // Step 1: MUST be called first!
+    public void init() {
+        System.out.println("[AnimationSystem] Initializing...");
+        initialized = true;
     }
 
-    public void allocateBuffer(int size) {
-        if (!codecInitialized) {
-            System.out.println("[AudioBuffer] ERROR: Codec not initialized!");
+    // Step 2: REQUIRES init() first!
+    public void loadBattleSprites() {
+        if (!initialized) {
+            System.out.println("[AnimationSystem] ✗ ERROR: Not initialized!");
             return;
         }
-        System.out.println("[AudioBuffer] Allocating " + size + " bytes");
-        bufferAllocated = true;
+        System.out.println("[AnimationSystem] Loading battle sprites...");
+        spritesLoaded = true;
     }
 
-    public void setupMixer(float volume) {
-        if (!bufferAllocated) {
-            System.out.println("[AudioMixer] ERROR: Buffer not allocated!");
+    // REQUIRES loadBattleSprites() first!
+    public void playAttackAnimation(String attacker) {
+        if (!spritesLoaded) {
+            System.out.println("[AnimationSystem] ✗ ERROR: Sprites not loaded!");
             return;
         }
-        System.out.println("[AudioMixer] Setting volume: " + (volume * 100) + "%");
-        mixerReady = true;
+        System.out.println("[AnimationSystem] ⚔ " + attacker + " attack animation");
     }
 
-    public void playMusic(String file) {
-        if (!mixerReady) {
-            System.out.println("[AudioPlayer] ERROR: Mixer not ready!");
-            return;
-        }
-        System.out.println("[AudioPlayer] ♪ Playing: " + file);
-    }
-
-    public void stopMusic() {
-        System.out.println("[AudioPlayer] Music stopped");
-    }
+    // ... more methods
 
     public void cleanup() {
-        System.out.println("[AudioSystem] Cleaning up audio resources...");
-        mixerReady = false;
-        bufferAllocated = false;
-        codecInitialized = false;
+        System.out.println("[AnimationSystem] Cleaning up...");
+        spritesLoaded = false;
+        initialized = false;
     }
 }
 ```
 
-### PhysicsEngine.java
+### BattleSoundSystem.java
 ```java
-package engine.physics;
+package battle.subsystems;
 
-/**
- * Complex physics subsystem (simplified for demo)
- * In real implementation: world, bodies, collision detection
- */
-public class PhysicsEngine {
-    private boolean worldCreated = false;
-    private boolean detectorReady = false;
+public class BattleSoundSystem {
+    private boolean initialized = false;
+    private boolean soundsLoaded = false;
 
-    public void createWorld(float gravityX, float gravityY) {
-        System.out.println("[PhysicsWorld] Creating world with gravity: (" + gravityX + ", " + gravityY + ")");
-        worldCreated = true;
-    }
+    // Step 1: MUST be called first!
+    public void init() { ... }
 
-    public void setBounds(int x, int y, int width, int height) {
-        if (!worldCreated) {
-            System.out.println("[PhysicsWorld] ERROR: World not created!");
-            return;
-        }
-        System.out.println("[PhysicsWorld] Bounds: " + width + "x" + height);
-    }
+    // Step 2: REQUIRES init() first!
+    public void loadBattleSounds() { ... }
 
-    public void initCollisionDetector(int layers) {
-        if (!worldCreated) {
-            System.out.println("[CollisionDetector] ERROR: World not created!");
-            return;
-        }
-        System.out.println("[CollisionDetector] Initialized with " + layers + " layers");
-        detectorReady = true;
-    }
+    // REQUIRES loadBattleSounds() first!
+    public void playBattleMusic(String musicFile) { ... }
+    public void playAttackSound() { ... }
+    public void playMagicSound() { ... }
 
-    public void step(float deltaTime) {
-        if (!worldCreated) return;
-        System.out.println("[PhysicsEngine] Step: " + deltaTime + "s");
-    }
-
-    public void checkCollisions() {
-        if (!detectorReady) return;
-        System.out.println("[CollisionDetector] Checking collisions...");
-    }
-
-    public void cleanup() {
-        System.out.println("[PhysicsEngine] Destroying physics world...");
-        detectorReady = false;
-        worldCreated = false;
-    }
+    public void cleanup() { ... }
 }
 ```
 
-### VideoSystem.java
+### BattleUISystem.java
 ```java
-package engine.video;
+package battle.subsystems;
 
-/**
- * Complex video subsystem (simplified for demo)
- * In real implementation: window, context, shaders, framebuffer, renderer
- */
-public class VideoSystem {
-    private boolean windowCreated = false;
-    private boolean contextReady = false;
-    private boolean shadersLoaded = false;
+public class BattleUISystem {
+    private boolean initialized = false;
+    private boolean uiCreated = false;
+    private boolean screenVisible = false;
 
-    public void createWindow(int width, int height, String title) {
-        System.out.println("[Window] Creating: " + title + " (" + width + "x" + height + ")");
-        windowCreated = true;
-    }
+    // Step 1: MUST be called first!
+    public void init() { ... }
 
-    public void initContext() {
-        if (!windowCreated) {
-            System.out.println("[GLContext] ERROR: Window not created!");
-            return;
-        }
-        System.out.println("[GLContext] Initializing OpenGL context...");
-        contextReady = true;
-    }
+    // Step 2: REQUIRES init() first!
+    public void createBattleUI() { ... }
 
-    public void loadShaders(String vertex, String fragment) {
-        if (!contextReady) {
-            System.out.println("[ShaderManager] ERROR: Context not ready!");
-            return;
-        }
-        System.out.println("[ShaderManager] Loading: " + vertex + ", " + fragment);
-        shadersLoaded = true;
-    }
+    // Step 3: REQUIRES createBattleUI() first!
+    public void showBattleScreen() { ... }
 
-    public void createFrameBuffer(int width, int height) {
-        if (!contextReady) {
-            System.out.println("[FrameBuffer] ERROR: Context not ready!");
-            return;
-        }
-        System.out.println("[FrameBuffer] Created: " + width + "x" + height);
-    }
+    // REQUIRES showBattleScreen() first!
+    public void updateHealthBars(int playerHp, int bossHp) { ... }
+    public void showActionMenu() { ... }
 
-    public void beginFrame() {
-        if (!shadersLoaded) return;
-        System.out.println("[Renderer] Begin frame...");
-    }
-
-    public void render() {
-        System.out.println("[Renderer] Rendering scene...");
-    }
-
-    public void endFrame() {
-        System.out.println("[Renderer] End frame, swap buffers");
-    }
-
-    public void cleanup() {
-        System.out.println("[VideoSystem] Destroying window and releasing GPU resources...");
-        shadersLoaded = false;
-        contextReady = false;
-        windowCreated = false;
-    }
+    public void cleanup() { ... }
 }
 ```
 
 ### SubsystemDemo.java
 ```java
-import engine.audio.AudioSystem;
-import engine.physics.PhysicsEngine;
-import engine.video.VideoSystem;
+import battle.subsystems.BattleAnimationSystem;
+import battle.subsystems.BattleSoundSystem;
+import battle.subsystems.BattleUISystem;
 
 /**
  * ANTI-PATTERN: Client tightly coupled to all subsystems
- *
- * Problems demonstrated:
- * 1. Client must know internal details of each subsystem
- * 2. Client must manage initialization order
- * 3. Client must coordinate all subsystems
- * 4. Changes in any subsystem affect client
  */
 public class SubsystemDemo {
     public static void main(String[] args) {
-        System.out.println("╔════════════════════════════════════════════╗");
-        System.out.println("║  WEEK 13-03: TIGHTLY COUPLED SUBSYSTEMS    ║");
-        System.out.println("║  (ANTI-PATTERN DEMONSTRATION)              ║");
-        System.out.println("╚════════════════════════════════════════════╝");
+        // Client creates ALL subsystems
+        BattleAnimationSystem animation = new BattleAnimationSystem();
+        BattleSoundSystem sound = new BattleSoundSystem();
+        BattleUISystem ui = new BattleUISystem();
 
-        System.out.println("\nPROBLEM: Client must manage all subsystem details!\n");
+        // Client must know initialization ORDER
+        animation.init();
+        animation.loadBattleSprites();
+        sound.init();
+        sound.loadBattleSounds();
+        sound.playBattleMusic("boss_battle.mp3");
+        ui.init();
+        ui.createBattleUI();
+        ui.showBattleScreen();
 
-        // ═══════════════════════════════════════════════════════════
-        // Client creates and manages ALL subsystem objects directly
-        // ═══════════════════════════════════════════════════════════
-        AudioSystem audio = new AudioSystem();
-        PhysicsEngine physics = new PhysicsEngine();
-        VideoSystem video = new VideoSystem();
+        // For EACH action, client coordinates ALL subsystems
+        // Player Attack - 5 method calls!
+        animation.playAttackAnimation("Player");
+        sound.playAttackSound();
+        animation.playDamageAnimation("Boss", 45);
+        ui.showDamageNumber("Boss", 45);
+        ui.updateHealthBars(100, 455);
 
-        System.out.println("═".repeat(50));
-        System.out.println("INITIALIZATION (Client must know correct order!)");
-        System.out.println("═".repeat(50) + "\n");
-
-        // Video initialization (client must know order!)
-        System.out.println("--- Video Subsystem ---");
-        video.createWindow(800, 600, "My Game");
-        video.initContext();
-        video.loadShaders("vertex.glsl", "fragment.glsl");
-        video.createFrameBuffer(800, 600);
-
-        // Audio initialization (client must know order!)
-        System.out.println("\n--- Audio Subsystem ---");
-        audio.initCodec(44100, 16);
-        audio.allocateBuffer(1024);
-        audio.setupMixer(0.8f);
-        audio.playMusic("background.mp3");
-
-        // Physics initialization (client must know order!)
-        System.out.println("\n--- Physics Subsystem ---");
-        physics.createWorld(0, -9.8f);
-        physics.setBounds(0, 0, 800, 600);
-        physics.initCollisionDetector(3);
-
-        // ═══════════════════════════════════════════════════════════
-        // Game loop - client coordinates everything manually
-        // ═══════════════════════════════════════════════════════════
-        System.out.println("\n" + "═".repeat(50));
-        System.out.println("GAME LOOP (Client coordinates all subsystems)");
-        System.out.println("═".repeat(50) + "\n");
-
-        for (int frame = 1; frame <= 2; frame++) {
-            System.out.println("--- Frame " + frame + " ---");
-            physics.step(0.016f);
-            physics.checkCollisions();
-            video.beginFrame();
-            video.render();
-            video.endFrame();
-            System.out.println();
-        }
-
-        // ═══════════════════════════════════════════════════════════
-        // Cleanup - client must know correct order (reverse!)
-        // ═══════════════════════════════════════════════════════════
-        System.out.println("═".repeat(50));
-        System.out.println("CLEANUP (Client must know reverse order!)");
-        System.out.println("═".repeat(50) + "\n");
-
-        physics.cleanup();
-        audio.stopMusic();
-        audio.cleanup();
-        video.cleanup();
-
-        // Summary
-        System.out.println("\n╔════════════════════════════════════════════╗");
-        System.out.println("║  PROBLEMS IDENTIFIED                       ║");
-        System.out.println("╠════════════════════════════════════════════╣");
-        System.out.println("║  ✗ Client knows ALL subsystem internals    ║");
-        System.out.println("║  ✗ Client manages initialization order     ║");
-        System.out.println("║  ✗ Client coordinates frame updates        ║");
-        System.out.println("║  ✗ Client handles cleanup sequence         ║");
-        System.out.println("║  ✗ Any subsystem change affects client     ║");
-        System.out.println("║  ✗ Code duplicated if multiple clients     ║");
-        System.out.println("╠════════════════════════════════════════════╣");
-        System.out.println("║  SOLUTION: Facade Pattern                  ║");
-        System.out.println("║  See branch: 13-04-facade-pattern          ║");
-        System.out.println("╚════════════════════════════════════════════╝");
+        // Cleanup
+        sound.stopMusic();
+        ui.cleanup();
+        sound.cleanup();
+        animation.cleanup();
     }
 }
 ```
@@ -515,29 +302,51 @@ public class SubsystemDemo {
 ## Output Demo
 
 ```
-╔════════════════════════════════════════════╗
-║  WEEK 13-03: TIGHTLY COUPLED SUBSYSTEMS    ║
-║  (ANTI-PATTERN DEMONSTRATION)              ║
-╚════════════════════════════════════════════╝
+╔══════════════════════════════════════════════════════╗
+║   WEEK 13-03: TIGHTLY COUPLED SUBSYSTEMS             ║
+║   (ANTI-PATTERN DEMONSTRATION)                       ║
+╚══════════════════════════════════════════════════════╝
 
-PROBLEM: Client must manage all subsystem details!
+This demo shows PROBLEMS with tightly coupled subsystems:
+  1. Client knows ALL subsystem internals
+  2. Client manages initialization ORDER
+  3. Client coordinates actions across subsystems
+  4. Client handles cleanup order
+  5. Subsystem changes affect ALL clients
 
-══════════════════════════════════════════════════
-INITIALIZATION (Client must know correct order!)
-══════════════════════════════════════════════════
+════════════════════════════════════════════════════════════
+ CLIENT CREATES ALL SUBSYSTEMS DIRECTLY
+════════════════════════════════════════════════════════════
 
---- Video Subsystem ---
-[Window] Creating: My Game (800x600)
-[GLContext] Initializing OpenGL context...
-[ShaderManager] Loading: vertex.glsl, fragment.glsl
-[FrameBuffer] Created: 800x600
+[AnimationSystem] Initializing...
+[AnimationSystem] Loading battle sprites...
+[SoundSystem] Initializing...
+[SoundSystem] Loading battle sounds...
+[SoundSystem] ♪ Now playing: boss_battle.mp3
+[UISystem] Initializing...
+[UISystem] Creating battle UI...
+[UISystem] Showing battle screen...
 
---- Audio Subsystem ---
-[AudioCodec] Initializing: 44100Hz, 16bit
-[AudioBuffer] Allocating 1024 bytes
-[AudioMixer] Setting volume: 80.0%
-[AudioPlayer] ♪ Playing: background.mp3
-...
+════════════════════════════════════════════════════════════
+ DEMO: What happens if order is WRONG?
+════════════════════════════════════════════════════════════
+
+[UISystem] ✗ ERROR: UI not created!
+  → Client forgot to call createBattleUI() first!
+
+════════════════════════════════════════════════════════════
+ PROBLEM: Client coordinates battle actions manually
+════════════════════════════════════════════════════════════
+
+┌─── Player chooses: ATTACK ────────────────────────┐
+
+[AnimationSystem] ⚔ Player attack animation
+[SoundSystem] 🔊 *slash*
+[AnimationSystem] 💥 Boss takes 45 damage!
+[UISystem] Boss: -45 HP
+[UISystem] Health - Player: 100 HP | Boss: 455 HP
+
+// That was 5 method calls just for ONE attack!
 ```
 
 ---
@@ -545,8 +354,8 @@ INITIALIZATION (Client must know correct order!)
 ## Solusi
 
 Masalah ini diselesaikan dengan **Facade Pattern** di branch `13-04-facade-pattern`:
-- Satu interface sederhana (`GameEngineFacade`)
-- Client hanya tahu `startGame()`, `updateFrame()`, `shutdown()`
+- Satu interface sederhana (`BattleFacade`)
+- Client hanya tahu `startBattle()`, `playerAttack()`, `endBattle()`
 - Detail subsystem tersembunyi di balik Facade
 - Perubahan subsystem tidak mempengaruhi client
 

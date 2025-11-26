@@ -1,7 +1,6 @@
 package ui;
 
 import difficulty.DifficultyStrategy;
-import difficulty.DemoDifficulty;
 import difficulty.EasyDifficulty;
 import difficulty.NormalDifficulty;
 import difficulty.HardDifficulty;
@@ -61,10 +60,6 @@ public class MainMenu {
         System.out.println("║                                        ║");
         System.out.println("║  SELECT DIFFICULTY:                    ║");
         System.out.println("║                                        ║");
-        System.out.println("║  0. DEMO (Testing/Demo)                ║");
-        System.out.println("║     - Very slow spawns                 ║");
-        System.out.println("║     - Boss only defends!               ║");
-        System.out.println("║                                        ║");
         System.out.println("║  1. EASY                               ║");
         System.out.println("║     - Only Spikes and Goblins          ║");
         System.out.println("║     - No continuous spawning           ║");
@@ -78,15 +73,12 @@ public class MainMenu {
         System.out.println("║     - Continuous auto-spawning!        ║");
         System.out.println("║                                        ║");
         System.out.println("╚════════════════════════════════════════╝");
-        System.out.print("\nEnter your choice (0-3): ");
+        System.out.print("\nEnter your choice (1-3): ");
 
         String difficultyChoice = scanner.nextLine().trim();
 
         // Week 12-02: ✅ STRATEGY PATTERN - Create strategy objects!
         switch (difficultyChoice) {
-            case "0":
-                selectedStrategy = new DemoDifficulty();
-                break;
             case "1":
                 selectedStrategy = new EasyDifficulty();
                 break;

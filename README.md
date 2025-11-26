@@ -1,318 +1,329 @@
-# Week 09-04: Comprehensive Analysis
+# Dungeon Escape - Java RPG Game for Design Pattern Learning
 
 ## Overview
-This branch provides **comprehensive analysis and teaching materials** for Week 09, including TikZ diagrams, Beamer presentation, comparative analysis, and assessment rubrics.
 
-**This is NOT executable code** - it contains analysis, visualizations, and educational resources.
+**Dungeon Escape** adalah game RPG berbasis console yang dikembangkan sebagai materi pembelajaran **Object-Oriented Programming** dan **Design Patterns** di Java. Project ini menggunakan pendekatan **Problem-Solution** dimana setiap minggu memperkenalkan masalah (anti-pattern) dan kemudian solusinya (design pattern).
 
-## Quick Links
-- **Analysis Document**: [docs/09-04-analysis.md](docs/09-04-analysis.md)
-- **Complete Presentation**: [latex/beamer/week09-presentation.tex](latex/beamer/week09-presentation.tex)
-- **Standalone Diagrams**: [latex/diagrams/](latex/diagrams/)
-- **LaTeX README**: [latex/README.md](latex/README.md)
-
-## Contents
-
-### 1. TikZ/LaTeX Diagrams
-All diagrams are standalone-compilable and Beamer-ready:
-
-| Diagram | Purpose | Shows |
-|---------|---------|-------|
-| [uml-comparison.tex](latex/diagrams/uml-comparison.tex) | Architecture across branches | 09-00 → 09-01 → 09-02 → 09-03 evolution |
-| [singleton-pattern.tex](latex/diagrams/singleton-pattern.tex) | Singleton structure | 3 components + implementation + usage |
-| [game-loop-pattern.tex](latex/diagrams/game-loop-pattern.tex) | Game loop flow | Initialize → Loop → Update → Draw → Sync |
-| [object-drilling.tex](latex/diagrams/object-drilling.tex) | Before/after comparison | 4-level drilling vs getInstance() |
-| [performance-comparison.tex](latex/diagrams/performance-comparison.tex) | Metrics charts | FPS, LOC, params, instances, coverage |
-
-### 2. Complete Beamer Presentation
-**File**: `latex/beamer/week09-presentation.tex` (90+ slides)
-
-**Sections**:
-1. Introduction & Learning Journey
-2. Branch 09-00: Monolithic Problems
-3. Branch 09-01: Game Loop Solution
-4. Branch 09-02: New Problems Emerge
-5. Branch 09-03: Singleton Solution
-6. Performance Comparison (with charts!)
-7. Design Analysis & Trade-offs
-8. Summary & Comparison Table
-9. Discussion Questions
-10. Assessment Rubric
-
-**Features**:
-- All diagrams embedded (TikZ code included)
-- Code listings with syntax highlighting
-- Performance charts with pgfplots
-- Discussion questions for classroom
-- Assessment rubric for grading
-- Ready for Overleaf!
-
-### 3. Comprehensive Analysis
-**File**: `docs/09-04-analysis.md` (6000+ words)
-
-**Includes**:
-- **Comparative Analysis**: Metrics, architecture evolution, code comparison
-- **Design Pattern Details**: Intent, structure, consequences, known uses
-- **Alternative Solutions**: DI, Service Locator, Static Class (with pros/cons)
-- **Trade-off Analysis**: When to use what, performance considerations
-- **Teaching Strategies**: 5-day lesson plans with timing
-- **Assessment Rubric**: Detailed grading criteria (100 points)
-- **Practice Exercises**: 4 hands-on exercises with learning outcomes
-- **Common Pitfalls**: Issues students face + solutions
-- **Further Reading**: Books and resources
-
-## Using These Materials
-
-### For Teaching
-
-**Option 1: Use Complete Presentation**
-1. Upload `latex/beamer/week09-presentation.tex` to Overleaf
-2. Compile with `pdflatex`
-3. Present 90+ slides covering all concepts
-4. Use discussion questions for classroom interaction
-
-**Option 2: Use Individual Diagrams**
-1. Compile standalone diagrams to PDF
-2. Include in your own slides/handouts
-3. Customize colors and content as needed
-
-**Option 3: Create Custom Materials**
-1. Copy TikZ code from diagrams
-2. Paste into your Beamer/article document
-3. Adapt to your teaching style
-
-### For Students
-
-**Self-Study Resources**:
-- Read `docs/09-04-analysis.md` for detailed explanations
-- Review diagrams for visual understanding
-- Attempt practice exercises
-- Compare with assessment rubric
-
-**Exam Preparation**:
-- Study comparison table (quick reference)
-- Memorize Singleton pattern structure
-- Understand trade-offs (not just how, but why)
-- Practice discussing alternatives
-
-### For Overleaf
-
-**Upload These Files**:
-1. `latex/beamer/week09-presentation.tex` (main file)
-2. Or individual diagram `.tex` files
-
-**Compile Settings**:
-- Compiler: `pdflatex` (recommended)
-- Main document: `week09-presentation.tex`
-- Compile twice (for table of contents)
-
-**Required Packages** (usually pre-installed):
-```latex
-\usepackage{tikz}
-\usepackage{pgfplots}
-\usepackage{listings}
-\usepackage{xcolor}
-\usepackage{fontawesome5}
+```
+  ╔════════════════════════════════════════╗
+  ║         DUNGEON ESCAPE                 ║
+  ║   A Design Pattern Learning Game       ║
+  ╚════════════════════════════════════════╝
 ```
 
-## Key Learning Points
+## Quick Start
 
-### Game Loop Pattern
-- **What**: Separate update() and draw() phases
-- **Why**: Testability, performance, frame-rate independence
-- **When**: ALWAYS! Foundation of all games
-- **Industry**: Unity, Unreal, Godot, every game engine
-
-### Singleton Pattern
-- **What**: Single instance + global access
-- **Why**: Control global state, prevent multiple instances
-- **When**: Game managers, configurations, resources
-- **Trade-off**: Convenience vs hidden dependencies
-
-### Progressive Development
-- **Philosophy**: Start simple → problems emerge → apply patterns
-- **Practice**: Maintain solutions while solving new problems
-- **Reality**: Mirrors real software development
-
-## Metrics Summary
-
-| Metric | 09-00 | 09-01 | 09-02 | 09-03 | Improvement |
-|--------|-------|-------|-------|-------|-------------|
-| FPS | 2 | 60 | 60 | 60 | **30x** |
-| Main LOC | 150 | 3 | 32 | 3 | **50x** |
-| Testability | 0% | 100% | 100% | 100% | **∞** |
-| Flickering | Yes | No | No | No | **Fixed** |
-| Instances | - | - | 2+ | 1 | **Fixed** |
-| Params | - | - | 6 | 0 | **Eliminated** |
-
-## Teaching Schedule (5 Days)
-
-**Day 1**: Branch 09-00 (The Problem)
-- Run demo, observe issues
-- Analyze code, identify problems
-- Discussion: Why is this bad?
-
-**Day 2**: Branch 09-01 (Game Loop)
-- Introduce pattern
-- Show 60 FPS improvement!
-- Run tests, prove testability
-
-**Day 3**: Branch 09-02 (New Problems)
-- Add features, see bugs
-- Debug: Find two instances!
-- Analyze object drilling
-
-**Day 4**: Branch 09-03 (Singleton)
-- Teach Singleton pattern
-- Show clean code!
-- Discuss trade-offs
-
-**Day 5**: Comprehensive Review
-- Compare all branches
-- Discuss alternatives
-- Hands-on exercise
-
-## Assessment
-
-**Total: 100 points**
-- Understanding (40%): Explain patterns, compare, analyze
-- Implementation (30%): Code works, efficient, best practices
-- Testing (15%): Coverage, edge cases, assertions
-- Documentation (15%): Clear, comprehensive, teaching-quality
-
-**Grading**: A (90-100), B (80-89), C (70-79), D (60-69), F (<60)
-
-## Practice Exercises
-
-1. **Save/Load System** (Medium): Add persistence with Singleton
-2. **Power-Up System** (Medium): Design decision - Singleton or not?
-3. **Pause Feature** (Easy): Control game loop, state management
-4. **Convert to DI** (Hard): Refactor to Dependency Injection
-
-## Discussion Questions
-
-**Game Loop Pattern:**
-1. Why does separating update/draw solve flickering?
-2. How does delta time ensure consistent speed?
-3. Why is testability important?
-4. What if update() takes > 16ms?
-
-**Singleton Pattern:**
-5. What prevents multiple GameManager instances?
-6. Why is getInstance() static?
-7. When should you NOT use Singleton?
-8. How is Singleton different from static class?
-
-**Design Thinking:**
-9. Could we solve object drilling WITHOUT Singleton?
-10. What are trade-offs of Dependency Injection?
-11. Why didn't 09-00 need Singleton?
-12. How do you decide when to apply a pattern?
-
-## Common Student Mistakes
-
-1. **"Why not always use Singleton?"**
-   - Answer: Global state issues, hidden dependencies, testing complexity
-   - Teach: Use when truly global, single instance needed
-
-2. **"Singleton = static class, right?"**
-   - Answer: No! Singleton has instance, can implement interfaces, inherit
-   - Teach: Static class is pure utility, Singleton manages state
-
-3. **"Object drilling is always bad?"**
-   - Answer: Sometimes explicit dependencies are better!
-   - Teach: Trade-offs, use DI when dependencies should be visible
-
-4. **"Delta time is too complex!"**
-   - Answer: One formula: `position += velocity * delta`
-   - Teach: Draw timeline diagram, show 60 FPS vs 30 FPS
-
-## Resources for Students
-
-**Books:**
-- "Game Programming Patterns" by Robert Nystrom (FREE online!)
-- "Head First Design Patterns" by Freeman & Freeman
-- "Effective Java" by Joshua Bloch
-
-**Websites:**
-- Game Programming Patterns: https://gameprogrammingpatterns.com/
-- Unity Learn: https://learn.unity.com/
-- Refactoring Guru: https://refactoring.guru/design-patterns
-
-**Videos:**
-- Search YouTube: "game loop pattern"
-- Search YouTube: "singleton pattern explained"
-- Search YouTube: "delta time in games"
-
-## Technical Notes
-
-### Compiling Diagrams
 ```bash
-cd latex/diagrams
-pdflatex uml-comparison.tex
-pdflatex singleton-pattern.tex
-pdflatex game-loop-pattern.tex
-pdflatex object-drilling.tex
-pdflatex performance-comparison.tex
+# Compile
+javac -d bin -sourcepath src src/Main.java
+
+# Run
+java -cp bin Main
 ```
 
-### Compiling Presentation
-```bash
-cd latex/beamer
-pdflatex week09-presentation.tex
-pdflatex week09-presentation.tex  # Run twice for TOC
-```
+## Gameplay
 
-### Required LaTeX Packages
-- `tikz` (for diagrams)
-- `pgfplots` (for charts)
-- `beamer` (for slides)
-- `listings` (for code)
-- `xcolor` (for colors)
-- `fontawesome5` (for icons)
+1. **Select Difficulty** (0-3): DEMO, EASY, NORMAL, HARD
+2. **Select Level** (1-4): Dungeon, Forest, Castle, Boss Arena
+3. **Controls**: WASD + Enter to move, Q to quit
+4. **Goal**: Reach the exit (`D`) to fight the boss!
 
-All usually pre-installed in TexLive/MiKTeX/Overleaf.
+## Features
 
-## Branch Comparison
-
-```
-09-00: Monolithic
-  └─ Problem: Everything mixed together
-
-09-01: Game Loop Pattern
-  └─ Solution: Separation, delta time, testability
-
-09-02: Adding Features
-  └─ NEW Problem: Multiple instances, object drilling
-
-09-03: Singleton Pattern
-  └─ Solution: Single instance, clean code
-
-09-04: Analysis (Current Branch)
-  └─ Teaching: Diagrams, presentation, exercises, assessment
-```
-
-## Next Steps
-
-This completes Week 09! Students should now:
-- ✅ Understand Game Loop Pattern
-- ✅ Understand Singleton Pattern
-- ✅ Know when to use each pattern
-- ✅ Recognize trade-offs
-- ✅ Be able to implement both patterns
-- ✅ Be ready for more advanced patterns
-
-**Future Topics:**
-- Observer Pattern (event systems)
-- Strategy Pattern (AI behaviors)
-- Factory Pattern (object creation)
-- Command Pattern (input handling)
+- 4 unique levels with different maps, enemies, and music
+- Turn-based boss battle system with State Pattern AI
+- Achievement system with Observer Pattern
+- Multiple difficulty modes with Strategy Pattern
+- Object pooling for performance optimization
 
 ---
 
-**Branch**: 09-04-analysis
-**Type**: Analysis & Teaching Materials
-**Status**: ✅ Complete
-**Contents**: Diagrams, Presentation, Analysis, Exercises, Rubric
-**For**: Educators and Students
-**Ready**: For Overleaf and Classroom Use
+## Design Patterns Covered
+
+### Week 9: Foundation Patterns
+| Branch | Pattern | Description |
+|--------|---------|-------------|
+| `09-00` | - | Monolithic code (PROBLEM) |
+| `09-01` | Game Loop | Fixed timestep, 60 FPS |
+| `09-02` | - | Multiple instances issue |
+| `09-03` | Singleton | GameManager single instance |
+
+### Week 10: Creational Patterns
+| Branch | Pattern | Description |
+|--------|---------|-------------|
+| `10-01` | - | Hardcoded spawning (PROBLEM) |
+| `10-02` | Factory | ObstacleFactory for enemy creation |
+| `10-03` | - | GC performance issues |
+| `10-04` | Object Pool | Reuse obstacle instances |
+
+### Week 11: Behavioral Patterns I
+| Branch | Pattern | Description |
+|--------|---------|-------------|
+| `11-01` | - | Hardcoded input (PROBLEM) |
+| `11-02` | Command | Configurable key bindings |
+| `11-03` | - | Tight coupling issue |
+| `11-04` | Observer | EventBus for decoupled systems |
+
+### Week 12: Behavioral Patterns II
+| Branch | Pattern | Description |
+|--------|---------|-------------|
+| `12-01` | - | Hardcoded difficulty (PROBLEM) |
+| `12-02` | Strategy | DifficultyStrategy for game modes |
+| `12-03` | - | Complex boss AI conditionals |
+| `12-04` | State | Boss behavior state machine |
+
+### Week 13: Structural Patterns
+| Branch | Pattern | Description |
+|--------|---------|-------------|
+| `13-01` | - | Code duplication in level loading |
+| `13-02` | Template Method | LevelLoader algorithm skeleton |
+| `13-03` | - | Tightly coupled battle system |
+| `13-04` | Facade | BattleFacade for subsystems |
+
+---
+
+## Project Structure
+
+```
+rpg/
+├── src/
+│   ├── Main.java                 # Entry point
+│   ├── GameEngine.java           # Game loop (60 FPS)
+│   ├── GameLogic.java            # Game rules & collision
+│   ├── HUD.java                  # UI display
+│   ├── WorldController.java      # Obstacle management
+│   │
+│   ├── battle/                   # Battle system
+│   │   ├── BattleFacade.java     # Facade Pattern
+│   │   ├── BattleSystem.java     # Turn-based combat
+│   │   ├── BattleContext.java    # State Pattern context
+│   │   └── *State.java           # State Pattern (boss AI)
+│   │
+│   ├── commands/                 # Command Pattern
+│   │   ├── Command.java          # Command interface
+│   │   └── Move*Command.java     # Movement commands
+│   │
+│   ├── difficulty/               # Strategy Pattern
+│   │   ├── DifficultyStrategy.java
+│   │   └── *Difficulty.java      # DEMO, EASY, NORMAL, HARD
+│   │
+│   ├── entities/                 # Game entities
+│   │   ├── Entity.java           # Base entity interface
+│   │   ├── Player.java           # Player character
+│   │   ├── Coin.java             # Collectibles
+│   │   ├── DungeonExit.java      # Level exit point
+│   │   └── GameManager.java      # Singleton Pattern
+│   │
+│   ├── events/                   # Observer Pattern
+│   │   ├── EventBus.java         # Event dispatcher (Singleton)
+│   │   ├── GameEvent.java        # Event interface
+│   │   ├── GameEventListener.java # Observer interface
+│   │   └── *Event.java           # Concrete events
+│   │
+│   ├── factories/                # Factory Pattern
+│   │   └── ObstacleFactory.java  # Creates Spike/Goblin/Wolf
+│   │
+│   ├── input/                    # Input handling
+│   │   └── InputHandler.java     # Command Pattern invoker
+│   │
+│   ├── level/                    # Template Method Pattern
+│   │   ├── LevelLoader.java      # Abstract template class
+│   │   ├── DungeonLevelLoader.java
+│   │   ├── ForestLevelLoader.java
+│   │   ├── CastleLevelLoader.java
+│   │   └── BossArenaLoader.java
+│   │
+│   ├── obstacles/                # Enemy types
+│   │   ├── Obstacle.java         # Interface
+│   │   ├── Spike.java            # Static trap
+│   │   ├── Goblin.java           # Patrol enemy
+│   │   └── Wolf.java             # Chase enemy
+│   │
+│   ├── pools/                    # Object Pool Pattern
+│   │   └── ObstaclePool.java     # Reuses obstacle instances
+│   │
+│   ├── systems/                  # Game systems
+│   │   ├── SoundSystem.java      # Audio (Observer + Music)
+│   │   └── AchievementSystem.java # Achievements (Observer)
+│   │
+│   ├── ui/                       # User interface
+│   │   └── MainMenu.java         # Difficulty & level selection
+│   │
+│   ├── utils/                    # Utilities
+│   │   └── GridRenderer.java     # Console rendering with ANSI
+│   │
+│   └── world/                    # World/Map system
+│       ├── GameMap.java          # Abstract map class
+│       ├── DungeonMap.java       # Static map manager
+│       ├── DungeonMapLayout.java # Dark dungeon layout
+│       ├── ForestMapLayout.java  # Forest layout
+│       ├── CastleMapLayout.java  # Castle layout
+│       └── BossArenaLayout.java  # Arena layout
+│
+├── bin/                          # Compiled classes
+├── assets/
+│   └── music/                    # Background music (WAV files)
+├── docs/                         # Week-by-week documentation
+│   ├── week-*-overview.md        # Weekly overviews
+│   ├── *-problem.md              # Problem documentation
+│   ├── *-solution.md             # Solution documentation
+│   └── latex/                    # LaTeX presentations & diagrams
+└── guides/                       # Teaching guides & prompts
+```
+
+---
+
+## Level Details
+
+| Level | Wall | Floor | Enemies | Music |
+|-------|------|-------|---------|-------|
+| Dark Dungeon | `#` | `.` | `g` goblin, `w` wolf, `^` spike | dark_dungeon_ambient.wav |
+| Enchanted Forest | `T` | `,` | `S` spirit, `W` wolf, `*` thorn | enchanted_forest_theme.wav |
+| Haunted Castle | `\|` | `:` | `K` knight, `G` ghost, `X` trap | haunted_castle_orchestra.wav |
+| Boss Arena | `=` | ` ` | Direct boss battle | epic_boss_battle.wav |
+
+---
+
+## Design Pattern Summary
+
+```
+Week 9:  Game Loop ────► Singleton
+Week 10: Factory ──────► Object Pool
+Week 11: Command ──────► Observer
+Week 12: Strategy ─────► State
+Week 13: Template Method ► Facade
+```
+
+### Pattern Relationships
+
+```
+                    ┌─────────────────┐
+                    │   GameEngine    │
+                    │   (Game Loop)   │
+                    └────────┬────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+        ▼                    ▼                    ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│  InputHandler │   │  GameLogic    │   │  LevelLoader  │
+│  (Command)    │   │               │   │  (Template)   │
+└───────────────┘   └───────┬───────┘   └───────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+        ▼                   ▼                   ▼
+┌───────────────┐   ┌───────────────┐   ┌───────────────┐
+│  EventBus     │   │ BattleFacade  │   │ WorldController│
+│  (Observer)   │   │  (Facade)     │   │               │
+└───────────────┘   └───────┬───────┘   └───────┬───────┘
+                            │                   │
+                            ▼                   ▼
+                    ┌───────────────┐   ┌───────────────┐
+                    │ BattleSystem  │   │ ObstaclePool  │
+                    │  (State)      │   │ (Object Pool) │
+                    └───────────────┘   └───────────────┘
+```
+
+---
+
+## For Educators
+
+### Teaching Approach
+Each week follows the **Problem → Solution** methodology:
+1. Show the problematic code (anti-pattern branch)
+2. Identify issues through class discussion
+3. Introduce the design pattern concept
+4. Implement the solution together
+5. Compare before/after metrics
+
+### Documentation Resources
+- `docs/` - Week-by-week documentation with UML diagrams
+- `guides/` - Teaching guides with scenarios and prompts
+- `docs/latex/` - LaTeX/Beamer presentations and TikZ diagrams
+
+### Assessment
+See individual week documentation for rubrics and exercises.
+
+---
+
+## For Students
+
+### Learning Path
+1. Start with Week 9 (foundation patterns)
+2. Progress through each week sequentially
+3. Study the **PROBLEM** branch first (odd-numbered: 01, 03)
+4. Then study the **SOLUTION** branch (even-numbered: 02, 04)
+5. Compare the changes and understand the trade-offs
+
+### Practice Exercises
+- Modify enemy behaviors using different patterns
+- Add new power-ups with Observer events
+- Create new levels using Template Method
+- Implement a save/load system with Singleton
+
+---
+
+## Building Javadocs
+
+```bash
+# Generate Javadocs for all packages
+javadoc -d docs/javadoc -sourcepath src \
+  -subpackages battle:commands:difficulty:entities:events:factories:input:level:obstacles:pools:systems:ui:utils:world \
+  -windowtitle "Dungeon Escape API" \
+  -doctitle "Dungeon Escape - Design Pattern Learning Game" \
+  src/*.java
+```
+
+Or on Windows:
+```cmd
+javadoc -d docs\javadoc -sourcepath src -subpackages battle;commands;difficulty;entities;events;factories;input;level;obstacles;pools;systems;ui;utils;world -windowtitle "Dungeon Escape API" src\*.java
+```
+
+---
+
+## Requirements
+
+- **Java**: JDK 8 or higher
+- **Platform**: Windows (uses ANSI escape codes for console)
+- **Terminal**: Windows Terminal recommended for best display
+- **Audio**: WAV files in `assets/music/` for background music (optional)
+
+---
+
+## References
+
+### Books
+- "Design Patterns: Elements of Reusable OO Software" (Gang of Four)
+- "Head First Design Patterns" (O'Reilly)
+- "Game Programming Patterns" by Robert Nystrom (FREE: gameprogrammingpatterns.com)
+- "Effective Java" by Joshua Bloch
+
+### Websites
+- Refactoring Guru: https://refactoring.guru/design-patterns
+- Game Programming Patterns: https://gameprogrammingpatterns.com/
+
+---
+
+## Version History
+
+| Week | Main Feature | Design Patterns |
+|------|--------------|-----------------|
+| 9 | Game Loop & Global State | Game Loop, Singleton |
+| 10 | Enemy Spawning System | Factory, Object Pool |
+| 11 | Input & Event System | Command, Observer |
+| 12 | Difficulty & Boss AI | Strategy, State |
+| 13 | Level Loading & Battle | Template Method, Facade |
+
+---
+
+## License
+
+Educational use only. Created for OOP/Design Pattern courses.
+
+---
+
+**Current Branch**: `13-04-facade-pattern`
+**Status**: ✅ Complete (Week 13)
+**Last Updated**: November 2025
+**Patterns Implemented**: 10 Design Patterns across 5 weeks

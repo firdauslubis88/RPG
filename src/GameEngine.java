@@ -5,6 +5,8 @@ import entities.GameManager;
 import obstacles.Obstacle;
 import utils.GridRenderer;
 import difficulty.DifficultyStrategy;
+import level.LevelLoader;
+import level.DungeonLevelLoader;
 
 /**
  * GameEngine - Main game loop with difficulty system
@@ -69,13 +71,21 @@ public class GameEngine {
 
         System.out.println("\n=================================");
         System.out.println("  DUNGEON ESCAPE");
-        System.out.println("  Week 12-02: Strategy Pattern");
+        System.out.println("  Week 13: Template + Facade");
         System.out.println("=================================");
         System.out.println("Difficulty: " + strategy.getName());
+        System.out.println("=================================\n");
+
+        // Week 13-02: ✅ TEMPLATE METHOD PATTERN - Load level using abstract loader!
+        // The loadLevel() template method ensures consistent loading sequence:
+        // 1. Load assets → 2. Build world → 3. Spawn enemies → 4. Play music
+        LevelLoader levelLoader = new DungeonLevelLoader();
+        levelLoader.loadLevel();
+
         System.out.println("Controls: W/A/S/D + Enter to move");
         System.out.println("          Q + Enter to quit");
         System.out.println("Note: Windows requires Enter after each key");
-        System.out.println("Features: Sound, Achievements, Strategy Pattern");
+        System.out.println("Features: Template Method, Facade Pattern");
         System.out.println("Legend: D = Dungeon Exit (for boss battle)");
         System.out.println("=================================\n");
 

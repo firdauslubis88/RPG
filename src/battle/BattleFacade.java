@@ -3,12 +3,20 @@ package battle;
 import battle.subsystems.BattleAnimationSystem;
 import battle.subsystems.BattleSoundSystem;
 import battle.subsystems.BattleUISystem;
+import entities.Player;
+import entities.GameManager;
 
 /**
- * Week 13-04: Facade Pattern (SOLUTION)
+ * Week 13-04: Facade Pattern (SOLUTION) - INTEGRATED VERSION
  *
  * BattleFacade provides a simplified interface to the complex
- * battle subsystems (Animation, Sound, UI).
+ * battle subsystems (Animation, Sound, UI) AND the BattleSystem.
+ *
+ * This Facade integrates:
+ * - BattleAnimationSystem (sprites, animations)
+ * - BattleSoundSystem (audio, music, SFX)
+ * - BattleUISystem (health bars, menus)
+ * - BattleSystem with State Pattern (actual battle logic)
  *
  * Benefits:
  * 1. Client doesn't need to know subsystem internals
@@ -19,7 +27,7 @@ import battle.subsystems.BattleUISystem;
  *
  * The Facade coordinates all subsystems behind simple methods like:
  * - startBattle()
- * - playerAttack()
+ * - executeBattle()
  * - endBattle()
  */
 public class BattleFacade {
@@ -28,26 +36,39 @@ public class BattleFacade {
     private BattleSoundSystem sound;
     private BattleUISystem ui;
 
-    // Battle state
-    private int playerHp = 100;
-    private int bossHp = 500;
+    // The actual battle system with State Pattern
+    private BattleSystem battleSystem;
+
+    // References
+    private Player player;
+    private boolean isDemoMode;
 
     /**
      * Create a new BattleFacade.
      * Subsystems are created but NOT initialized yet.
+     *
+     * @param player The player entity
+     * @param isDemoMode If true, boss only defends (for testing)
      */
-    public BattleFacade() {
+    public BattleFacade(Player player, boolean isDemoMode) {
+        this.player = player;
+        this.isDemoMode = isDemoMode;
+
+        // Create subsystems
         this.animation = new BattleAnimationSystem();
         this.sound = new BattleSoundSystem();
         this.ui = new BattleUISystem();
+
+        // Create the actual battle system
+        this.battleSystem = new BattleSystem(player, isDemoMode);
     }
 
     /**
-     * Start a battle - ONE call initializes EVERYTHING!
+     * Initialize battle - ONE call initializes ALL subsystems!
      * The Facade handles all the complex initialization order internally.
      */
-    public void startBattle() {
-        System.out.println("\n[BattleFacade] ═══ Starting Battle ═══\n");
+    public void initializeBattle() {
+        System.out.println("\n[BattleFacade] ═══ Initializing Battle Systems ═══\n");
 
         // Facade handles initialization ORDER internally
         // Client doesn't need to know about this!
@@ -67,116 +88,29 @@ public class BattleFacade {
         ui.showBattleScreen();
 
         // 4. Show initial state
-        ui.updateHealthBars(playerHp, bossHp);
+        ui.updateHealthBars(GameManager.getInstance().getHp(), 200);
 
-        System.out.println("\n[BattleFacade] ═══ Battle Started! ═══\n");
+        System.out.println("\n[BattleFacade] ═══ All Systems Ready! ═══\n");
     }
 
     /**
-     * Show action menu to player.
+     * Execute the full battle - ONE call runs the entire battle!
+     * This delegates to BattleSystem which uses State Pattern.
+     *
+     * @return true if player wins, false if player loses or runs
      */
-    public void showActions() {
-        ui.showActionMenu();
+    public boolean executeBattle() {
+        // The actual battle logic is handled by BattleSystem
+        // which internally uses State Pattern for boss AI
+        return battleSystem.startBattle();
     }
 
     /**
-     * Player performs an attack - ONE call coordinates ALL subsystems!
-     */
-    public void playerAttack() {
-        System.out.println("\n[BattleFacade] → Player Attack\n");
-
-        // Facade coordinates all subsystems internally
-        animation.playAttackAnimation("Player");
-        sound.playAttackSound();
-
-        int damage = 45;
-        bossHp -= damage;
-
-        animation.playDamageAnimation("Boss", damage);
-        ui.showDamageNumber("Boss", damage);
-        ui.updateHealthBars(playerHp, bossHp);
-    }
-
-    /**
-     * Player performs a defend action - ONE call!
-     */
-    public void playerDefend() {
-        System.out.println("\n[BattleFacade] → Player Defend\n");
-
-        animation.playDefendAnimation("Player");
-        sound.playDefendSound();
-        System.out.println("[BattleFacade] Player's defense increased!");
-    }
-
-    /**
-     * Player casts magic - ONE call!
-     */
-    public void playerMagic() {
-        System.out.println("\n[BattleFacade] → Player Magic\n");
-
-        animation.playMagicAnimation("Player");
-        sound.playMagicSound();
-
-        int damage = 80;
-        bossHp -= damage;
-
-        animation.playDamageAnimation("Boss", damage);
-        ui.showDamageNumber("Boss", damage);
-        ui.updateHealthBars(playerHp, bossHp);
-    }
-
-    /**
-     * Execute boss's turn - ONE call!
-     */
-    public void bossTurn() {
-        System.out.println("\n[BattleFacade] → Boss Turn\n");
-
-        sound.playBossRoar();
-        animation.playAttackAnimation("Boss");
-        sound.playAttackSound();
-
-        int damage = 30;
-        playerHp -= damage;
-
-        animation.playDamageAnimation("Player", damage);
-        ui.showDamageNumber("Player", damage);
-        ui.updateHealthBars(playerHp, bossHp);
-    }
-
-    /**
-     * Check if battle is over.
-     */
-    public boolean isBattleOver() {
-        return playerHp <= 0 || bossHp <= 0;
-    }
-
-    /**
-     * Check if player won.
-     */
-    public boolean isPlayerVictorious() {
-        return bossHp <= 0;
-    }
-
-    /**
-     * Show victory screen.
-     */
-    public void showVictory() {
-        ui.showVictoryScreen();
-    }
-
-    /**
-     * Show defeat screen.
-     */
-    public void showDefeat() {
-        ui.showDefeatScreen();
-    }
-
-    /**
-     * End battle - ONE call cleans up EVERYTHING!
+     * Cleanup battle - ONE call cleans up ALL subsystems!
      * The Facade handles all cleanup internally.
      */
-    public void endBattle() {
-        System.out.println("\n[BattleFacade] ═══ Ending Battle ═══\n");
+    public void cleanupBattle() {
+        System.out.println("\n[BattleFacade] ═══ Cleaning Up Battle Systems ═══\n");
 
         // Facade handles cleanup ORDER internally
         sound.stopMusic();
@@ -184,6 +118,82 @@ public class BattleFacade {
         sound.cleanup();
         animation.cleanup();
 
-        System.out.println("\n[BattleFacade] ═══ Battle Ended ═══");
+        System.out.println("\n[BattleFacade] ═══ Cleanup Complete ═══");
+    }
+
+    /**
+     * Full battle sequence - ONE call does everything!
+     * Initialize → Execute Battle → Cleanup
+     *
+     * @return true if player wins, false if player loses or runs
+     */
+    public boolean runFullBattle() {
+        // 1. Initialize all subsystems
+        initializeBattle();
+
+        // 2. Execute the battle (uses BattleSystem with State Pattern)
+        boolean playerWon = executeBattle();
+
+        // 3. Cleanup all subsystems
+        cleanupBattle();
+
+        return playerWon;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Individual action methods (for more granular control if needed)
+    // ═══════════════════════════════════════════════════════════════
+
+    /**
+     * Play attack animation and sound - ONE call!
+     */
+    public void playAttackEffects(String attacker) {
+        animation.playAttackAnimation(attacker);
+        sound.playAttackSound();
+    }
+
+    /**
+     * Play defend animation and sound - ONE call!
+     */
+    public void playDefendEffects(String defender) {
+        animation.playDefendAnimation(defender);
+        sound.playDefendSound();
+    }
+
+    /**
+     * Play magic animation and sound - ONE call!
+     */
+    public void playMagicEffects(String caster) {
+        animation.playMagicAnimation(caster);
+        sound.playMagicSound();
+    }
+
+    /**
+     * Play damage effects - ONE call!
+     */
+    public void playDamageEffects(String target, int damage) {
+        animation.playDamageAnimation(target, damage);
+        ui.showDamageNumber(target, damage);
+    }
+
+    /**
+     * Update health bars display - ONE call!
+     */
+    public void updateHealthDisplay(int playerHp, int bossHp) {
+        ui.updateHealthBars(playerHp, bossHp);
+    }
+
+    /**
+     * Show victory screen - ONE call!
+     */
+    public void showVictory() {
+        ui.showVictoryScreen();
+    }
+
+    /**
+     * Show defeat screen - ONE call!
+     */
+    public void showDefeat() {
+        ui.showDefeatScreen();
     }
 }

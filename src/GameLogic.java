@@ -10,7 +10,7 @@ import systems.SoundSystem;
 import systems.AchievementSystem;
 import events.EventBus;
 import difficulty.DifficultyStrategy;
-import battle.BattleSystem;
+import battle.BattleFacade;
 import commands.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,17 +19,18 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Week 12-04: GameLogic with STATE PATTERN for Boss AI (SOLUTION)
+ * Week 13-04: GameLogic with FACADE PATTERN for Battle System
  *
  * ✅ KEPT: Observer Pattern for event systems (from 11-04)
  * ✅ KEPT: Command Pattern for input handling (from 11-02)
  * ✅ KEPT: Strategy Pattern for difficulty (from 12-02)
- * ✅ SOLUTION: State Pattern for boss behavior (refactored from 12-03)
+ * ✅ KEPT: State Pattern for boss behavior (from 12-04)
+ * ✅ NEW: Facade Pattern for battle subsystems (13-04)
  *
- * Evolution from Week 12-03:
- * - BattleSystem now uses State Pattern instead of hardcoded if/else chains
- * - Boss states: NormalState, AngryState, DefensiveState, EnragedState
- * - Each state encapsulates both AI decision and counter relationship rules
+ * Week 13 Integration:
+ * - BattleFacade coordinates Animation, Sound, UI subsystems
+ * - Single call runFullBattle() handles init → battle → cleanup
+ * - Client (GameLogic) doesn't need to know subsystem details
  */
 public class GameLogic {
     private Player player;
@@ -153,13 +154,17 @@ public class GameLogic {
         int playerX = player.getX();
         int playerY = player.getY();
 
-        // Week 12-04: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
+        // Week 13-04: Check if player reached dungeon exit - TRIGGER BOSS BATTLE!
+        // ✅ FACADE PATTERN - Use BattleFacade instead of BattleSystem directly!
         if (playerX == dungeonExit.getX() && playerY == dungeonExit.getY()) {
-            // Start turn-based boss battle
+            // Start turn-based boss battle using Facade Pattern
             // Check if demo mode (boss only defends)
             boolean isDemoMode = strategy.getName().equals("DEMO");
-            BattleSystem battleSystem = new BattleSystem(player, isDemoMode);
-            boolean playerWon = battleSystem.startBattle();
+
+            // Week 13-04: ✅ FACADE PATTERN - ONE call to run full battle!
+            // BattleFacade coordinates: Animation, Sound, UI subsystems + BattleSystem
+            BattleFacade battleFacade = new BattleFacade(player, isDemoMode);
+            boolean playerWon = battleFacade.runFullBattle();
 
             if (playerWon) {
                 // Player defeated the boss - VICTORY!

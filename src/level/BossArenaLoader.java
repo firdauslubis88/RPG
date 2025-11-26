@@ -2,6 +2,7 @@ package level;
 
 import world.DungeonMap;
 import world.BossArenaLayout;
+import systems.SoundSystem;
 
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
@@ -47,7 +48,9 @@ public class BossArenaLoader extends LevelLoader {
 
     @Override
     protected void playBackgroundMusic() {
+        // Week 13: Boss arena delays music until battle starts
         System.out.println("  → " + DungeonMap.getMusic() + " ready for battle start");
+        // Music will be started by BattleFacade when battle begins
     }
 
     /**

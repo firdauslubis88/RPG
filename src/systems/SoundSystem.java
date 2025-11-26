@@ -6,25 +6,31 @@ import events.DamageTakenEvent;
 import events.CoinCollectedEvent;
 import events.AchievementUnlockedEvent;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Week 11-04: Sound System with Observer Pattern (SOLUTION)
+ * Week 13: Added background music support for different levels
  *
  * ✅ SOLUTION: SoundSystem implements GameEventListener
  *
- * Simple sound system using console bell character (\007).
- * In real games, this would use audio libraries.
+ * Features:
+ * - Console beep for game events (damage, coins, achievements)
+ * - Background music playback from WAV files (Week 13)
  *
  * Benefits:
  * - Player doesn't know about SoundSystem!
  * - SoundSystem listens to events and reacts
  * - Easy to add new sounds (just listen to new event types)
  * - Can be enabled/disabled by registering/unregistering from EventBus
- *
- * Evolution from Week 11-03:
- * ❌ Before: Player calls soundSystem.playHurtSound() directly
- * ✅ Now: SoundSystem listens to DamageTakenEvent and plays sound automatically
  */
 public class SoundSystem implements GameEventListener {
+
+    // Week 13: Background music clip
+    private static Clip backgroundMusic;
+    private static String currentMusicFile = "";
 
     /**
      * Week 11-04: ✅ OBSERVER PATTERN - Listen to all game events
@@ -80,5 +86,68 @@ public class SoundSystem implements GameEventListener {
         // Triple beep for achievement
         System.out.print("\007\007\007");
         System.out.flush();
+    }
+
+    // ════════════════════════════════════════════════════════════════
+    // Week 13: Background Music Methods
+    // ════════════════════════════════════════════════════════════════
+
+    /**
+     * Play background music from a WAV file
+     * Week 13: Each level can have different music
+     *
+     * @param musicFile Path to WAV file (e.g., "assets/music/dungeon.wav")
+     */
+    public static void playBackgroundMusic(String musicFile) {
+        // Don't restart if same music is already playing
+        if (musicFile.equals(currentMusicFile) && backgroundMusic != null && backgroundMusic.isRunning()) {
+            return;
+        }
+
+        // Stop current music first
+        stopBackgroundMusic();
+
+        try {
+            File audioFile = new File(musicFile);
+            if (!audioFile.exists()) {
+                System.out.println("  [Sound] Music file not found: " + musicFile);
+                System.out.println("  [Sound] (Playing in silent mode)");
+                return;
+            }
+
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            backgroundMusic = AudioSystem.getClip();
+            backgroundMusic.open(audioStream);
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);  // Loop the music
+            backgroundMusic.start();
+            currentMusicFile = musicFile;
+            System.out.println("  [Sound] ♪ Playing: " + musicFile);
+
+        } catch (UnsupportedAudioFileException e) {
+            System.out.println("  [Sound] Unsupported format: " + musicFile);
+        } catch (IOException e) {
+            System.out.println("  [Sound] Error loading: " + musicFile);
+        } catch (LineUnavailableException e) {
+            System.out.println("  [Sound] Audio line unavailable");
+        }
+    }
+
+    /**
+     * Stop background music
+     */
+    public static void stopBackgroundMusic() {
+        if (backgroundMusic != null && backgroundMusic.isRunning()) {
+            backgroundMusic.stop();
+            backgroundMusic.close();
+            backgroundMusic = null;
+            currentMusicFile = "";
+        }
+    }
+
+    /**
+     * Check if music is currently playing
+     */
+    public static boolean isMusicPlaying() {
+        return backgroundMusic != null && backgroundMusic.isRunning();
     }
 }

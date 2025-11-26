@@ -2,6 +2,7 @@ package level;
 
 import world.DungeonMap;
 import world.DungeonMapLayout;
+import systems.SoundSystem;
 
 /**
  * Week 13-02: Template Method Pattern (SOLUTION)
@@ -46,6 +47,8 @@ public class DungeonLevelLoader extends LevelLoader {
 
     @Override
     protected void playBackgroundMusic() {
-        System.out.println("  ♪ Now playing: " + DungeonMap.getMusic());
+        // Week 13: Play actual background music!
+        String musicPath = "assets/music/" + DungeonMap.getMusic().replace(".ogg", ".wav");
+        SoundSystem.playBackgroundMusic(musicPath);
     }
 }

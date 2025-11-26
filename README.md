@@ -186,12 +186,11 @@ rpg/
 ├── test-gameplay.bat             # Run game script
 ├── assets/
 │   └── music/                    # Background music (WAV files)
-├── docs/                         # Week-by-week documentation
-│   ├── week-*-overview.md        # Weekly overviews
-│   ├── *-problem.md              # Problem documentation
-│   ├── *-solution.md             # Solution documentation
-│   └── latex/                    # LaTeX presentations & diagrams
-└── guides/                       # Teaching guides & prompts
+└── docs/                         # Week-by-week documentation
+    ├── week-*-overview.md        # Weekly overviews
+    ├── *-problem.md              # Problem documentation
+    ├── *-solution.md             # Solution documentation
+    └── latex/                    # LaTeX presentations & diagrams
 ```
 
 ---
@@ -264,7 +263,6 @@ Each week follows the **Problem → Solution** methodology:
 
 ### Documentation Resources
 - `docs/` - Week-by-week documentation with UML diagrams
-- `guides/` - Teaching guides with scenarios and prompts
 - `docs/latex/` - LaTeX/Beamer presentations and TikZ diagrams
 
 ### Assessment

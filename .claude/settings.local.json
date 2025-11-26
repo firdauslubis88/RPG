@@ -91,7 +91,8 @@
       "Bash(where java:*)",
       "Bash(dir \"C:\\Program Files\\Java\")",
       "Bash(\"/c/Program Files/Java/jdk-24/bin/javadoc\" -d \"c:/repos/oop/rpg/docs/javadoc\" -sourcepath \"c:/repos/oop/rpg/src\" -subpackages battle:commands:difficulty:entities:events:factories:input:level:obstacles:pools:systems:ui:utils:world -windowtitle \"Dungeon Escape API\" -doctitle \"Dungeon Escape - Design Pattern Learning Game\" \"c:/repos/oop/rpg/src/Main.java\" \"c:/repos/oop/rpg/src/GameEngine.java\" \"c:/repos/oop/rpg/src/GameLogic.java\" \"c:/repos/oop/rpg/src/HUD.java\" \"c:/repos/oop/rpg/src/WorldController.java\" \"c:/repos/oop/rpg/src/PerformanceMonitor.java\")",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git tag:*)"
     ],
     "deny": [],
     "ask": []

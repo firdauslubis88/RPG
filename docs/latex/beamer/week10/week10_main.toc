@@ -1,9 +1,0 @@
-\babel@toc {indonesian}{}\relax 
-\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
-\beamer@sectionintoc {2}{Branch 10-01: The Problem}{5}{0}{2}
-\beamer@sectionintoc {3}{Branch 10-02: Factory Method Solution}{8}{0}{3}
-\beamer@sectionintoc {4}{Branch 10-03: Performance Problem}{12}{0}{4}
-\beamer@sectionintoc {5}{Branch 10-04: Object Pool Solution}{16}{0}{5}
-\beamer@sectionintoc {6}{Design Evolution}{21}{0}{6}
-\beamer@sectionintoc {7}{Summary}{25}{0}{7}
-\beamer@sectionintoc {8}{Referensi}{27}{0}{8}

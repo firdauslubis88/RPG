@@ -14,22 +14,30 @@
 ## Quick Start
 
 ```bash
-# Compile
-javac -d bin -sourcepath src src/Main.java
+# Option 1: Use batch files (Windows)
+build.bat           # Compile
+test-gameplay.bat   # Run game
 
-# Run
-java -cp bin Main
+# Option 2: Manual compile
+javac -d bin -sourcepath src src/Main.java
+cd bin && java Main
 ```
 
 ## Gameplay
 
-1. **Select Difficulty** (0-3): DEMO, EASY, NORMAL, HARD
+1. **Select Difficulty** (1-3): EASY, NORMAL, HARD
 2. **Select Level** (1-4): Dungeon, Forest, Castle, Boss Arena
 3. **Controls**: WASD + Enter to move, Q to quit
 4. **Goal**: Reach the exit (`D`) to fight the boss!
 
+### Game Flow (Game State Pattern)
+```
+MENU → PLAYING → BATTLE → VICTORY/DEFEAT
+```
+
 ## Features
 
+- **Game State Pattern** for complete game flow management
 - 4 unique levels with different maps, enemies, and music
 - Turn-based boss battle system with State Pattern AI
 - Achievement system with Observer Pattern
@@ -71,6 +79,7 @@ java -cp bin Main
 | `12-02` | Strategy | DifficultyStrategy for game modes |
 | `12-03` | - | Complex boss AI conditionals |
 | `12-04` | State | Boss behavior state machine |
+| `12-05` | Game State | Game flow state machine (Menu→Playing→Battle→End) |
 
 ### Week 13: Structural Patterns
 | Branch | Pattern | Description |
@@ -87,11 +96,23 @@ java -cp bin Main
 ```
 rpg/
 ├── src/
-│   ├── Main.java                 # Entry point
-│   ├── GameEngine.java           # Game loop (60 FPS)
-│   ├── GameLogic.java            # Game rules & collision
-│   ├── HUD.java                  # UI display
-│   ├── WorldController.java      # Obstacle management
+│   ├── Main.java                 # Entry point (uses GameStateContext)
+│   │
+│   ├── engine/                   # Core game engine
+│   │   ├── GameEngine.java       # Game loop (60 FPS)
+│   │   ├── GameLogic.java        # Game rules & collision
+│   │   ├── HUD.java              # UI display (Observer)
+│   │   ├── WorldController.java  # Obstacle management
+│   │   └── PerformanceMonitor.java # GC & frame monitoring
+│   │
+│   ├── gamestate/                # Game State Pattern
+│   │   ├── GameState.java        # State interface
+│   │   ├── GameStateContext.java # State machine context
+│   │   ├── MenuState.java        # Menu selection state
+│   │   ├── PlayingState.java     # Dungeon exploration state
+│   │   ├── BattleState.java      # Boss battle state
+│   │   ├── VictoryState.java     # Win state
+│   │   └── DefeatState.java      # Lose state
 │   │
 │   ├── battle/                   # Battle system
 │   │   ├── BattleFacade.java     # Facade Pattern
@@ -105,7 +126,7 @@ rpg/
 │   │
 │   ├── difficulty/               # Strategy Pattern
 │   │   ├── DifficultyStrategy.java
-│   │   └── *Difficulty.java      # DEMO, EASY, NORMAL, HARD
+│   │   └── *Difficulty.java      # EASY, NORMAL, HARD
 │   │
 │   ├── entities/                 # Game entities
 │   │   ├── Entity.java           # Base entity interface
@@ -161,6 +182,8 @@ rpg/
 │       └── BossArenaLayout.java  # Arena layout
 │
 ├── bin/                          # Compiled classes
+├── build.bat                     # Compile script
+├── test-gameplay.bat             # Run game script
 ├── assets/
 │   └── music/                    # Background music (WAV files)
 ├── docs/                         # Week-by-week documentation
@@ -190,9 +213,11 @@ rpg/
 Week 9:  Game Loop ────► Singleton
 Week 10: Factory ──────► Object Pool
 Week 11: Command ──────► Observer
-Week 12: Strategy ─────► State
+Week 12: Strategy ─────► State ────► Game State
 Week 13: Template Method ► Facade
 ```
+
+**Total: 11 Design Patterns**
 
 ### Pattern Relationships
 
@@ -312,7 +337,7 @@ javadoc -d docs\javadoc -sourcepath src -subpackages battle;commands;difficulty;
 | 9 | Game Loop & Global State | Game Loop, Singleton |
 | 10 | Enemy Spawning System | Factory, Object Pool |
 | 11 | Input & Event System | Command, Observer |
-| 12 | Difficulty & Boss AI | Strategy, State |
+| 12 | Difficulty & Boss AI | Strategy, State, Game State |
 | 13 | Level Loading & Battle | Template Method, Facade |
 
 ---
@@ -323,7 +348,7 @@ Educational use only. Created for OOP/Design Pattern courses.
 
 ---
 
-**Current Branch**: `13-04-facade-pattern`
+**Version**: v0.1
 **Status**: ✅ Complete (Week 13)
 **Last Updated**: November 2025
-**Patterns Implemented**: 10 Design Patterns across 5 weeks
+**Patterns Implemented**: 11 Design Patterns across 5 weeks

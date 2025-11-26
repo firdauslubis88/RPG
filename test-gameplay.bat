@@ -1,27 +1,26 @@
 @echo off
 echo ========================================
-echo   DUNGEON ESCAPE - Extended Gameplay Test
+echo   DUNGEON ESCAPE - Gameplay Test
 echo ========================================
 echo.
-echo This will run the game for 30 seconds.
-echo Watch for:
-echo   - Wolf (W) chasing NPC (N)
-echo   - Collision with Spike (^) - damages NPC
-echo   - Collision with Goblin (G) - damages NPC
-echo   - Collision with Wolf (W) - damages NPC
-echo   - Coins (C) collected - increases score
-echo   - HP decreases when hit
+echo This will run the full game with Game State Pattern.
+echo.
+echo Game Flow:
+echo   MENU - Select difficulty and level
+echo   PLAYING - Navigate dungeon (WASD to move, Q to quit)
+echo   BATTLE - Fight the boss at dungeon exit
+echo   VICTORY/DEFEAT - Game end state
 echo.
 echo Press Ctrl+C to stop early
 echo.
 pause
 
-cd bin\10-01-hardcoded-spawning
-timeout /t 30 java Main
-cd ..\..
+cd bin
+java Main
+cd ..
 
 echo.
 echo ========================================
-echo Test completed!
+echo Game session ended!
 echo ========================================
 pause

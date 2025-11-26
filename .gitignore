@@ -2,6 +2,9 @@
 src/**/*.class
 test/**/*.class
 
+# Claude Code settings
+.claude/
+
 # IDE files
 .idea/
 .vscode/

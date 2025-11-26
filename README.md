@@ -189,8 +189,7 @@ rpg/
 └── docs/                         # Week-by-week documentation
     ├── week-*-overview.md        # Weekly overviews
     ├── *-problem.md              # Problem documentation
-    ├── *-solution.md             # Solution documentation
-    └── latex/                    # LaTeX presentations & diagrams
+    └── *-solution.md             # Solution documentation
 ```
 
 ---
@@ -262,8 +261,7 @@ Each week follows the **Problem → Solution** methodology:
 5. Compare before/after metrics
 
 ### Documentation Resources
-- `docs/` - Week-by-week documentation with UML diagrams
-- `docs/latex/` - LaTeX/Beamer presentations and TikZ diagrams
+- `docs/` - Week-by-week documentation with problem/solution pairs
 
 ### Assessment
 See individual week documentation for rubrics and exercises.
